@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useState } from "react";
 
-import { RegisterUserDto } from "@/dtos/user.dto";
+import { RegisterProfileDto } from "@/dtos/profile.dto";
 import { authService } from "@/services/authService";
 import { dateUtils } from "@/utils/dateUtils";
 import { handleError } from "@/utils/errorHandler";
@@ -76,13 +76,13 @@ export function useRegister() {
                                 password
                         });
                         await authService.register({
-                                full_name: nome.trim(),
+                                fullName: nome.trim(),
                                 cpf: clearSpecialCharacters(cpf),
                                 email: email.trim(),
                                 phone: cleanPhone,
-                                birth_date: dateUtils.formatDateFromSlashToDash(date),
+                                birthDate: dateUtils.formatDateFromSlashToDash(date),
                                 password
-                        } as RegisterUserDto);
+                        } as RegisterProfileDto);
 
                         AppToast.success('Sua conta foi criada com sucesso!', 'Agora você já pode fazer o seu login.');
                         navigation.navigate('Login');

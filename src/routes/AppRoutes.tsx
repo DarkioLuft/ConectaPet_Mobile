@@ -1,15 +1,11 @@
 import { colors } from '@/constants/colors';
-import { Entypo, Ionicons } from '@expo/vector-icons';
+import DummyScreen from '@/screens/DummyScreen';
+import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View } from 'react-native';
-
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-
-// Componente "fantasma"
-const DummyScreen = () => <View />;
 
 function TabRoutes() {
         return (
@@ -49,7 +45,7 @@ function TabRoutes() {
                                                 tabBarIcon: ({ color }) => <Ionicons name="home" color={color} size={28} />
                                         }}
                                 />
-                                <Tab.Screen
+                                {/* <Tab.Screen
                                         name="Extrato"
                                         component={DummyScreen}
                                         options={{
@@ -78,7 +74,7 @@ function TabRoutes() {
                                         options={{
                                                 tabBarIcon: ({ color }) => <Ionicons name="person" color={color} size={28} />
                                         }}
-                                />
+                                /> */}
                         </Tab.Navigator>
                 </>
         );
