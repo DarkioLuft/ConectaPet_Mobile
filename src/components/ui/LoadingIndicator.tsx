@@ -1,0 +1,46 @@
+import { colors } from '@/constants/colors';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+
+interface LoadingIndicatorProps {
+        message?: string;             // Texto opcional
+        fullScreen?: boolean;         // Deve ocupar a tela inteira ou ser embutido
+        size?: 'small' | 'large';     // Tamanho do círculo de loading
+}
+
+export function LoadingIndicator({ message, fullScreen = true, size = 'large'
+}: LoadingIndicatorProps) {
+        return (
+                <View style={[
+                        styles.container,
+                        fullScreen ? styles.fullScreen : styles.inline
+                ]}>
+                        <ActivityIndicator size={size} color={colors.primary} />
+
+                        {/* Mensagem opcional */}
+                        {message && (
+                                <Text style={styles.messageText}>{message}</Text>
+                        )}
+                </View>
+        );
+}
+
+const styles = StyleSheet.create({
+        container: {
+                justifyContent: 'center',
+                alignItems: 'center',
+        },
+        fullScreen: {
+                flex: 1,
+                backgroundColor: colors.background,
+        },
+        inline: {
+                padding: 24,
+        },
+        messageText: {
+                marginTop: 12,
+                fontSize: 14,
+                fontWeight: '500',
+                color: colors.textLight,
+                textAlign: 'center',
+        },
+});
