@@ -57,11 +57,9 @@ export const authService = {
                 if (error) {
                         throw error;
                 }
-                if (!session) {
-                        throw Error('Sessão não encontrada!')
-                }
 
-                return session.user;
+                // Retorna o usuário se existir sessão, ou null se estiver deslogado
+                return session?.user ?? null;
         },
 
         // Busca mudanças no estado da sessão, e executa callback
