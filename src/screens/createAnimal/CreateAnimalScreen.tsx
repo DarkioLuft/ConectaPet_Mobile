@@ -216,6 +216,7 @@ export function CreateAnimalScreen() {
       setFormData(initialFormState);
       setCurrentStep(1);
     } catch (err: any) {
+      console.log(err);
       Alert.alert('Erro ao Salvar', err.message || 'Falha ao registrar o pet.');
     } finally {
       setLoading(false);
@@ -257,7 +258,7 @@ export function CreateAnimalScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={{ flex: 1, backgroundColor: '#ffffff' }}
+      style={{ flex: 1, backgroundColor: '#ffffff', marginBottom: 70 }}
     >
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
         {/* Barra de Progresso */}

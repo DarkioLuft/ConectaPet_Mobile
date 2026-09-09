@@ -12,7 +12,23 @@ import 'react-native-url-polyfill/auto';
  */
 const isNative = Platform.OS !== 'web';
 
-export const supabase = createClient<Database>(
+// export const supabase = createClient<Database>(
+//   env.SUPABASE_URL,
+//   env.SUPABASE_ANON_KEY,
+//   {
+//     auth: {
+//       // Nativo: a sessao persiste no AsyncStorage.
+//       // Web: supabase-js decide — localStorage no browser e memoria durante a renderizacao em Node, onde `window` nao existe.
+
+//       storage: isNative ? AsyncStorage : undefined,
+//       autoRefreshToken: true,
+//       persistSession: true,
+//       detectSessionInUrl: false,
+//     },
+//   }
+// );
+
+export const supabase = createClient(
   env.SUPABASE_URL,
   env.SUPABASE_ANON_KEY,
   {
