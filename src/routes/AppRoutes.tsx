@@ -1,4 +1,5 @@
 import { colors } from '@/constants/colors';
+import { CreateAnimalScreen } from '@/screens/createAnimal/CreateAnimalScreen';
 import DummyScreen from '@/screens/DummyScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -18,7 +19,7 @@ function TabRoutes() {
                                         tabBarInactiveTintColor: colors.textLight,
                                         tabBarStyle: {
                                                 backgroundColor: colors.surface,
-                                                borderTopWidth: 0,
+                                                borderTopWidth:0,
                                                 height: 70,
                                                 position: 'absolute',
                                                 bottom: 0,
@@ -32,7 +33,7 @@ function TabRoutes() {
                                                 justifyContent: 'center',
                                         },
                                         tabBarItemStyle: {
-                                                height: 70,
+                                                height: 50,
                                                 justifyContent: 'center',
                                                 alignItems: 'center',
                                         }
@@ -45,36 +46,14 @@ function TabRoutes() {
                                                 tabBarIcon: ({ color }) => <Ionicons name="home" color={color} size={28} />
                                         }}
                                 />
-                                {/* <Tab.Screen
-                                        name="Extrato"
-                                        component={DummyScreen}
-                                        options={{
-                                                tabBarIcon: ({ color }) => <Ionicons name="list" color={color} size={28} />
-                                        }}
-                                />
 
                                 <Tab.Screen
-                                        name="BotaoAdicionar"
-                                        component={DummyScreen}
+                                        name="CreateAnimal"
+                                        component={CreateAnimalScreen}
                                         options={{
-                                                tabBarIcon: ({ color }) => <Ionicons name="list" color={color} size={28} />
+                                                tabBarIcon: ({ color }) => <Ionicons name="add" color={color} size={28} />
                                         }}
                                 />
-
-                                <Tab.Screen
-                                        name="Dashboard"
-                                        component={DummyScreen}
-                                        options={{
-                                                tabBarIcon: ({ color }) => <Entypo name="bar-graph" color={color} size={26} />
-                                        }}
-                                />
-                                <Tab.Screen
-                                        name="Perfil"
-                                        component={DummyScreen}
-                                        options={{
-                                                tabBarIcon: ({ color }) => <Ionicons name="person" color={color} size={28} />
-                                        }}
-                                /> */}
                         </Tab.Navigator>
                 </>
         );
