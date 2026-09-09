@@ -33,6 +33,8 @@ create type post_type         as enum ('news','campaign','event','urgent');
 -- TABELAS DO NUCLEO
 -- =====================================================
 
+
+
 -- ---------- PERFIS ----------
 create table public.profiles (
   id              uuid primary key references auth.users(id) on delete cascade,
