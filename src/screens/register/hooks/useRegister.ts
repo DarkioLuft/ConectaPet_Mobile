@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { RegisterUserDto } from "@/dtos/user.dto";
 import { authService } from "@/services/authService";
+import { dateUtils } from "@/utils/dateUtils";
 import { handleError } from "@/utils/errorHandler";
 import { AppToast } from "@/utils/toast";
 import { clearSpecialCharacters, maskCpf, maskTelefone, validateCpf, validateEmail } from "@/utils/userFormUtils";
@@ -66,12 +67,20 @@ export function useRegister() {
 
                 setLoading(true);
                 try {
+                        console.log('Registering user with data:', {
+                                full_name: nome.trim(),
+                                cpf: clearSpecialCharacters(cpf),
+                                email: email.trim(),
+                                phone: cleanPhone,
+                                birth_date: dateUtils.formatDateFromSlashToDash(date),
+                                password
+                        });
                         await authService.register({
                                 full_name: nome.trim(),
                                 cpf: clearSpecialCharacters(cpf),
                                 email: email.trim(),
                                 phone: cleanPhone,
-                                birth_date: date,
+                                birth_date: dateUtils.formatDateFromSlashToDash(date),
                                 password
                         } as RegisterUserDto);
 
