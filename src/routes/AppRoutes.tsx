@@ -1,8 +1,9 @@
-import { colors } from '@/constants/colors';
+import { Colors as colors } from '@/constants/colors';
 import { Entypo, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View } from 'react-native';
+import { CreateAnimalScreen } from '../screens/CreateAnimalScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -18,8 +19,8 @@ function TabRoutes() {
                                 screenOptions={{
                                         headerShown: false,
                                         tabBarShowLabel: false,
-                                        tabBarActiveTintColor: colors.primary,
-                                        tabBarInactiveTintColor: colors.textLight,
+                                        tabBarActiveTintColor: colors.primary[600],
+                                        tabBarInactiveTintColor: colors.neutral[400],
                                         tabBarStyle: {
                                                 backgroundColor: colors.surface,
                                                 borderTopWidth: 0,
@@ -88,6 +89,15 @@ export function AppRoutes() {
         return (
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                         <Stack.Screen name="Tabs" component={TabRoutes} />
+                        <Stack.Screen 
+                        name="CreateAnimal" 
+                        component={CreateAnimalScreen} 
+                        options={{ 
+                                headerShown: true, 
+                                title: 'Cadastro de Pet',
+                                headerTintColor: '#0f172a'
+                                }} 
+                        />
                 </Stack.Navigator>
         );
 }
