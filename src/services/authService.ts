@@ -1,54 +1,53 @@
-import { RegisterUserDto } from '@/dtos/user.dto';
-import { supabase } from './supabase';
+import { RegisterProfileDto } from '@/dtos/profile.dto';
+import { profileService } from './profileService';
+import { supabase, supabaseNotPersistent } from './supabase';
 
 export const authService = {
-        // async login(email: string, password: string) {
-        //         const { data, error } = await supabase.auth.signInWithPassword({
-        //                 email,
-        //                 password,
-        //         });
+        // Faz login no Supabase e retorna a sessão e o perfil do usuário
+        async login(email: string, password: string) {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                        email,
+                        password,
+                });
 
-        //         if (error) throw error;
-        //         if (!data || !data.user) throw new Error('Erro ao autenticar o usuário.');
+                if (error) throw error;
+                if (!data || !data.user) throw new Error('Erro ao autenticar o usuário.');
 
-        //         const userId = data.user.id;
+                const profileId = data.user.id;
 
-        //         const userProfile = await userAccountService.findById(userId);
+                const profile = await profileService.findById(profileId);
 
-        //         if (userProfile?.deleted_at) {
-        //                 // Destrói a sessão
-        //                 await supabase.auth.signOut();
-        //                 throw new Error("Conta do usuário está inativa.");
-        //         }
+                if (!profile) {
+                        // Destrói a sessão
+                        await supabase.auth.signOut();
+                        throw new Error("Dados do usuário não encontrados.");
+                }
 
-        //         return {
-        //                 session: data.session,
-        //                 user: userProfile
-        //         };
-        // },
+                return {
+                        session: data.session,
+                        profile: profile
+                };
+        },
 
         // Cria o usuário no auth, e ativa trigger para salvar na tabela profiles
-        async register(payload: RegisterUserDto) {
-                const { data, error } = await supabase.auth.signUp({
+        async register(payload: RegisterProfileDto) {
+                const { error } = await supabaseNotPersistent.auth.signUp({
                         email: payload.email,
                         password: payload.password,
                         options: {
                                 data: {
-                                        full_name: payload.full_name,
+                                        full_name: payload.fullName,
                                         email: payload.email,
                                         cpf: payload.cpf,
                                         phone: payload.phone,
-                                        avatar_url: payload.avatar_url ?? null,
-                                        birth_date: payload.birth_date ?? null,
+                                        avatar_url: payload.avatarUrl ?? null,
+                                        birth_date: payload.birthDate ?? null,
                                 }
                         }
                 });
 
                 console.log(error)
                 if (error) throw error;
-                if (!data || !data.user) throw Error('Usuário não encontrado.')
-
-                return data;
         },
 
         // Busca a sessão atual
@@ -75,13 +74,12 @@ export const authService = {
                 return subscription;
         },
 
+        // Faz o LogOut
         async signOut() {
                 const { error } = await supabase.auth.signOut();
 
                 if (error) {
                         return error;
                 }
-
-                return null
         }
 };

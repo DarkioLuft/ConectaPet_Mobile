@@ -21,8 +21,8 @@ alter table public.profiles enable row level security;
 -- POLICIES
 -- =====================================================
 
-create policy "perfis são públicos para leitura"
-  on public.profiles for select using (true);
+create policy "usuário lê o próprio perfil"
+  on public.profiles for select using (auth.uid() = id);
 create policy "usuário edita o próprio perfil"
   on public.profiles for update using (auth.uid() = id);
 

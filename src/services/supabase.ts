@@ -1,9 +1,9 @@
-import 'react-native-url-polyfill/auto';
+import { env } from '@/lib/env';
+import type { Database } from '@/types/database.types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createClient } from '@supabase/supabase-js';
 import { AppState, Platform } from 'react-native';
-import { env } from '@/lib/env';
-import type { Database } from '@/types/database.types';
+import 'react-native-url-polyfill/auto';
 
 /**
  * Cliente unico do Supabase.
@@ -23,6 +23,20 @@ export const supabase = createClient<Database>(
       storage: isNative ? AsyncStorage : undefined,
       autoRefreshToken: true,
       persistSession: true,
+      detectSessionInUrl: false,
+    },
+  }
+);
+
+// Sessão para uso na criação de usuários, sem persistir a sessão no AsyncStorage (para não fazer login automaticamente).
+export const supabaseNotPersistent = createClient<Database>(
+  env.SUPABASE_URL,
+  env.SUPABASE_ANON_KEY,
+  {
+    auth: {
+      storage: undefined,
+      autoRefreshToken: false,
+      persistSession: false,
       detectSessionInUrl: false,
     },
   }
