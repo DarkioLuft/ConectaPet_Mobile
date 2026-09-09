@@ -18,17 +18,17 @@ export const supabase = createClient<Database>(
   {
     auth: {
       // Nativo: a sessao persiste no AsyncStorage.
-      // Web: deixamos o supabase-js decidir — localStorage no browser e
-      // memoria durante a renderizacao em Node, onde `window` nao existe.
+      // Web: supabase-js decide — localStorage no browser e memoria durante a renderizacao em Node, onde `window` nao existe.
+
       storage: isNative ? AsyncStorage : undefined,
       autoRefreshToken: true,
       persistSession: true,
-      detectSessionInUrl: false, // obrigatorio em React Native
+      detectSessionInUrl: false,
     },
   }
 );
 
-// AppState so existe no app; no servidor de renderizacao web nao ha ciclo de vida.
+// AppState so existe no app. No servidor de renderizacao web nao ha ciclo de vida.
 if (isNative) {
   AppState.addEventListener('change', (state) => {
     if (state === 'active') supabase.auth.startAutoRefresh();
