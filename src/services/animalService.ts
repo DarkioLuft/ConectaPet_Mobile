@@ -25,6 +25,20 @@ export interface CreateAnimalDTO {
   cover_photo_url?: string;
 }
 
+export interface PetListItemDTO {
+  id: string;
+  name: string;
+  species: 'dog' | 'cat' | 'other';
+  sex: 'male' | 'female';
+  size: 'small' | 'medium' | 'large';
+  age_group: 'puppy' | 'young' | 'adult' | 'senior';
+  is_vaccinated: boolean;
+  cover_photo_url: string | null;
+  ongs: {
+    name: string;
+  } | null;
+}
+
 export const animalService = {
   // ... uploadAnimalPhoto permanece igual ...
   async uploadAnimalPhoto(uri: string, animalName: string): Promise<string> {
@@ -140,5 +154,41 @@ export const animalService = {
       await supabase.from('animals').delete().eq('id', animalId);
       throw new Error(`Falha ao salvar dados complementares. Operação desfeita. Detalhes: ${error.message}`);
     }
+  },
+
+  async getAvailablePets(speciesFilter?: string): Promise<PetListItemDTO[]> {
+    let query = supabase
+      .from('animals')
+      .select(`
+        id,
+        name,
+        species,
+        sex,
+        size,
+        age_group,
+        is_vaccinated,
+        cover_photo_url,
+        ongs ( name )
+      `)
+      .order('created_at', { ascending: false });
+
+    if (speciesFilter && speciesFilter !== 'all') {
+      query = query.eq('species', speciesFilter);
+    }
+
+    const { data, error } = await query;
+    if (error) throw new Error(error.message);
+    return (data as unknown as PetListItemDTO[]) || [];
+  },
+
+  async checkUserIsVolunteer(userId: string): Promise<boolean> {
+    const { data, error } = await supabase
+      .from('ong_members')
+      .select('id')
+      .eq('profiles_id', userId)
+      .limit(1);
+
+    if (error || !data) return false;
+    return data.length > 0;
   },
 };

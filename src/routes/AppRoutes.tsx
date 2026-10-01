@@ -1,72 +1,31 @@
 import { borderRadius } from '@/constants/borderRadius';
 import { colors } from '@/constants/colors';
 import { CreateAnimalScreen } from '@/screens/createAnimal/CreateAnimalScreen';
-import DummyScreen from '@/screens/DummyScreen';
-import { Ionicons } from '@expo/vector-icons';
+import { HomeScreen } from '@/screens/home/HomeScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function TabRoutes() {
-        const insets = useSafeAreaInsets();
         return (
-                <>
-                        <Tab.Navigator
-                                screenOptions={{
-                                        headerShown: false,
-                                        tabBarShowLabel: false,
-                                        tabBarActiveTintColor: colors.primary,
-                                        tabBarInactiveTintColor: colors.textLight,
-                                        tabBarStyle: [
-                                                stylesLocal.tabBar,
-                                                {
-                                                        bottom: insets.bottom > 0 ? insets.bottom + 8 : 16
-                                                }, // Eleva a barra acima da barra de gestos
-                                        ],
-                                        tabBarItemStyle: stylesLocal.tabBarItem,
-                                        tabBarIconStyle: stylesLocal.tabBarIcon,
-                                }}
-                        >
-                                <Tab.Screen
-                                        name="Home"
-                                        component={DummyScreen}
-                                        options={{
-                                                tabBarIcon: ({ color, focused }) => (
-                                                        <View style={[stylesLocal.iconWrapper, focused && stylesLocal.activeIconWrapper]}>
-                                                                <Ionicons
-                                                                        name={focused ? 'home' : 'home-outline'}
-                                                                        color={focused ? colors.primary : color}
-                                                                        size={22}
-                                                                />
-                                                        </View>
-                                                ),
-                                        }}
-                                />
-
-                                <Tab.Screen
-                                        name="CreateAnimal"
-                                        component={CreateAnimalScreen}
-                                        options={{
-                                                tabBarIcon: ({ color, focused }) => (
-                                                        <View style={[stylesLocal.iconWrapper, focused && stylesLocal.activeIconWrapper]}>
-                                                                <Ionicons
-                                                                        name={focused ? 'add' : 'add-outline'}
-                                                                        color={focused ? colors.primary : color}
-                                                                        size={22}
-                                                                />
-                                                        </View>
-                                                        // <View style={stylesLocal.addButton}>
-                                                        //         <Ionicons name="add" color="#FFF" size={26} />
-                                                        // </View>
-                                                ),
-                                        }}
-                                />
-                        </Tab.Navigator>
-                </>
+                <Tab.Navigator
+                        screenOptions={{
+                                headerShown: false,
+                                tabBarStyle: { display: 'none' },
+                        }}
+                >
+                        <Tab.Screen
+                                name="Home"
+                                component={HomeScreen}
+                        />
+                        <Tab.Screen
+                                name="CreateAnimal"
+                                component={CreateAnimalScreen}
+                        />
+                </Tab.Navigator>
         );
 }
 
