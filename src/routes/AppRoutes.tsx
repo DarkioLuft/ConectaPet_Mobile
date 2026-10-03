@@ -1,6 +1,7 @@
 import { CreateAnimalScreen } from '@/screens/createAnimal/CreateAnimalScreen';
 import { HomeScreen } from '@/screens/home/HomeScreen';
 import { MaintenanceScreen } from '@/screens/maintenance/MaintenanceScreen';
+import { ProfileScreen } from '@/screens/profile/ProfileScreen'; // <-- Importe aqui
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -12,11 +13,12 @@ function TabRoutes() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { display: 'none' }, // Mantém oculta a barra padrão cinza
+        tabBarStyle: { display: 'none' },
       }}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Maintenance" component={MaintenanceScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
@@ -24,10 +26,7 @@ function TabRoutes() {
 export function AppRoutes() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* Abas com a barra inferior */}
       <Stack.Screen name="Tabs" component={TabRoutes} />
-
-      {/* Telas que NÃO devem exibir a barra inferior */}
       <Stack.Screen name="CreateAnimal" component={CreateAnimalScreen} />
     </Stack.Navigator>
   );

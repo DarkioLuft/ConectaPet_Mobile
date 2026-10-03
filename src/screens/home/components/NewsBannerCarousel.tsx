@@ -1,4 +1,4 @@
-// Banner em carrossel no topo para campanhas e avisos (mock preparado para o futuro).
+// Banner em carrossel no topo para campanhas e avisos (mock).
 import { useState } from 'react';
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 

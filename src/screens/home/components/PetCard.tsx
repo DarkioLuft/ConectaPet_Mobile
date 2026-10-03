@@ -1,4 +1,4 @@
-// Card vertical da grade com exibição da ONG de origem conforme a modelagem.
+// Card com resumo e foto do pet para exibição na tela principal e em listagens de pets.
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';

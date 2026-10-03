@@ -4,6 +4,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   RefreshControl,
   StyleSheet,
@@ -46,8 +47,15 @@ export function HomeScreen() {
   const handleTabSelect = (tab: BottomTabType) => {
     if (tab === 'donations_or_manage') {
       if (isVolunteer) {
-        navigation.navigate('Maintenance');
+        navigation.navigate('Maintenance'); // <-- Redireciona para o painel de manutenção
+      } else {
+        Alert.alert(
+          'Doações',
+          'A funcionalidade de doações e chave PIX para ajudar os animais estará disponível em breve!'
+        );
       }
+    } else if (tab === 'profile') {
+      navigation.navigate('Profile'); // <-- Redireciona para a tela de Perfil
     } else {
       setActiveTab(tab);
     }
