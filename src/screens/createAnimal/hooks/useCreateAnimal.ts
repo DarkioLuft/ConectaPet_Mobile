@@ -33,10 +33,12 @@ const INITIAL_FORM: CreateAnimalFormData = {
 export function useCreateAnimal(onSuccess?: () => void) {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<CreateAnimalFormData>(INITIAL_FORM);
+  const [photoBase64, setPhotoBase64] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const resetForm = () => {
     setFormData(INITIAL_FORM);
+    setPhotoBase64(null);
     setCurrentStep(1);
   };
 
@@ -70,7 +72,6 @@ export function useCreateAnimal(onSuccess?: () => void) {
         return;
       }
 
-      // Validação de overflow numérico
       if (formData.weight_kg) {
         const weight = Number(formData.weight_kg.replace(',', '.'));
         if (isNaN(weight) || weight <= 0 || weight > 300) {
@@ -140,9 +141,11 @@ export function useCreateAnimal(onSuccess?: () => void) {
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       quality: 0.8,
+      base64: true, // Lê a imagem diretamente no Android
     });
     if (!result.canceled && result.assets.length > 0) {
       updateField('photoUri', result.assets[0].uri);
+      setPhotoBase64(result.assets[0].base64 ?? null);
     }
   };
 
@@ -155,14 +158,17 @@ export function useCreateAnimal(onSuccess?: () => void) {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 0.8,
+      base64: true, // Lê a imagem diretamente no Android
     });
     if (!result.canceled && result.assets.length > 0) {
       updateField('photoUri', result.assets[0].uri);
+      setPhotoBase64(result.assets[0].base64 ?? null);
     }
   };
 
   const removePhoto = () => {
     updateField('photoUri', null);
+    setPhotoBase64(null);
   };
 
   const handleSubmit = async () => {
@@ -170,11 +176,13 @@ export function useCreateAnimal(onSuccess?: () => void) {
       setIsSubmitting(true);
       let photoUrl: string | undefined = undefined;
 
-      if (formData.photoUri) {
+      // Realiza o upload utilizando os bytes da imagem em base64
+      if (photoBase64) {
+        photoUrl = await animalService.uploadAnimalPhotoBase64(photoBase64, formData.name);
+      } else if (formData.photoUri) {
         photoUrl = await animalService.uploadAnimalPhoto(formData.photoUri, formData.name);
       }
 
-      // Arredonda para no máximo 2 casas decimais para respeitar o DECIMAL(5,2)
       const parsedWeight = formData.weight_kg
         ? Number(Number(formData.weight_kg.replace(',', '.')).toFixed(2))
         : undefined;
@@ -206,7 +214,7 @@ export function useCreateAnimal(onSuccess?: () => void) {
         {
           text: 'OK',
           onPress: () => {
-            resetForm(); // Limpa todos os campos para o próximo cadastro
+            resetForm();
             onSuccess?.();
           },
         },

@@ -1,16 +1,16 @@
 // Tela inicial integrando header, banner carrossel, filtros, lista de pets e barra de navegação.
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
 import {
-    ActivityIndicator,
-    FlatList,
-    RefreshControl,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BottomTabType, ModernBottomBar } from '../../components/navigation/ModernBottomBar';
@@ -23,6 +23,13 @@ import { CategoryFilter } from './types/home.types';
 export function HomeScreen() {
   const navigation = useNavigation<any>();
   const [activeTab, setActiveTab] = useState<BottomTabType>('home');
+
+  // Garante que sempre que a HomeScreen ganhar foco, a aba ativa seja "home"
+  useFocusEffect(
+    useCallback(() => {
+      setActiveTab('home');
+    }, [])
+  );
 
   const {
     pets,
@@ -37,11 +44,12 @@ export function HomeScreen() {
   } = useHome();
 
   const handleTabSelect = (tab: BottomTabType) => {
-    setActiveTab(tab);
     if (tab === 'donations_or_manage') {
       if (isVolunteer) {
-        navigation.navigate('CreateAnimal');
+        navigation.navigate('Maintenance');
       }
+    } else {
+      setActiveTab(tab);
     }
   };
 
@@ -67,7 +75,9 @@ export function HomeScreen() {
         }
         ListHeaderComponent={
           <>
-            <NewsBannerCarousel />
+            <View style={{ marginTop: 32 }}>
+              <NewsBannerCarousel />
+            </View>
 
             <View style={styles.searchRow}>
               <View style={styles.searchBox}>
@@ -132,6 +142,7 @@ export function HomeScreen() {
         }
       />
 
+      {/* Barra de navegação inferior */}
       <ModernBottomBar
         currentTab={activeTab}
         onSelectTab={handleTabSelect}

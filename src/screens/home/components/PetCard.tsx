@@ -1,5 +1,6 @@
 // Card vertical da grade com exibição da ONG de origem conforme a modelagem.
 import { Ionicons } from '@expo/vector-icons';
+import { useState } from 'react';
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AGE_GROUP_LABELS, SIZE_LABELS, SPECIES_LABELS } from '../../../constants/enums';
 import { HomePetCardData } from '../types/home.types';
@@ -15,16 +16,26 @@ interface PetCardProps {
 }
 
 export function PetCard({ pet, isFavorite = false, onPressCard, onToggleFavorite }: PetCardProps) {
+  const [imageError, setImageError] = useState(false);
+
   const speciesLabel = SPECIES_LABELS[pet.species] || 'Pet';
   const sizeLabel = SIZE_LABELS[pet.size] || '';
   const ageLabel = AGE_GROUP_LABELS[pet.age_group] || '';
   const specs = `${ageLabel} • ${sizeLabel} • ${pet.isVaccinated ? 'Vacinado' : 'Não vac.'}`;
 
+  const imageUrl = pet.coverPhotoUrl || (pet as any).cover_photo_url;
+  const hasValidImage = Boolean(imageUrl) && !imageError;
+
   return (
     <TouchableOpacity activeOpacity={0.85} onPress={onPressCard} style={styles.card}>
       <View style={styles.imageContainer}>
-        {pet.coverPhotoUrl ? (
-          <Image source={{ uri: pet.coverPhotoUrl }} style={styles.image} resizeMode="cover" />
+        {hasValidImage ? (
+          <Image
+            source={{ uri: imageUrl }}
+            style={styles.image}
+            resizeMode="cover"
+            onError={() => setImageError(true)}
+          />
         ) : (
           <View style={styles.placeholderContainer}>
             <Ionicons name="paw" size={32} color="#cbd5e1" />
@@ -86,11 +97,11 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: '100%',
+    height: 125,
   },
   placeholderContainer: {
     width: '100%',
-    height: '100%',
+    height: 125,
     alignItems: 'center',
     justifyContent: 'center',
   },
