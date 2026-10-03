@@ -1,4 +1,4 @@
--- 1. Cria a tabela de ONGs (usando UUID e bool alinhados ao banco)
+-- Cria a tabela de ONGs (usando UUID e bool alinhados ao banco)
 CREATE TABLE IF NOT EXISTS public.ongs (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   address_id UUID REFERENCES public.adresses(id) ON DELETE SET NULL,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS public.ongs (
   updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- 2. Cria os tipos de papéis da ONG
+-- Cria os tipos de papéis da ONG
 CREATE TABLE IF NOT EXISTS public.ong_roles_types (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   name TEXT NOT NULL UNIQUE,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS public.ong_roles_types (
   updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- 3. Cria a relação entre perfis e ONGs
+-- Cria a relação entre perfis e ONGs
 CREATE TABLE IF NOT EXISTS public.ong_members (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   profiles_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -38,11 +38,11 @@ CREATE TABLE IF NOT EXISTS public.ong_members (
   UNIQUE(profiles_id, ongs_id)
 );
 
--- 4. Adiciona a chave estrangeira na tabela animals
+-- Adiciona a chave estrangeira na tabela animals
 ALTER TABLE public.animals 
 ADD COLUMN IF NOT EXISTS ongs_id UUID REFERENCES public.ongs(id) ON DELETE SET NULL;
 
--- 5. Habilita Row Level Security e políticas de leitura pública
+-- Habilita Row Level Security e políticas de leitura pública
 ALTER TABLE public.ongs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.ong_roles_types ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.ong_members ENABLE ROW LEVEL SECURITY;
