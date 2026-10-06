@@ -296,7 +296,7 @@ export type Database = {
           is_neutered?: boolean
           is_vaccinated?: boolean
           name: string
-          ong_id: string
+          ong_id?: string | null
           published_at?: string | null
           sex: Database["public"]["Enums"]["animal_sex"]
           size: Database["public"]["Enums"]["animal_size"]
