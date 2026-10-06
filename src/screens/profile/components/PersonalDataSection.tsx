@@ -1,5 +1,6 @@
-import { colors } from '@/constants/colors';
-import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { CustomPrimaryActionButton } from '@/components/buttons/CustomPrimaryActionButton';
+import { CustomTextInputField } from '@/components/forms/CustomTextInputField';
+import { StyleSheet, View } from 'react-native';
 import { PersonalFormData } from '../types/profile.types';
 
 interface PersonalDataSectionProps {
@@ -12,65 +13,59 @@ interface PersonalDataSectionProps {
 export function PersonalDataSection({ data, onChange, onSave, saving }: PersonalDataSectionProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.fieldLabel}>Nome Completo</Text>
-      <TextInput
-        style={styles.input}
+      <CustomTextInputField
         value={data.fullName}
         onChangeText={(val) => onChange('fullName', val)}
         placeholder="Seu nome completo"
+        label="Nome Completo"
+        editable={!saving}
       />
 
-      <Text style={styles.fieldLabel}>E-mail</Text>
-      <TextInput
-        style={[styles.input, styles.disabledInput]}
+      <CustomTextInputField
         value={data.email}
+        label="E-mail"
         editable={false}
+        disabled={true}
       />
 
       <View style={styles.row}>
         <View style={styles.flex1}>
-          <Text style={styles.fieldLabel}>CPF</Text>
-          <TextInput
-            style={styles.input}
+          <CustomTextInputField
             value={data.cpf}
             onChangeText={(val) => onChange('cpf', val)}
             placeholder="000.000.000-00"
+            label="CPF"
+            editable={!saving}
             keyboardType="numeric"
           />
         </View>
 
         <View style={styles.flex1}>
-          <Text style={styles.fieldLabel}>Telefone</Text>
-          <TextInput
-            style={styles.input}
+          <CustomTextInputField
             value={data.phone}
             onChangeText={(val) => onChange('phone', val)}
             placeholder="(00) 00000-0000"
+            label="Telefone"
+            editable={!saving}
             keyboardType="phone-pad"
           />
         </View>
       </View>
 
-      <Text style={styles.fieldLabel}>Data de Nascimento (AAAA-MM-DD)</Text>
-      <TextInput
-        style={styles.input}
+      <CustomTextInputField
         value={data.birthDate}
         onChangeText={(val) => onChange('birthDate', val)}
         placeholder="Ex: 2000-05-15"
+        label="Data de Nascimento (AAAA-MM-DD)"
+        editable={!saving}
       />
 
-      <TouchableOpacity
-        style={styles.saveButton}
-        activeOpacity={0.8}
+      <CustomPrimaryActionButton
+        text={'Salvar Dados Pessoais'}
         onPress={onSave}
         disabled={saving}
-      >
-        {saving ? (
-          <ActivityIndicator color={colors.white} />
-        ) : (
-          <Text style={styles.saveButtonText}>Salvar Dados Pessoais</Text>
-        )}
-      </TouchableOpacity>
+        loading={saving}
+      />
     </View>
   );
 }
@@ -80,45 +75,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingTop: 8,
   },
-  fieldLabel: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: colors.neutral[400],
-    marginBottom: 6,
-    marginTop: 10,
-  },
-  input: {
-    backgroundColor: colors.white,
-    borderWidth: 1,
-    borderColor: colors.neutral[200],
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    height: 46,
-    fontSize: 14,
-    color: colors.neutral[800],
-  },
-  disabledInput: {
-    backgroundColor: colors.neutral[100],
-    color: colors.neutral[400],
-  },
   row: {
     flexDirection: 'row',
     gap: 12,
   },
   flex1: {
     flex: 1,
-  },
-  saveButton: {
-    backgroundColor: colors.primary[500],
-    height: 48,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 22,
-  },
-  saveButtonText: {
-    color: colors.white,
-    fontSize: 15,
-    fontWeight: '700',
-  },
+  }
 });
