@@ -23,7 +23,7 @@ create table public.cities (
     updated_at      timestamptz not null default now()
 );
 
-create table public.adresses (
+create table public.addresses (
     id              uuid primary key default gen_random_uuid(),
     city_id         uuid not null references public.cities(id) on delete cascade,
     street          text not null,

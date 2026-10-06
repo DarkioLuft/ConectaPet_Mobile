@@ -1,5 +1,6 @@
+import { LoadingIndicator } from '@/components/ui/LoadingIndicator';
 import { colors } from '@/constants/colors';
-import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ModernBottomBar } from '../../components/navigation/ModernBottomBar';
 import { AddressSection } from './components/AddressSection';
@@ -7,41 +8,42 @@ import { AdopterMatchSection } from './components/AdopterMatchSection';
 import { PersonalDataSection } from './components/PersonalDataSection';
 import { ProfileHeader } from './components/ProfileHeader';
 import { ProfileSectionTabs } from './components/ProfileSectionTabs';
+import { useAddressSection } from './hooks/useAddressSection';
+import { usePersonalSection } from './hooks/usePersonalSection';
+import { usePreferencesSection } from './hooks/usePreferencesSection';
 import { useProfile } from './hooks/useProfile';
 
 export function ProfileScreen() {
   const {
+    userId,
     activeTab,
     setActiveTab,
     loading,
-    saving,
+    progress,
     isVolunteer,
     housingTypes,
-    personalData,
-    setPersonalData,
-    addressData,
-    setAddressData,
-    preferencesData,
-    setPreferencesData,
-    progress,
-    handleCepChange,
-    savePersonalData,
-    saveAddressData,
-    savePreferencesData,
-    handlePickAvatar,
+    rawPersonal,
+    rawAddress,
+    rawPreferences,
+    loadProfileData,
     handleTabSelect,
   } = useProfile();
+
+  // Instanciando os sub-hooks e passando a função de recarregar como callback
+  const personal = usePersonalSection({ initialData: rawPersonal, userId, onSuccess: loadProfileData });
+  const address = useAddressSection({ initialData: rawAddress, userId, onSuccess: loadProfileData });
+  const preferences = usePreferencesSection({ initialData: rawPreferences, userId, onSuccess: loadProfileData });
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       {/* Cabeçalho Fixo com Informações e Progresso */}
       <ProfileHeader
-        fullName={personalData.fullName}
-        email={personalData.email}
-        avatarUrl={personalData.avatarUrl}
+        fullName={rawPersonal?.fullName || ""}
+        email={rawPersonal?.email}
+        avatarUrl={rawPersonal?.avatarUrl}
         isVolunteer={isVolunteer}
         progress={progress}
-        onPressChangeAvatar={handlePickAvatar}
+        onPressChangeAvatar={personal.handlePickAvatar}
       />
 
       {/* Seletor de Abas em Pílula */}
@@ -53,35 +55,35 @@ export function ProfileScreen() {
         showsVerticalScrollIndicator={false}
       >
         {loading ? (
-          <ActivityIndicator color={colors.primary[500]} style={{ marginTop: 32 }} />
+          <LoadingIndicator message="Carregando..." fullScreen={true} />
         ) : (
           <>
             {activeTab === 'personal' && (
               <PersonalDataSection
-                data={personalData}
-                onChange={(f, v) => setPersonalData((prev) => ({ ...prev, [f]: v }))}
-                onSave={savePersonalData}
-                saving={saving}
+                data={personal.personalData}
+                onChange={(field, value) => personal.updateField(field, value)}
+                onSave={personal.savePersonalData}
+                saving={personal.saving}
               />
             )}
 
             {activeTab === 'address' && (
               <AddressSection
-                data={addressData}
-                onChange={(f, v) => setAddressData((prev) => ({ ...prev, [f]: v }))}
-                onChangeCep={handleCepChange}
-                onSave={saveAddressData}
-                saving={saving}
+                data={address.addressData}
+                onChange={(field, value) => address.updateField(field, value)}
+                onChangeCep={address.handleCepChange}
+                onSave={address.saveAddress}
+                saving={address.savingAddress}
               />
             )}
 
             {activeTab === 'preferences' && (
               <AdopterMatchSection
-                data={preferencesData}
+                data={preferences.preferencesData}
                 housingTypes={housingTypes}
-                onChange={(f, v) => setPreferencesData((prev) => ({ ...prev, [f]: v }))}
-                onSave={savePreferencesData}
-                saving={saving}
+                onChange={(field, value) => preferences.updateField(field, value)}
+                onSave={preferences.savePreferences}
+                saving={preferences.saving}
               />
             )}
           </>

@@ -1,5 +1,6 @@
+import { CustomPrimaryActionButton } from '@/components/buttons/CustomPrimaryActionButton';
 import { colors } from '@/constants/colors';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AdopterPreferencesFormData, HousingTypeOption } from '../types/profile.types';
 
 interface AdopterMatchSectionProps {
@@ -153,18 +154,12 @@ export function AdopterMatchSection({
         })}
       </View>
 
-      <TouchableOpacity
-        style={styles.saveButton}
-        activeOpacity={0.8}
+      <CustomPrimaryActionButton
+        text={'Salvar Perfil de Match'}
         onPress={onSave}
         disabled={saving}
-      >
-        {saving ? (
-          <ActivityIndicator color={colors.white} />
-        ) : (
-          <Text style={styles.saveButtonText}>Gravar Perfil de Match</Text>
-        )}
-      </TouchableOpacity>
+        loading={saving}
+      />
     </View>
   );
 }
@@ -242,19 +237,5 @@ const styles = StyleSheet.create({
   choiceBtnTextActive: {
     color: colors.white,
     fontWeight: '700',
-  },
-  saveButton: {
-    backgroundColor: colors.primary[500],
-    height: 48,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 22,
-    marginBottom: 10,
-  },
-  saveButtonText: {
-    color: colors.white,
-    fontSize: 15,
-    fontWeight: '700',
-  },
+  }
 });

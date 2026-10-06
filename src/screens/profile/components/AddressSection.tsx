@@ -1,9 +1,10 @@
-import { colors } from '@/constants/colors';
-import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { CustomPrimaryActionButton } from '@/components/buttons/CustomPrimaryActionButton';
+import { CustomTextInputField } from '@/components/forms/CustomTextInputField';
+import { StyleSheet, View } from 'react-native';
 import { AddressFormData } from '../types/profile.types';
 
 interface AddressSectionProps {
-  data: AddressFormData;
+  data: AddressFormData | null;
   onChange: (field: keyof AddressFormData, value: string) => void;
   onChangeCep: (cep: string) => void;
   onSave: () => void;
@@ -13,91 +14,83 @@ interface AddressSectionProps {
 export function AddressSection({ data, onChange, onChangeCep, onSave, saving }: AddressSectionProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.fieldLabel}>CEP</Text>
-      <TextInput
-        style={styles.input}
-        value={data.postalCode}
-        onChangeText={onChangeCep}
-        placeholder=""
+      <CustomTextInputField
+        value={data?.postalCode ? data.postalCode : ''}
+        onChangeText={(val) => onChangeCep(val)}
+        placeholder="00000-000"
+        label="CEP"
+        editable={!saving}
         keyboardType="numeric"
         maxLength={9}
       />
 
-      <Text style={styles.fieldLabel}>Logradouro (Rua / Avenida)</Text>
-      <TextInput
-        style={styles.input}
-        value={data.street}
+      <CustomTextInputField
+        value={data?.street ? data.street : ''}
         onChangeText={(val) => onChange('street', val)}
         placeholder=""
+        label="Logradouro (Rua / Avenida)"
+        editable={!saving}
       />
 
       <View style={styles.row}>
         <View style={{ flex: 1 }}>
-          <Text style={styles.fieldLabel}>Número</Text>
-          <TextInput
-            style={styles.input}
-            value={data.number}
+          <CustomTextInputField
+            value={data?.number ? data.number : ''}
             onChangeText={(val) => onChange('number', val)}
             placeholder=""
+            label="Número"
+            editable={!saving}
             keyboardType="numeric"
           />
         </View>
 
         <View style={{ flex: 1.5 }}>
-          <Text style={styles.fieldLabel}>Complemento</Text>
-          <TextInput
-            style={styles.input}
-            value={data.complement}
+          <CustomTextInputField
+            value={data?.complement ? data.complement : ''}
             onChangeText={(val) => onChange('complement', val)}
             placeholder=""
+            label="Complemento (Opcional)"
+            editable={!saving}
           />
         </View>
       </View>
 
-      <Text style={styles.fieldLabel}>Bairro</Text>
-      <TextInput
-        style={styles.input}
-        value={data.district}
+      <CustomTextInputField
+        value={data?.district ? data.district : ''}
         onChangeText={(val) => onChange('district', val)}
         placeholder=""
+        label="Bairro"
+        editable={!saving}
       />
 
       <View style={styles.row}>
         <View style={{ flex: 2 }}>
-          <Text style={styles.fieldLabel}>Cidade</Text>
-          <TextInput
-            style={styles.input}
-            value={data.city}
-            onChangeText={(val) => onChange('city', val)}
+          <CustomTextInputField
+            value={data?.cityName ? data.cityName : ''}
             placeholder=""
+            label="Cidade"
+            editable={false}
+            disabled={data?.cityName ? true : false}
           />
         </View>
 
         <View style={{ flex: 1 }}>
-          <Text style={styles.fieldLabel}>UF</Text>
-          <TextInput
-            style={styles.input}
-            value={data.state}
-            onChangeText={(val) => onChange('state', val)}
+          <CustomTextInputField
+            value={data?.stateAbbreviation ? data.stateAbbreviation : ''}
             placeholder=""
-            maxLength={2}
-            autoCapitalize="characters"
+            label="UF"
+            editable={false}
+            disabled={data?.stateAbbreviation ? true : false}
           />
         </View>
       </View>
 
-      <TouchableOpacity
-        style={styles.saveButton}
-        activeOpacity={0.8}
+      <CustomPrimaryActionButton
+        text={'Salvar Endereço'}
         onPress={onSave}
         disabled={saving}
-      >
-        {saving ? (
-          <ActivityIndicator color={colors.white} />
-        ) : (
-          <Text style={styles.saveButtonText}>Gravar Endereço</Text>
-        )}
-      </TouchableOpacity>
+        loading={saving}
+      />
     </View>
   );
 }
@@ -107,38 +100,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingTop: 8,
   },
-  fieldLabel: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: colors.neutral[600],
-    marginBottom: 6,
-    marginTop: 10,
-  },
-  input: {
-    backgroundColor: colors.white,
-    borderWidth: 1,
-    borderColor: colors.neutral[100],
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    height: 46,
-    fontSize: 14,
-    color: colors.neutral[800],
-  },
   row: {
     flexDirection: 'row',
     gap: 12,
-  },
-  saveButton: {
-    backgroundColor: colors.primary[500],
-    height: 48,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 22,
-  },
-  saveButtonText: {
-    color: colors.white,
-    fontSize: 15,
-    fontWeight: '700',
-  },
+  }
 });

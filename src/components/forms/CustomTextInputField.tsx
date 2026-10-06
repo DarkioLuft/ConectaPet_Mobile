@@ -38,7 +38,7 @@ export function CustomTextInputField({
                                 ]}
                                 placeholder={placeholder}
                                 placeholderTextColor={colors.placeholder}
-                                value={value}
+                                value={value || ''}
                                 onChangeText={onChangeText}
                                 editable={!disabled}
                                 keyboardType={keyboardType}

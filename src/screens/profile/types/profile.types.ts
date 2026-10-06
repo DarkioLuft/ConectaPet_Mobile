@@ -10,13 +10,21 @@ export interface PersonalFormData {
 }
 
 export interface AddressFormData {
+  addressId: string | null;
   postalCode: string;
   street: string;
   number: string;
-  complement: string;
+  complement: string | null;
   district: string;
-  city: string;
-  state: string;
+  location: string | null;
+  cityId: string | null;
+  cityName: string;
+  stateId: string | null;
+  stateName: string;
+  stateAbbreviation: string;
+  countryId: number | null;
+  countryName: string;
+  countryAbbreviation: string;
 }
 
 export interface AdopterPreferencesFormData {
