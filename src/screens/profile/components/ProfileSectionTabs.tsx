@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ProfileTabType } from '../types/profile.types';
@@ -28,7 +29,7 @@ export function ProfileSectionTabs({ currentTab, onSelectTab }: ProfileSectionTa
             <Ionicons
               name={tab.icon}
               size={16}
-              color={isActive ? '#ffffff' : '#64748b'}
+              color={isActive ? colors.white : colors.neutral[400]}
               style={{ marginRight: 6 }}
             />
             <Text style={[styles.tabText, isActive && styles.activeTabText]}>
@@ -44,7 +45,7 @@ export function ProfileSectionTabs({ currentTab, onSelectTab }: ProfileSectionTa
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#f1f5f9',
+    backgroundColor: colors.neutral[200],
     padding: 4,
     marginHorizontal: 18,
     marginTop: 14,
@@ -61,19 +62,19 @@ const styles = StyleSheet.create({
     borderRadius: 9,
   },
   activeTabButton: {
-    backgroundColor: '#16a34a',
+    backgroundColor: colors.primary[500],
     elevation: 2,
-    shadowColor: '#16a34a',
+    shadowColor: colors.primary[500],
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },
   tabText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#64748b',
+    color: colors.neutral[400],
   },
   activeTabText: {
-    color: '#ffffff',
+    color: colors.white,
     fontWeight: '700',
   },
 });

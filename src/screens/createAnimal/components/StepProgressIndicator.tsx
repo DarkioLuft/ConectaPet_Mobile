@@ -1,5 +1,6 @@
 // Barra de progresso visual do topo que mostra a etapa atual e o título correspondente.
 
+import { colors } from '@/constants/colors';
 import { StyleSheet, Text, View } from 'react-native';
 
 const STEP_TITLES = [
@@ -43,22 +44,22 @@ const styles = StyleSheet.create({
   stepBadge: {
     fontSize: 13,
     fontWeight: '800',
-    color: '#16a34a',
+    color: colors.primary[500],
   },
   stepSubtitle: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#4b5563',
+    color: colors.text,
   },
   progressBarBackground: {
     width: '100%',
     height: 4,
-    backgroundColor: '#e5e7eb',
+    backgroundColor: colors.background,
     borderRadius: 2,
     overflow: 'hidden',
   },
   progressBarFill: {
     height: '100%',
-    backgroundColor: '#16a34a',
+    backgroundColor: colors.primary[500],
   },
 });

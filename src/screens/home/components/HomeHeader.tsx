@@ -1,4 +1,5 @@
 // Cabeçalho verde superior com marca ConectaPet, atalho para notificações e botão de sair.
+import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { supabase } from '../../../services/supabase';
@@ -34,7 +35,7 @@ export function HomeHeader({ onPressNotifications }: HomeHeaderProps) {
     <View style={styles.header}>
       {/* Logotipo e Nome */}
       <View style={styles.brandRow}>
-        <Ionicons name="paw" size={24} color="#ffffff" style={styles.brandIcon} />
+        <Ionicons name="paw" size={24} color={colors.white} style={styles.brandIcon} />
         <Text style={styles.brandName}>ConectaPet</Text>
       </View>
 
@@ -45,7 +46,7 @@ export function HomeHeader({ onPressNotifications }: HomeHeaderProps) {
           onPress={onPressNotifications}
           style={styles.iconButton}
         >
-          <Ionicons name="notifications-outline" size={22} color="#ffffff" />
+          <Ionicons name="notifications-outline" size={22} color={colors.white} />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -54,7 +55,7 @@ export function HomeHeader({ onPressNotifications }: HomeHeaderProps) {
           style={styles.iconButton}
           accessibilityLabel="Sair da conta"
         >
-          <Ionicons name="log-out-outline" size={22} color="#ffffff" />
+          <Ionicons name="log-out-outline" size={22} color={colors.white} />
         </TouchableOpacity>
       </View>
     </View>
@@ -63,7 +64,7 @@ export function HomeHeader({ onPressNotifications }: HomeHeaderProps) {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#15803d',
+    backgroundColor: colors.primary[600],
     paddingHorizontal: 20,
     paddingVertical: 14, // Padding simétrico para centralizar perfeitamente os botões
     flexDirection: 'row',
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
   brandName: {
     fontSize: 21,
     fontWeight: '800',
-    color: '#ffffff',
+    color: colors.white,
     letterSpacing: -0.5,
   },
   actionsRow: {

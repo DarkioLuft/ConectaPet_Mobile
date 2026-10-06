@@ -1,5 +1,6 @@
 // Etapa 4: Seleção da foto de capa (câmera ou galeria) e resumo final dos dados.
 
+import { colors } from '@/constants/colors';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   AGE_GROUP_LABELS,
@@ -140,8 +141,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#d1d5db',
-    backgroundColor: '#ffffff',
+    borderColor: colors.neutral[400],
+    backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -154,11 +155,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 180,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: colors.neutral[400],
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     overflow: 'hidden',
   },
   image: {
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   removeButtonText: {
-    color: '#dc2626',
+    color: colors.semantic.error,
     fontWeight: '600',
     fontSize: 14,
   },
@@ -183,14 +184,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: colors.neutral[400],
     borderRadius: 10,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
   },
   summaryTitle: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#1f2937',
+    color: colors.text,
     marginBottom: 12,
   },
   summaryRow: {
@@ -200,10 +201,10 @@ const styles = StyleSheet.create({
   summaryLabel: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#1f2937',
+    color: colors.text,
   },
   summaryValue: {
     fontSize: 14,
-    color: '#374151',
+    color: colors.text,
   },
 });

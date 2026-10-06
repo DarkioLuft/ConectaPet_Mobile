@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AddressFormData } from '../types/profile.types';
 
@@ -92,7 +93,7 @@ export function AddressSection({ data, onChange, onChangeCep, onSave, saving }: 
         disabled={saving}
       >
         {saving ? (
-          <ActivityIndicator color="#ffffff" />
+          <ActivityIndicator color={colors.white} />
         ) : (
           <Text style={styles.saveButtonText}>Gravar Endereço</Text>
         )}
@@ -109,26 +110,26 @@ const styles = StyleSheet.create({
   fieldLabel: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#374151',
+    color: colors.neutral[600],
     marginBottom: 6,
     marginTop: 10,
   },
   input: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: colors.neutral[100],
     borderRadius: 12,
     paddingHorizontal: 14,
     height: 46,
     fontSize: 14,
-    color: '#111827',
+    color: colors.neutral[800],
   },
   row: {
     flexDirection: 'row',
     gap: 12,
   },
   saveButton: {
-    backgroundColor: '#16a34a',
+    backgroundColor: colors.primary[500],
     height: 48,
     borderRadius: 12,
     alignItems: 'center',
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   saveButtonText: {
-    color: '#ffffff',
+    color: colors.white,
     fontSize: 15,
     fontWeight: '700',
   },

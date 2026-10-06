@@ -1,5 +1,6 @@
 // Componente de botões em grade para seleção única (espécie, sexo, porte, etc.).
 
+import { colors } from '@/constants/colors';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export interface SelectOption<T = string> {
@@ -82,12 +83,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonUnselected: {
-    backgroundColor: '#ffffff',
-    borderColor: '#d1d5db',
+    backgroundColor: colors.white,
+    borderColor: colors.neutral[200],
   },
   buttonSelected: {
-    backgroundColor: '#16a34a',
-    borderColor: '#16a34a',
+    backgroundColor: colors.primary[500],
+    borderColor: colors.primary[500],
   },
   buttonText: {
     fontSize: 14,
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
     color: '#374151',
   },
   textSelected: {
-    color: '#ffffff',
+    color: colors.white,
     fontWeight: '700',
   },
 });

@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { useNavigation } from '@react-navigation/native';
 import { useMemo } from 'react';
 import { Alert } from 'react-native';
@@ -14,7 +15,7 @@ export function useMaintenance() {
         title: 'Cadastrar pet',
         description: 'Adicione um novo animal disponível para adoção.',
         iconName: 'paw',
-        accentColor: '#16a34a',
+        accentColor: colors.primary[500],
         onPress: () => navigation.navigate('CreateAnimal'),
       },
       {
@@ -22,7 +23,7 @@ export function useMaintenance() {
         title: 'Editar pet',
         description: 'Gerencie informações, fotos ou exclua pets cadastrados.',
         iconName: 'create-outline',
-        accentColor: '#0284c7',
+        accentColor: colors.semantic.info,
         onPress: () => {
           Alert.alert('Em desenvolvimento', 'A listagem e edição de pets estará disponível em breve.');
         },
@@ -32,7 +33,7 @@ export function useMaintenance() {
         title: 'Cadastrar avisos',
         description: 'Publique avisos e notícias para o carrossel da tela inicial.',
         iconName: 'megaphone-outline',
-        accentColor: '#eab308',
+        accentColor: colors.semantic.warning,
         onPress: () => {
           Alert.alert('Em desenvolvimento', 'O cadastro de avisos estará disponível em breve.');
         },

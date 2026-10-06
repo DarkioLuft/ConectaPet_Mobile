@@ -55,7 +55,7 @@ export function CustomPasswordInputField({
                                 <Ionicons
                                         name={isSecure ? "eye-off-outline" : "eye-outline"}
                                         size={22}
-                                        color={disabled ? colors.textLight : colors.primary}
+                                        color={disabled ? colors.textLight : colors.primary[500]}
                                 />
                         </TouchableOpacity>
                 </View>

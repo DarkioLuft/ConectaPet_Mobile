@@ -1,5 +1,6 @@
 // Linha com rótulo descritivo e interruptor liga/desliga (toggle switch).
 
+import { colors } from '@/constants/colors';
 import { Switch, Text, View } from 'react-native';
 
 interface CustomSwitchFieldProps {
@@ -29,8 +30,8 @@ export function CustomSwitchField({
         value={value}
         onValueChange={onValueChange}
         disabled={disabled}
-        trackColor={{ false: '#e2e8f0', true: '#059669' }}
-        thumbColor={value ? '#ffffff' : '#f8fafc'}
+        trackColor={{ false: colors.neutral[200], true: colors.primary[500] }}
+        thumbColor={value ? colors.white : colors.neutral[50]}
       />
     </View>
   );

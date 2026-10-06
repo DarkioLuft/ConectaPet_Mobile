@@ -14,7 +14,7 @@ export function LoadingIndicator({ message, fullScreen = true, size = 'large'
                         styles.container,
                         fullScreen ? styles.fullScreen : styles.inline
                 ]}>
-                        <ActivityIndicator size={size} color={colors.primary} />
+                        <ActivityIndicator size={size} color={colors.primary[500]} />
 
                         {/* Mensagem opcional */}
                         {message && (

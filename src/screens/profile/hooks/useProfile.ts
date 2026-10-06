@@ -5,11 +5,11 @@ import { Alert } from 'react-native';
 import { BottomTabType } from '../../../components/navigation/ModernBottomBar';
 import { supabase } from '../../../services/supabase';
 import {
-    AddressFormData,
-    AdopterPreferencesFormData,
-    HousingTypeOption,
-    PersonalFormData,
-    ProfileTabType,
+  AddressFormData,
+  AdopterPreferencesFormData,
+  HousingTypeOption,
+  PersonalFormData,
+  ProfileTabType,
 } from '../types/profile.types';
 
 export function useProfile() {

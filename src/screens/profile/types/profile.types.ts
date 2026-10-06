@@ -21,14 +21,14 @@ export interface AddressFormData {
 
 export interface AdopterPreferencesFormData {
   housingTypeId: number | null;
-  hasChildren: boolean;
-  childrenAgeMin?: number;
-  hasOtherDogs: boolean;
-  hasOtherCats: boolean;
-  hoursAlonePerDay: number;
-  firstTimeOwner: boolean;
-  acceptsSpecialNeeds: boolean;
-  preferredSpecies: 'dog' | 'cat' | 'all';
+  hasChildren: boolean | null;
+  childrenAgeMin?: number | null;
+  hasOtherDogs: boolean | null;
+  hasOtherCats: boolean | null;
+  hoursAlonePerDay: number | null;
+  firstTimeOwner: boolean | null;
+  acceptsSpecialNeeds: boolean | null;
+  preferredSpecies: 'dog' | 'cat' | 'all' | null;
   preferredSizes: string[]; // ['small', 'medium', 'large']
 }
 

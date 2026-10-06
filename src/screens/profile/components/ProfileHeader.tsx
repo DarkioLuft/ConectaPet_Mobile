@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -26,7 +27,7 @@ export function ProfileHeader({
             <Image source={{ uri: avatarUrl }} style={styles.avatar} />
           ) : (
             <View style={styles.avatarPlaceholder}>
-              <Ionicons name="person" size={38} color="#94a3b8" />
+              <Ionicons name="person" size={38} color={colors.neutral[400]} />
             </View>
           )}
           <TouchableOpacity
@@ -34,7 +35,7 @@ export function ProfileHeader({
             activeOpacity={0.8}
             onPress={onPressChangeAvatar}
           >
-            <Ionicons name="camera" size={13} color="#ffffff" />
+            <Ionicons name="camera" size={13} color={colors.white} />
           </TouchableOpacity>
         </View>
 
@@ -75,7 +76,7 @@ export function ProfileHeader({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#15803d',
+    backgroundColor: colors.primary[600],
     paddingHorizontal: 20,
     paddingTop: 16,
     paddingBottom: 18,
@@ -93,30 +94,30 @@ const styles = StyleSheet.create({
     height: 72,
     borderRadius: 36,
     borderWidth: 2.5,
-    borderColor: '#ffffff',
+    borderColor: colors.white,
   },
   avatarPlaceholder: {
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: '#f1f5f9',
+    backgroundColor: colors.neutral[100],
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2.5,
-    borderColor: '#ffffff',
+    borderColor: colors.white,
   },
   cameraBadge: {
     position: 'absolute',
     bottom: -1,
     right: -1,
-    backgroundColor: '#16a34a',
+    backgroundColor: colors.primary[500],
     width: 24,
     height: 24,
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
-    borderColor: '#ffffff',
+    borderColor: colors.white,
   },
   infoCol: {
     flex: 1,
@@ -125,13 +126,13 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 21,
     fontWeight: '800',
-    color: '#ffffff',
+    color: colors.white,
     lineHeight: 26,
     letterSpacing: -0.3,
   },
   userEmail: {
     fontSize: 13,
-    color: '#dcfce7',
+    color: colors.neutral[200],
     marginTop: 2,
     fontWeight: '500',
   },
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fef08a',
   },
   roleText: {
-    color: '#ffffff',
+    color: colors.white,
     fontSize: 11,
     fontWeight: '700',
   },
@@ -155,12 +156,12 @@ const styles = StyleSheet.create({
     color: '#854d0e',
   },
   progressCard: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     borderRadius: 14,
     padding: 12,
     marginTop: 16,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOpacity: 0.05,
     shadowRadius: 4,
   },
@@ -173,27 +174,27 @@ const styles = StyleSheet.create({
   progressTitle: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#1f2937',
+    color: colors.neutral[800],
   },
   progressPercent: {
     fontSize: 12,
     fontWeight: '800',
-    color: '#16a34a',
+    color: colors.primary[500],
   },
   progressBarTrack: {
     height: 6,
-    backgroundColor: '#e5e7eb',
+    backgroundColor: colors.neutral[200],
     borderRadius: 3,
     overflow: 'hidden',
   },
   progressBarFill: {
     height: '100%',
-    backgroundColor: '#16a34a',
+    backgroundColor: colors.primary[500],
     borderRadius: 3,
   },
   progressHint: {
     fontSize: 11,
-    color: '#6b7280',
+    color: colors.neutral[400],
     marginTop: 6,
   },
 });

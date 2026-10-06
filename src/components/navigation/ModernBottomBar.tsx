@@ -1,4 +1,5 @@
 // Barra inferior de navegação com alternância de ações por nível de permissão.
+import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -29,7 +30,7 @@ export function ModernBottomBar({
         <Ionicons
           name={currentTab === 'home' ? 'home' : 'home-outline'}
           size={23}
-          color={currentTab === 'home' ? '#16a34a' : '#9ca3af'}
+          color={currentTab === 'home' ? colors.primary[500] : colors.neutral[400]}
         />
         <Text style={[styles.tabLabel, currentTab === 'home' && styles.tabLabelActive]}>
           Início
@@ -44,7 +45,7 @@ export function ModernBottomBar({
         <Ionicons
           name={currentTab === 'pets' ? 'paw' : 'paw-outline'}
           size={23}
-          color={currentTab === 'pets' ? '#16a34a' : '#9ca3af'}
+          color={currentTab === 'pets' ? colors.primary[500] : colors.neutral[400]}
         />
         <Text style={[styles.tabLabel, currentTab === 'pets' && styles.tabLabelActive]}>
           Pets
@@ -59,7 +60,7 @@ export function ModernBottomBar({
         <Ionicons
           name={currentTab === 'donations_or_manage' ? thirdTabIcon : thirdTabIconOutline}
           size={23}
-          color={currentTab === 'donations_or_manage' ? '#16a34a' : '#9ca3af'}
+          color={currentTab === 'donations_or_manage' ? colors.primary[500] : colors.neutral[400]}
         />
         <Text
           style={[
@@ -79,7 +80,7 @@ export function ModernBottomBar({
         <Ionicons
           name={currentTab === 'profile' ? 'person' : 'person-outline'}
           size={23}
-          color={currentTab === 'profile' ? '#16a34a' : '#9ca3af'}
+          color={currentTab === 'profile' ? colors.primary[500] : colors.neutral[400]}
         />
         <Text style={[styles.tabLabel, currentTab === 'profile' && styles.tabLabelActive]}>
           Perfil
@@ -96,9 +97,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: Platform.OS === 'ios' ? 82 : 68,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     borderTopWidth: 1,
-    borderTopColor: '#f3f4f6',
+    borderTopColor: colors.neutral[200],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -118,11 +119,11 @@ const styles = StyleSheet.create({
   tabLabel: {
     fontSize: 11,
     fontWeight: '500',
-    color: '#9ca3af',
+    color: colors.neutral[400],
     marginTop: 3,
   },
   tabLabelActive: {
-    color: '#16a34a',
+    color: colors.primary[500],
     fontWeight: '700',
   },
 });

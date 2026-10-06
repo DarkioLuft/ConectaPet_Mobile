@@ -1,5 +1,6 @@
 // Etapa 1: Identificação básica do animal (nome, espécie, sexo, porte, idade e peso).
 
+import { colors } from '@/constants/colors';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { SelectButtonGroup } from '../../../components/forms/SelectButtonGroup';
 import {
@@ -136,13 +137,13 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 48,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: colors.neutral[400],
     borderRadius: 8,
     paddingHorizontal: 12,
     fontSize: 15,
-    color: '#1f2937',
+    color: colors.text,
     marginBottom: 16,
   },
   row: {

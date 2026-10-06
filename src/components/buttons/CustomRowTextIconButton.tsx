@@ -34,7 +34,7 @@ export function CustomRowTextIconButton({
                 >
                         {informationalIcon && (
                                 <View style={stylesLocal.icon}>
-                                        <Ionicons name={informationalIcon as any} size={20} color={colors.primary} />
+                                        <Ionicons name={informationalIcon as any} size={20} color={colors.primary[500]} />
                                 </View>
                         )}
 
@@ -47,7 +47,7 @@ export function CustomRowTextIconButton({
                                 </Text>
                         </View>
 
-                        <Ionicons name={icon as any} size={18} color={disabled ? colors.placeholder : colors.primary}
+                        <Ionicons name={icon as any} size={18} color={disabled ? colors.placeholder : colors.primary[500]}
                         />
                 </TouchableOpacity>
         );
@@ -74,7 +74,7 @@ const stylesLocal = StyleSheet.create({
                 fontSize: 16
         },
         title: { fontSize: 16, fontWeight: '600', color: colors.text, marginBottom: 4 },
-        icon: { width: 38, height: 38, borderRadius: 12, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center' },
+        icon: { width: 38, height: 38, borderRadius: 12, backgroundColor: colors.primary[500], justifyContent: 'center', alignItems: 'center' },
         text: {
                 fontSize: 13,
         },

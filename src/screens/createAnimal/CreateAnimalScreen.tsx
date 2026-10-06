@@ -1,5 +1,6 @@
 // Tela principal que junta e alterna a exibição das 4 etapas de cadastro.
 
+import { colors } from '@/constants/colors';
 import { useNavigation } from '@react-navigation/native';
 import {
   ActivityIndicator,
@@ -82,7 +83,7 @@ export function CreateAnimalScreen() {
             ]}
           >
             {isSubmitting ? (
-              <ActivityIndicator color="#ffffff" />
+              <ActivityIndicator color={colors.white} />
             ) : (
               <Text style={styles.nextButtonText}>
                 {currentStep === 4 ? 'Finalizar Cadastro' : 'Próxima Etapa'}
@@ -98,7 +99,7 @@ export function CreateAnimalScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
   },
   scrollContent: {
     padding: 20,
@@ -115,8 +116,8 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#d1d5db',
-    backgroundColor: '#ffffff',
+    borderColor: colors.border,
+    backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -128,13 +129,13 @@ const styles = StyleSheet.create({
   nextButton: {
     height: 48,
     borderRadius: 8,
-    backgroundColor: '#16a34a',
+    backgroundColor: colors.primary[500],
     alignItems: 'center',
     justifyContent: 'center',
   },
   nextButtonText: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#ffffff',
+    color: colors.white,
   },
 });

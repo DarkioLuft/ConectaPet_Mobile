@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { MaintenanceAction } from '../types/maintenance.types';
@@ -7,7 +8,7 @@ interface MaintenanceActionCardProps {
 }
 
 export function MaintenanceActionCard({ action }: MaintenanceActionCardProps) {
-  const accentColor = action.accentColor || '#16a34a';
+  const accentColor = action.accentColor || colors.primary[500];
 
   return (
     <TouchableOpacity
@@ -33,23 +34,23 @@ export function MaintenanceActionCard({ action }: MaintenanceActionCardProps) {
         <Text style={styles.description}>{action.description}</Text>
       </View>
 
-      <Ionicons name="chevron-forward" size={20} color="#9ca3af" />
+      <Ionicons name="chevron-forward" size={20} color={colors.neutral[400]} />
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: colors.neutral[200],
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 3,
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#111827',
+    color: colors.neutral[800],
   },
   badge: {
     paddingHorizontal: 8,
@@ -85,10 +86,11 @@ const styles = StyleSheet.create({
   badgeText: {
     fontSize: 10,
     fontWeight: '700',
+    color: colors.primary[500],
   },
   description: {
     fontSize: 12,
-    color: '#6b7280',
+    color: colors.neutral[600],
     lineHeight: 16,
   },
 });

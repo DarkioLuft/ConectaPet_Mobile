@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ModernBottomBar } from '../../components/navigation/ModernBottomBar';
@@ -52,7 +53,7 @@ export function ProfileScreen() {
         showsVerticalScrollIndicator={false}
       >
         {loading ? (
-          <ActivityIndicator color="#16a34a" style={{ marginTop: 32 }} />
+          <ActivityIndicator color={colors.primary[500]} style={{ marginTop: 32 }} />
         ) : (
           <>
             {activeTab === 'personal' && (
@@ -100,7 +101,7 @@ export function ProfileScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
   },
   scrollContent: {
     paddingBottom: 95,

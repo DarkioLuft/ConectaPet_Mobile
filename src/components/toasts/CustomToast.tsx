@@ -41,9 +41,9 @@ const stylesLocal = StyleSheet.create({
                 borderLeftWidth: 5,
         },
 
-        successBorder: { borderLeftColor: colors.success },
-        errorBorder: { borderLeftColor: colors.danger },
-        infoBorder: { borderLeftColor: colors.info },
+        successBorder: { borderLeftColor: colors.semantic.success },
+        errorBorder: { borderLeftColor: colors.semantic.error },
+        infoBorder: { borderLeftColor: colors.semantic.info },
 
         content: { justifyContent: 'center' },
         title: {

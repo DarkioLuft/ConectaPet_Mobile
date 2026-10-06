@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { PersonalFormData } from '../types/profile.types';
 
@@ -65,7 +66,7 @@ export function PersonalDataSection({ data, onChange, onSave, saving }: Personal
         disabled={saving}
       >
         {saving ? (
-          <ActivityIndicator color="#ffffff" />
+          <ActivityIndicator color={colors.white} />
         ) : (
           <Text style={styles.saveButtonText}>Salvar Dados Pessoais</Text>
         )}
@@ -82,23 +83,23 @@ const styles = StyleSheet.create({
   fieldLabel: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#374151',
+    color: colors.neutral[400],
     marginBottom: 6,
     marginTop: 10,
   },
   input: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: colors.neutral[200],
     borderRadius: 12,
     paddingHorizontal: 14,
     height: 46,
     fontSize: 14,
-    color: '#111827',
+    color: colors.neutral[800],
   },
   disabledInput: {
-    backgroundColor: '#f3f4f6',
-    color: '#6b7280',
+    backgroundColor: colors.neutral[100],
+    color: colors.neutral[400],
   },
   row: {
     flexDirection: 'row',
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   saveButton: {
-    backgroundColor: '#16a34a',
+    backgroundColor: colors.primary[500],
     height: 48,
     borderRadius: 12,
     alignItems: 'center',
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   saveButtonText: {
-    color: '#ffffff',
+    color: colors.white,
     fontSize: 15,
     fontWeight: '700',
   },

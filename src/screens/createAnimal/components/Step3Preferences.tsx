@@ -1,5 +1,6 @@
 // Etapa 3: Nível de energia, sociabilidade com outros pets/crianças e cuidados especiais.
 
+import { colors } from '@/constants/colors';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { BooleanChoiceGroup } from '../../../components/forms/BooleanChoiceGroup';
 import { SelectButtonGroup } from '../../../components/forms/SelectButtonGroup';
@@ -91,12 +92,12 @@ const styles = StyleSheet.create({
   },
   textArea: {
     height: 80,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: colors.neutral[400],
     borderRadius: 8,
     padding: 10,
     fontSize: 15,
-    color: '#1f2937',
+    color: colors.text,
   },
 });

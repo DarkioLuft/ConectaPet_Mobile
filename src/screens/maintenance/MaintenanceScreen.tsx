@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ModernBottomBar } from '../../components/navigation/ModernBottomBar';
@@ -36,7 +37,7 @@ export function MaintenanceScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
   },
   scrollContent: {
     paddingHorizontal: 18,

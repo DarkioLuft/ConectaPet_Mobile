@@ -1,4 +1,5 @@
 // Card com resumo e foto do pet para exibição na tela principal e em listagens de pets.
+import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -38,7 +39,7 @@ export function PetCard({ pet, isFavorite = false, onPressCard, onToggleFavorite
           />
         ) : (
           <View style={styles.placeholderContainer}>
-            <Ionicons name="paw" size={32} color="#cbd5e1" />
+            <Ionicons name="paw" size={32} color={colors.neutral[400]} />
           </View>
         )}
 
@@ -50,7 +51,7 @@ export function PetCard({ pet, isFavorite = false, onPressCard, onToggleFavorite
           <Ionicons
             name={isFavorite ? 'heart' : 'heart-outline'}
             size={16}
-            color={isFavorite ? '#ef4444' : '#ffffff'}
+            color={isFavorite ? colors.semantic.error : colors.white}
           />
         </TouchableOpacity>
       </View>
@@ -64,7 +65,7 @@ export function PetCard({ pet, isFavorite = false, onPressCard, onToggleFavorite
         </Text>
 
         <View style={styles.originRow}>
-          <Ionicons name="location-sharp" size={13} color="#16a34a" />
+          <Ionicons name="location-sharp" size={13} color={colors.primary[500]} />
           <Text style={styles.originText} numberOfLines={1}>
             {pet.ongName}
           </Text>
@@ -77,14 +78,14 @@ export function PetCard({ pet, isFavorite = false, onPressCard, onToggleFavorite
 const styles = StyleSheet.create({
   card: {
     width: CARD_WIDTH,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: colors.neutral[200],
     overflow: 'hidden',
     marginBottom: 14,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 4,
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 125,
     position: 'relative',
-    backgroundColor: '#f1f5f9',
+    backgroundColor: colors.neutral[100],
   },
   image: {
     width: '100%',
@@ -109,13 +110,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 8,
     left: 8,
-    backgroundColor: '#16a34a',
+    backgroundColor: colors.primary[500],
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
   },
   speciesText: {
-    color: '#ffffff',
+    color: colors.white,
     fontSize: 10,
     fontWeight: '700',
   },
@@ -136,11 +137,11 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#111827',
+    color: colors.neutral[800],
   },
   subtitle: {
     fontSize: 11,
-    color: '#6b7280',
+    color: colors.neutral[600],
     marginTop: 2,
   },
   originRow: {
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
   },
   originText: {
     fontSize: 11,
-    color: '#16a34a',
+    color: colors.primary[500],
     fontWeight: '600',
     flex: 1,
   },

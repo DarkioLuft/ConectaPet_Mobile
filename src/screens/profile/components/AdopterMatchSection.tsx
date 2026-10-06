@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AdopterPreferencesFormData, HousingTypeOption } from '../types/profile.types';
 
@@ -159,7 +160,7 @@ export function AdopterMatchSection({
         disabled={saving}
       >
         {saving ? (
-          <ActivityIndicator color="#ffffff" />
+          <ActivityIndicator color={colors.white} />
         ) : (
           <Text style={styles.saveButtonText}>Gravar Perfil de Match</Text>
         )}
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
   sectionHeaderTitle: {
     fontSize: 14,
     fontWeight: '800',
-    color: '#15803d',
+    color: colors.primary[500],
     marginTop: 14,
     marginBottom: 8,
   },
@@ -189,21 +190,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 9,
     borderRadius: 10,
-    backgroundColor: '#f1f5f9',
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
+    backgroundColor: colors.neutral[100],
+    alignItems: 'center',
+    borderColor: colors.neutral[200],
   },
   chipActive: {
-    backgroundColor: '#16a34a',
-    borderColor: '#16a34a',
+    backgroundColor: colors.primary[500],
+    borderColor: colors.primary[500],
   },
   chipText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#475569',
+    color: colors.neutral[400],
   },
   chipTextActive: {
-    color: '#ffffff',
+    color: colors.white,
     fontWeight: '700',
   },
   btnRow: {
@@ -224,14 +225,14 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 8,
     borderRadius: 8,
-    backgroundColor: '#f1f5f9',
+    backgroundColor: colors.neutral[100],
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderColor: colors.neutral[200],
   },
   choiceBtnActive: {
-    backgroundColor: '#16a34a',
-    borderColor: '#16a34a',
+    backgroundColor: colors.primary[500],
+    borderColor: colors.primary[500],
   },
   choiceBtnText: {
     fontSize: 13,
@@ -239,11 +240,11 @@ const styles = StyleSheet.create({
     color: '#64748b',
   },
   choiceBtnTextActive: {
-    color: '#ffffff',
+    color: colors.white,
     fontWeight: '700',
   },
   saveButton: {
-    backgroundColor: '#16a34a',
+    backgroundColor: colors.primary[500],
     height: 48,
     borderRadius: 12,
     alignItems: 'center',
@@ -252,7 +253,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   saveButtonText: {
-    color: '#ffffff',
+    color: colors.white,
     fontSize: 15,
     fontWeight: '700',
   },

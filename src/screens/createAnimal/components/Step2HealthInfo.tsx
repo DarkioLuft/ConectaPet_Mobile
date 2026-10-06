@@ -1,5 +1,6 @@
 // Etapa 2: Descrição livre e controle sanitário (vacinas, castração e microchip).
 
+import { colors } from '@/constants/colors';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { BooleanChoiceGroup } from '../../../components/forms/BooleanChoiceGroup';
 import { CreateAnimalFormData } from '../types/createAnimal.types';
@@ -65,19 +66,19 @@ const styles = StyleSheet.create({
   },
   textArea: {
     height: 100,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: colors.neutral[400],
     borderRadius: 8,
     padding: 12,
     fontSize: 15,
-    color: '#1f2937',
+    color: colors.text,
     marginBottom: 20,
   },
   groupTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#111827',
+    color: colors.text,
     marginBottom: 6,
     marginTop: 4,
   },

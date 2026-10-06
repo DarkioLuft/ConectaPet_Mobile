@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
         button: { paddingVertical: spacing.sm, paddingHorizontal: spacing.lg, borderRadius: borderRadius.md, minWidth: 120, alignItems: 'center' },
         cancelButton: { backgroundColor: 'transparent' },
         cancelButtonText: { color: colors.textLight, fontSize: 16, fontWeight: '600' },
-        confirmButton: { backgroundColor: colors.primary },
-        destructiveButton: { backgroundColor: colors.danger },
+        confirmButton: { backgroundColor: colors.primary[500] },
+        destructiveButton: { backgroundColor: colors.semantic.error },
         confirmButtonText: { color: colors.surface, fontSize: 16, fontWeight: 'bold' },
 });

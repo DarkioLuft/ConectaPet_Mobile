@@ -1,4 +1,5 @@
 // Banner em carrossel no topo para campanhas e avisos (mock).
+import { colors } from '@/constants/colors';
 import { useState } from 'react';
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -71,13 +72,13 @@ const styles = StyleSheet.create({
   bannerCard: {
     width: BANNER_WIDTH,
     height: 155,
-    backgroundColor: '#3f6212',
+    backgroundColor: colors.primary[600],
     borderRadius: 20,
     flexDirection: 'row',
     overflow: 'hidden',
     position: 'relative',
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.12,
     shadowRadius: 6,
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    color: '#ffffff',
+    color: colors.white,
     fontSize: 16,
     fontWeight: '800',
     lineHeight: 20,
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   },
   activeDot: {
     width: 14,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
   },
   inactiveDot: {
     width: 5,
