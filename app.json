@@ -2,6 +2,11 @@
   "expo": {
     "name": "ConectaPet",
     "slug": "conectapet",
+    "androidNavigationBar": {
+      "visible": "always",
+      "backgroundColor": "#000000",
+      "barStyle": "light-content"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
