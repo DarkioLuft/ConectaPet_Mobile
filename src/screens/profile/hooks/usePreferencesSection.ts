@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { AdopterPreferencesFormData } from '../types/profile.types';
 
 interface UseAdopterPreferencesSectionParams {
-    initialData: AdopterPreferencesFormData;
+    initialData: AdopterPreferencesFormData | null;
     userId: string | null;
     onSuccess: () => void;
 }

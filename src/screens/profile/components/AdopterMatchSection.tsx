@@ -1,6 +1,7 @@
 import { CustomPrimaryActionButton } from '@/components/buttons/CustomPrimaryActionButton';
+import { CustomChip } from '@/components/forms/CustomChip';
 import { colors } from '@/constants/colors';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { AdopterPreferencesFormData, HousingTypeOption } from '../types/profile.types';
 
 interface AdopterMatchSectionProps {
@@ -41,22 +42,19 @@ export function AdopterMatchSection({
     <View style={styles.choiceGroup}>
       <Text style={styles.choiceLabel}>{label}</Text>
       <View style={styles.btnRow}>
-        <TouchableOpacity
-          style={[styles.choiceBtn, value === true && styles.choiceBtnActive]}
+        <CustomChip
+          label={'Sim'}
+          selected={value == true ? true : false}
           onPress={() => onSelect(true)}
-        >
-          <Text style={[styles.choiceBtnText, value === true && styles.choiceBtnTextActive]}>
-            Sim
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.choiceBtn, value === false && styles.choiceBtnActive]}
+          style={{ flex: 1 }}
+        />
+
+        <CustomChip
+          label={'Não'}
+          selected={value == false ? true : false}
           onPress={() => onSelect(false)}
-        >
-          <Text style={[styles.choiceBtnText, value === false && styles.choiceBtnTextActive]}>
-            Não
-          </Text>
-        </TouchableOpacity>
+          style={{ flex: 1 }}
+        />
       </View>
     </View>
   );
@@ -69,15 +67,11 @@ export function AdopterMatchSection({
         {housingTypes.map((ht) => {
           const isSelected = data.housingTypeId === ht.id;
           return (
-            <TouchableOpacity
-              key={ht.id}
-              style={[styles.chip, isSelected && styles.chipActive]}
+            <CustomChip
+              label={ht.name}
+              selected={isSelected}
               onPress={() => onChange('housingTypeId', ht.id)}
-            >
-              <Text style={[styles.chipText, isSelected && styles.chipTextActive]}>
-                {ht.name}
-              </Text>
-            </TouchableOpacity>
+            />
           );
         })}
       </View>
@@ -88,15 +82,12 @@ export function AdopterMatchSection({
         {[2, 4, 6, 8, 10].map((h) => {
           const isSelected = data.hoursAlonePerDay === h;
           return (
-            <TouchableOpacity
-              key={h}
-              style={[styles.chip, isSelected && styles.chipActive, { flex: 1, alignItems: 'center' }]}
+            <CustomChip
+              label={h + 'h'}
+              selected={isSelected}
               onPress={() => onChange('hoursAlonePerDay', h)}
-            >
-              <Text style={[styles.chipText, isSelected && styles.chipTextActive]}>
-                {h}h
-              </Text>
-            </TouchableOpacity>
+              style={{ flex: 1 }}
+            />
           );
         })}
       </View>
@@ -109,8 +100,8 @@ export function AdopterMatchSection({
       {renderYesNo('Será o primeiro pet?', data.firstTimeOwner, (v) => onChange('firstTimeOwner', v))}
       {renderYesNo('Acolhe pet com necessidades especiais?', data.acceptsSpecialNeeds, (v) => onChange('acceptsSpecialNeeds', v))}
 
-      {/* 4. Espécies e Portes Aceites */}
-      <Text style={styles.sectionHeaderTitle}>4. Espécies e Portes Aceites</Text>
+      {/* 4. Espécies e Portes Aceitas */}
+      <Text style={styles.sectionHeaderTitle}>4. Espécies e Portes Aceitas</Text>
       <View style={styles.btnRow}>
         {[
           { key: 'all', label: 'Todos' },
@@ -119,15 +110,12 @@ export function AdopterMatchSection({
         ].map((s) => {
           const isSelected = data.preferredSpecies === s.key;
           return (
-            <TouchableOpacity
-              key={s.key}
-              style={[styles.chip, isSelected && styles.chipActive, { flex: 1, alignItems: 'center' }]}
+            <CustomChip
+              label={s.label}
+              selected={isSelected}
               onPress={() => onChange('preferredSpecies', s.key as any)}
-            >
-              <Text style={[styles.chipText, isSelected && styles.chipTextActive]}>
-                {s.label}
-              </Text>
-            </TouchableOpacity>
+              style={{ flex: 1 }}
+            />
           );
         })}
       </View>
@@ -141,15 +129,12 @@ export function AdopterMatchSection({
         ].map((size) => {
           const isSelected = data.preferredSizes.includes(size.key);
           return (
-            <TouchableOpacity
-              key={size.key}
-              style={[styles.chip, isSelected && styles.chipActive, { flex: 1, alignItems: 'center' }]}
+            <CustomChip
+              label={size.label}
+              selected={isSelected}
               onPress={() => toggleSize(size.key)}
-            >
-              <Text style={[styles.chipText, isSelected && styles.chipTextActive]}>
-                {size.label}
-              </Text>
-            </TouchableOpacity>
+              style={{ flex: 1 }}
+            />
           );
         })}
       </View>
@@ -160,7 +145,7 @@ export function AdopterMatchSection({
         disabled={saving}
         loading={saving}
       />
-    </View>
+    </View >
   );
 }
 
@@ -180,27 +165,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
-  },
-  chip: {
-    paddingHorizontal: 14,
-    paddingVertical: 9,
-    borderRadius: 10,
-    backgroundColor: colors.neutral[100],
-    alignItems: 'center',
-    borderColor: colors.neutral[200],
-  },
-  chipActive: {
-    backgroundColor: colors.primary[500],
-    borderColor: colors.primary[500],
-  },
-  chipText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: colors.neutral[400],
-  },
-  chipTextActive: {
-    color: colors.white,
-    fontWeight: '700',
+    alignItems: 'flex-start',
   },
   btnRow: {
     flexDirection: 'row',
@@ -212,30 +177,8 @@ const styles = StyleSheet.create({
   },
   choiceLabel: {
     fontSize: 13,
-    fontWeight: '600',
-    color: '#334155',
+    fontWeight: '700',
+    color: colors.neutral[400],
     marginBottom: 6,
   },
-  choiceBtn: {
-    flex: 1,
-    paddingVertical: 8,
-    borderRadius: 8,
-    backgroundColor: colors.neutral[100],
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: colors.neutral[200],
-  },
-  choiceBtnActive: {
-    backgroundColor: colors.primary[500],
-    borderColor: colors.primary[500],
-  },
-  choiceBtnText: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#64748b',
-  },
-  choiceBtnTextActive: {
-    color: colors.white,
-    fontWeight: '700',
-  }
 });

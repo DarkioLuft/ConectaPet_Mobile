@@ -25,7 +25,7 @@ export function CustomPrimaryActionButton({ text, onPress, disabled, loading }: 
 const stylesLocal = StyleSheet.create({
         submitButton: {
                 backgroundColor: colors.primary[500], borderRadius: 20,
-                paddingVertical: 12, alignItems: 'center', justifyContent: 'center', marginTop: 22
+                paddingVertical: 12, alignItems: 'center', justifyContent: 'center', marginTop: 50
         },
         submitButtonDisabled: {
                 backgroundColor: colors.primaryDisabled,

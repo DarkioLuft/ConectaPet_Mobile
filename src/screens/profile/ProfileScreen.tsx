@@ -27,6 +27,7 @@ export function ProfileScreen() {
     rawPreferences,
     loadProfileData,
     handleTabSelect,
+    updateAndSetProgress
   } = useProfile();
 
   // Instanciando os sub-hooks e passando a função de recarregar como callback
@@ -39,8 +40,8 @@ export function ProfileScreen() {
       {/* Cabeçalho Fixo com Informações e Progresso */}
       <ProfileHeader
         fullName={rawPersonal?.fullName || ""}
-        email={rawPersonal?.email}
-        avatarUrl={rawPersonal?.avatarUrl}
+        email={rawPersonal?.email || ""}
+        avatarUrl={rawPersonal?.avatarUrl || ""}
         isVolunteer={isVolunteer}
         progress={progress}
         onPressChangeAvatar={personal.handlePickAvatar}

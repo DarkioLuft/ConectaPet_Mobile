@@ -1,5 +1,9 @@
 export type ProfileTabType = 'personal' | 'address' | 'preferences';
 
+export type PreferredSpecies = 'dog' | 'cat' | 'all';
+
+export type PreferredSizes = 'small' | 'medium' | 'large';
+
 export interface PersonalFormData {
   fullName: string;
   email: string;
@@ -36,7 +40,7 @@ export interface AdopterPreferencesFormData {
   hoursAlonePerDay: number | null;
   firstTimeOwner: boolean | null;
   acceptsSpecialNeeds: boolean | null;
-  preferredSpecies: 'dog' | 'cat' | 'all' | null;
+  preferredSpecies: PreferredSpecies | null;
   preferredSizes: string[]; // ['small', 'medium', 'large']
 }
 

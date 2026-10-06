@@ -5,7 +5,6 @@ const TABLE_NAME = 'profiles';
 
 export const profileService = {
     async findById(id: string) {
-        console.log('profileService.findById', id)
         const { data, error } = await supabase
             .from(TABLE_NAME)
             .select('*')

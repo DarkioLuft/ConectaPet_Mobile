@@ -46,6 +46,12 @@ export function useProfile() {
     return Math.round((score / totalFields) * 100);
   };
 
+  const updateAndSetProgress = () => {
+    // Calcula o progresso final e atualiza a barra
+    const progress = computeSavedProgress(rawPersonal, rawAddress, rawPreferences)
+    setProgress(progress);
+  }
+
   const loadProfileData = useCallback(async () => {
     try {
       setLoading(true);
@@ -84,8 +90,7 @@ export function useProfile() {
         setRawAddressData(addressRes as AddressFormData);
       }
 
-      // Calcula o progresso final e atualiza a barra
-      setProgress(computeSavedProgress(rawPersonal, rawAddress, rawPreferences));
+      updateAndSetProgress();
 
     } catch (err: any) {
       handleError(err.message, 'Erro ao carregar dados do perfil');
@@ -172,5 +177,6 @@ export function useProfile() {
     rawPreferences,
     loadProfileData,
     handleTabSelect,
+    updateAndSetProgress
   };
 }
