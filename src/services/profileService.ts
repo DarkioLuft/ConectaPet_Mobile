@@ -14,11 +14,22 @@ export const profileService = {
         if (!data || data.length === 0) {
             return null;
         }
-        
+
         const profile = convertToProfileDto(data[0]);
 
         return profile;
     },
+
+    async updateAvatarUrl(userId: string, publicUrl: string) {
+        const { error: updateError } = await supabase
+            .from('profiles')
+            .update({ avatar_url: publicUrl })
+            .eq('id', userId);
+
+        if (updateError) {
+            throw new Error(`Erro ao atualizar perfil: ${updateError.message}`);
+        }
+    }
 };
 
 async function convertToProfileDto(user: any): Promise<ProfileDto> {

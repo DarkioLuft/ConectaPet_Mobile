@@ -62,6 +62,15 @@ export const authService = {
                 return session?.user ?? null;
         },
 
+        async getAuthenticatedUser() {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) {
+                        throw new Error("Usuário não autenticado.")
+                }
+
+                return user
+        },
+
         // Busca mudanças no estado da sessão, e executa callback
         onAuthStateChange(callback: (user: any) => void) {
                 const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {

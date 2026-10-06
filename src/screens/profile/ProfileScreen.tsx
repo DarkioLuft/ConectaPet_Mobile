@@ -9,6 +9,7 @@ import { PersonalDataSection } from './components/PersonalDataSection';
 import { ProfileHeader } from './components/ProfileHeader';
 import { ProfileSectionTabs } from './components/ProfileSectionTabs';
 import { useAddressSection } from './hooks/useAddressSection';
+import { useImagePicker } from './hooks/useImagePicker';
 import { usePersonalSection } from './hooks/usePersonalSection';
 import { usePreferencesSection } from './hooks/usePreferencesSection';
 import { useProfile } from './hooks/useProfile';
@@ -34,6 +35,7 @@ export function ProfileScreen() {
   const personal = usePersonalSection({ initialData: rawPersonal, userId, onSuccess: loadProfileData });
   const address = useAddressSection({ initialData: rawAddress, userId, onSuccess: loadProfileData });
   const preferences = usePreferencesSection({ initialData: rawPreferences, userId, onSuccess: loadProfileData });
+  const imagePicker = useImagePicker({ onSuccess: loadProfileData })
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -44,7 +46,7 @@ export function ProfileScreen() {
         avatarUrl={rawPersonal?.avatarUrl || ""}
         isVolunteer={isVolunteer}
         progress={progress}
-        onPressChangeAvatar={personal.handlePickAvatar}
+        onPressChangeAvatar={imagePicker.handlePickAvatar}
       />
 
       {/* Seletor de Abas em Pílula */}
