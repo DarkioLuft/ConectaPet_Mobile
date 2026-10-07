@@ -19,6 +19,8 @@ export function ProfileHeader({
   progress,
   onPressChangeAvatar,
 }: ProfileHeaderProps) {
+  console.log(avatarUrl)
+
   return (
     <View style={styles.container}>
       <View style={styles.userRow}>

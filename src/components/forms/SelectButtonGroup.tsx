@@ -31,6 +31,7 @@ export function SelectButtonGroup<T = string>({
 
           return (
             <CustomChip
+              key={String(option.value)}
               label={option.label}
               selected={isSelected}
               onPress={() => onSelect(option.value)}

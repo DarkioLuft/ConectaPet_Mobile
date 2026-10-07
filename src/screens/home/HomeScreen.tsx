@@ -68,6 +68,10 @@ export function HomeScreen() {
     { label: 'Outros', value: 'other' },
   ];
 
+  const handleEditAnimal = (animalId: string) => {
+    navigation.navigate('UpdateAnimal', { animalId });
+  };
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <HomeHeader />
@@ -136,7 +140,7 @@ export function HomeScreen() {
         renderItem={({ item }) => (
           <PetCard
             pet={item}
-            onPressCard={() => console.log('Detalhes:', item.id)}
+            onPressCard={() => handleEditAnimal(item.id)}
           />
         )}
         ListEmptyComponent={

@@ -1,127 +1,177 @@
+import { AnimalAndPreferencesDTO, AnimalDTO, AnimalPreferencesDTO, PetListItemDTO } from '@/dtos/animal.dto';
+import { animalPhotoService } from './animalPhotoService';
+import { animalPreferencesService } from './animalPreferencesService';
+import { authService } from './authService';
 import { supabase } from './supabase';
 
-export interface CreateAnimalDTO {
-  name: string;
-  species: 'dog' | 'cat' | 'other';
-  sex: 'male' | 'female';
-  size: 'small' | 'medium' | 'large';
-  age_group: 'puppy' | 'young' | 'adult' | 'senior';
-  age_years?: number;
-  birth_date?: string;
-  weight_kg?: number;
-  color?: string;
-  description?: string;
-  is_vaccinated: boolean;
-  is_neutered: boolean;
-  is_dewormed: boolean;
-  has_microchip: boolean;
-  energy: 'low' | 'medium' | 'high';
-  good_with_kids: boolean;
-  good_with_dogs: boolean;
-  good_with_cats: boolean;
-  apartment_friendly: boolean;
-  special_needs: boolean;
-  special_needs_desc?: string;
-  cover_photo_url?: string;
-}
+const ANIMALS_TABLE_NAME = 'animals';
 
-export interface PetListItemDTO {
-  id: string;
-  name: string;
-  species: 'dog' | 'cat' | 'other';
-  sex: 'male' | 'female';
-  size: 'small' | 'medium' | 'large';
-  age_group: 'puppy' | 'young' | 'adult' | 'senior';
-  is_vaccinated: boolean;
-  cover_photo_url: string | null;
-  ongs: {
-    name: string;
-  } | null;
-}
+const PREFERENCES_KEYS = [
+  'energy', 'good_with_kids', 'good_with_dogs', 'good_with_cats',
+  'apartment_friendly', 'special_needs', 'special_needs_desc'
+];
 
 export const animalService = {
-  async createAnimal(animal: CreateAnimalDTO) {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error('Usuário não autenticado.');
+  async getAnimalById(animalId: string) {
+    const { data, error } = await supabase
+      .from(ANIMALS_TABLE_NAME)
+      .select('*')
+      .eq('id', animalId)
+      .single()
 
-    let calculatedBirthDate = animal.birth_date;
-    if (!calculatedBirthDate && animal.age_years !== undefined) {
-      const d = new Date();
-      d.setFullYear(d.getFullYear() - Math.floor(animal.age_years));
-      const months = Math.round((animal.age_years % 1) * 12);
-      d.setMonth(d.getMonth() - months);
-      calculatedBirthDate = d.toISOString().split('T')[0];
+    if (error) {
+      throw new Error(`Erro ao buscar dados do animal: ${error.message}`)
     }
 
-    const animalData = {
-      name: animal.name,
-      species: animal.species,
-      sex: animal.sex,
-      size: animal.size,
-      age_group: animal.age_group,
-      birth_date: calculatedBirthDate,
-      weight_kg: animal.weight_kg,
-      color: animal.color,
-      description: animal.description,
-      is_vaccinated: animal.is_vaccinated,
-      is_neutered: animal.is_neutered,
-      is_dewormed: animal.is_dewormed,
-      has_microchip: animal.has_microchip,
-      cover_photo_url: animal.cover_photo_url,
-      created_by: user.id,
-      status: 'available',
-    };
+    return data as unknown as AnimalDTO
+  },
 
-    const { data: createdAnimal, error: animalError } = await supabase
+  async getAnimalDataAndPreferencesByAnimalId(animalId: string) {
+    const { data, error } = await supabase
       .from('animals')
+      .select(`
+    *,
+    ...animals_preferences (*)
+  `)
+      .eq('id', animalId)
+      .single()
+
+    if (error) {
+      throw new Error(`Erro ao buscar dados completos do animal: ${error.message}`)
+    }
+
+    return data as unknown as AnimalAndPreferencesDTO
+  },
+
+  async insert(animalData: any) {
+    const { data, error } = await supabase
+      .from(ANIMALS_TABLE_NAME)
       .insert([animalData])
-      .select('id')
-      .single();
+      .select()
+      .single()
 
-    if (animalError) throw new Error(`Erro ao criar animal: ${animalError.message}`);
+    if (error) throw new Error(`Erro ao criar animal: ${error.message}`)
 
-    const animalId = createdAnimal.id;
+    return data
+  },
+
+  async update(animalData: any, animalId: string) {
+    const { data, error } = await supabase
+      .from(ANIMALS_TABLE_NAME)
+      .update([animalData])
+      .eq('id', animalId)
+      .select()
+      .single()
+
+    if (error) throw new Error(`Erro ao atualizar animal: ${error.message}`)
+
+    return data
+  },
+
+  async createAnimal(animal: AnimalAndPreferencesDTO) {
+    const user = await authService.getAuthenticatedUser();
+    if (!user) throw new Error('Usuário não autenticado.');
 
     try {
-      const preferencesData = {
-        animal_id: animalId,
-        energy: animal.energy,
-        good_with_kids: animal.good_with_kids,
-        good_with_dogs: animal.good_with_dogs,
-        good_with_cats: animal.good_with_cats,
-        apartment_friendly: animal.apartment_friendly,
-        special_needs: animal.special_needs,
-        special_needs_desc: animal.special_needs_desc,
-      };
+      const {
+        energy,
+        good_with_kids,
+        good_with_dogs,
+        good_with_cats,
+        apartment_friendly,
+        special_needs,
+        special_needs_desc,
+        // Pega o resto e guarda na variável
+        ...animalData
+      } = animal;
 
-      const { error: prefError } = await supabase
-        .from('animals_preferences')
-        .insert([preferencesData]);
+      const newAnimal = await this.insert({
+        ...animalData,
+        created_by: user.id,
+        status: 'available'
+      });
 
-      if (prefError) throw prefError;
+      if (!newAnimal || !newAnimal.id) {
+        throw new Error('Erro ao cadastrar animal.');
+      }
+
+      await animalPreferencesService.insert({
+        animal_id: newAnimal.id,
+        energy,
+        good_with_kids,
+        good_with_dogs,
+        good_with_cats,
+        apartment_friendly,
+        special_needs,
+        special_needs_desc,
+      } as unknown as AnimalPreferencesDTO);
 
       if (animal.cover_photo_url) {
         const fileName = animal.cover_photo_url.split('/').pop() || 'unknown.jpg';
 
-        const photoData = {
+        await animalPhotoService.insert({
+          animal_id: newAnimal.id,
+          storage_path: fileName,
+          public_url: animal.cover_photo_url,
+          is_cover: true,
+          is_active: true,
+          sort_order: 1
+        })
+      }
+
+      return newAnimal;
+
+    } catch (error: any) {
+      throw new Error(`Falha ao salvar dados complementares. Operação desfeita. Detalhes: ${error.message}`);
+    }
+  },
+
+  async updateAnimal(animalId: string, animal: AnimalAndPreferencesDTO) {
+    const user = await authService.getAuthenticatedUser();
+    if (!user) throw new Error('Usuário não autenticado.');
+
+    console.log("SERVICE")
+    console.log(animal)
+    console.log("SERVICE")
+
+    try {
+      // Remove elementos indesejados
+      const { photoUri, match_vector, animal_id, ...rest } = animal as any;
+
+      // Prepara os dois objetos separados
+      const animalData: any = {};
+      const preferencesData: any = { animal_id: animalId }; // Garante o ID da relação
+
+      // Varre as propriedades restantes e distribuímos
+      for (const [key, value] of Object.entries(rest)) {
+        if (PREFERENCES_KEYS.includes(key)) {
+          preferencesData[key] = value;
+        } else {
+          animalData[key] = value;
+        }
+      }
+
+      // Chamadas limpas para o banco
+      await this.update(animalData as AnimalDTO, animalId);
+      await animalPreferencesService.update(preferencesData as AnimalPreferencesDTO, animalId);
+
+      if (animal.cover_photo_url) {
+        const fileName = animal.cover_photo_url.split('/').pop() || 'unknown.jpg';
+
+        await animalPhotoService.update({
           animal_id: animalId,
           storage_path: fileName,
           public_url: animal.cover_photo_url,
           is_cover: true,
-        };
-
-        const { error: photoError } = await supabase
-          .from('animal_photos')
-          .insert([photoData]);
-
-        if (photoError) throw photoError;
+          is_active: true,
+          sort_order: 1,
+          updated_at: new Date().toISOString()
+        })
       }
 
-      return createdAnimal;
-
+      return animal;
     } catch (error: any) {
-      await supabase.from('animals').delete().eq('id', animalId);
-      throw new Error(`Falha ao salvar dados complementares. Operação desfeita. Detalhes: ${error.message}`);
+      throw new Error(`Falha ao atualizar animal. Detalhes: ${error.message}`);
     }
   },
 

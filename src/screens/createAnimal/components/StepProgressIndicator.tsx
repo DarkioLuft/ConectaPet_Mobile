@@ -1,5 +1,4 @@
 // Barra de progresso visual do topo que mostra a etapa atual e o título correspondente.
-
 import { colors } from '@/constants/colors';
 import { StyleSheet, Text, View } from 'react-native';
 

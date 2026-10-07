@@ -103,7 +103,7 @@ export function useProfile() {
       cpf: profile?.cpf || '',
       phone: profile?.phone || '',
       birthDate: profile?.birth_date || '',
-      avatarUrl: profile?.avatar_url || null,
+      avatarUrl: profile?.avatar_url || '',
     });
   }
 

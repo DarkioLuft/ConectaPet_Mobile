@@ -7,17 +7,17 @@ import {
   SIZE_LABELS,
   SPECIES_LABELS,
 } from '@/constants/enums';
+import { AnyAnimalForm } from '@/types/animal.types';
 import { PhotoInterface } from '@/utils/photoUtils';
 import {
   StyleSheet,
   Text,
   View
 } from 'react-native';
-import { CreateAnimalFormData } from '../types/createAnimal.types';
 import { SummaryRow } from './SummaryRow';
 
 interface Step4PhotoUploadProps {
-  data: CreateAnimalFormData;
+  data: AnyAnimalForm;
   onTakePhoto: () => Promise<PhotoInterface | undefined>;
   onPickGallery: () => Promise<PhotoInterface | undefined>;
   onRemovePhoto: () => void;
@@ -37,7 +37,7 @@ export function Step4PhotoUpload({
 
       {/* Área de Preview da Foto */}
       <ImagePreviewContainer
-        photoUri={data.photoUri}
+        photoUri={data.photoUri || null}
         onTakePhoto={onTakePhoto}
         onPickGallery={onPickGallery}
         onRemovePhoto={onRemovePhoto}
@@ -93,10 +93,6 @@ export function Step4PhotoUpload({
     </View>
   );
 }
-
-// ==========================================
-// ESTILOS
-// ==========================================
 
 const styles = StyleSheet.create({
   container: {

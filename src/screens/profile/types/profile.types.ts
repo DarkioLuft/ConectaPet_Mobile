@@ -10,7 +10,7 @@ export interface PersonalFormData {
   cpf: string;
   phone: string;
   birthDate: string;
-  avatarUrl: string | null;
+  avatarUrl: string;
 }
 
 export interface AddressFormData {

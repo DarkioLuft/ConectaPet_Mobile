@@ -2,15 +2,15 @@
 
 import { CustomTextInputField } from '@/components/forms/CustomTextInputField';
 import { colors } from '@/constants/colors';
+import { AnyAnimalForm, EnergyEnum } from '@/types/animal.types';
 import { StyleSheet, Text, View } from 'react-native';
 import { BooleanChoiceGroup } from '../../../components/forms/BooleanChoiceGroup';
 import { SelectButtonGroup } from '../../../components/forms/SelectButtonGroup';
 import { ENERGY_LABELS } from '../../../constants/enums';
-import { CreateAnimalFormData, EnergyEnum } from '../types/createAnimal.types';
 
 interface Step3Props {
-  data: CreateAnimalFormData;
-  onUpdate: <K extends keyof CreateAnimalFormData>(k: K, v: CreateAnimalFormData[K]) => void;
+  data: AnyAnimalForm;
+  onUpdate: <K extends keyof AnyAnimalForm>(k: K, v: AnyAnimalForm[K]) => void;
 }
 
 export function Step3Preferences({ data, onUpdate }: Step3Props) {
@@ -20,7 +20,7 @@ export function Step3Preferences({ data, onUpdate }: Step3Props) {
 
       <SelectButtonGroup<EnergyEnum>
         label="Nível de Energia *"
-        selectedValue={data.energy}
+        selectedValue={data.energy as EnergyEnum}
         onSelect={(val) => onUpdate('energy', val)}
         options={(Object.keys(ENERGY_LABELS) as EnergyEnum[]).map((key) => ({
           label: ENERGY_LABELS[key],
@@ -32,35 +32,35 @@ export function Step3Preferences({ data, onUpdate }: Step3Props) {
 
       <BooleanChoiceGroup
         label="Bom com crianças"
-        value={data.good_with_kids}
+        value={data.good_with_kids!}
         onValueChange={(val) => onUpdate('good_with_kids', val)}
       />
       <BooleanChoiceGroup
         label="Bom com outros cachorros"
-        value={data.good_with_dogs}
+        value={data.good_with_dogs!}
         onValueChange={(val) => onUpdate('good_with_dogs', val)}
       />
       <BooleanChoiceGroup
         label="Bom com gatos"
-        value={data.good_with_cats}
+        value={data.good_with_cats!}
         onValueChange={(val) => onUpdate('good_with_cats', val)}
       />
       <BooleanChoiceGroup
         label="Adequado para apartamento"
-        value={data.apartment_friendly}
+        value={data.apartment_friendly!}
         onValueChange={(val) => onUpdate('apartment_friendly', val)}
       />
 
       <Text style={styles.sectionHeaderTitle}>2. Cuidados Especiais *</Text>
       <BooleanChoiceGroup
         label="Possui necessidades especiais"
-        value={data.special_needs}
+        value={data.special_needs!}
         onValueChange={(val) => onUpdate('special_needs', val)}
       />
 
       {data.special_needs && (
         <CustomTextInputField
-          value={data.special_needs_desc}
+          value={data.special_needs_desc || ''}
           label='Descrição das Necessidades Especiais *'
           onChangeText={(val) => onUpdate('special_needs_desc', val)}
           numberOfLines={3}

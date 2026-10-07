@@ -1,4 +1,5 @@
 import { CreateAnimalScreen } from '@/screens/createAnimal/CreateAnimalScreen';
+import { UpdateAnimalScreen } from '@/screens/createAnimal/UpdateAnimalScreen';
 import { HomeScreen } from '@/screens/home/HomeScreen';
 import { MaintenanceScreen } from '@/screens/maintenance/MaintenanceScreen';
 import { ProfileScreen } from '@/screens/profile/ProfileScreen'; // <-- Importe aqui
@@ -28,6 +29,7 @@ export function AppRoutes() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Tabs" component={TabRoutes} />
       <Stack.Screen name="CreateAnimal" component={CreateAnimalScreen} />
+      <Stack.Screen name="UpdateAnimal" component={UpdateAnimalScreen} />
     </Stack.Navigator>
   );
 }

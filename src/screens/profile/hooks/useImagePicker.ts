@@ -31,13 +31,13 @@ export function useImagePicker({ onSuccess }: UseImagePickerOptions) {
             // Garante que o usuário está autenticado
             const user = await authService.getAuthenticatedUser();
 
-            // 3. Delega o processamento e upload ao serviço
+            // Delega o processamento e upload ao serviço
             const avatarUrl = await photoUploadService.uploadAvatar(
                 res.assets[0].base64,
                 user.id
             );
 
-            // 4. Notifica a tela de sucesso
+            // Notifica a tela de sucesso
             onSuccess(avatarUrl);
             AppToast.success("Sucesso", "Avatar atualizado com sucesso!")
         } catch (error: any) {

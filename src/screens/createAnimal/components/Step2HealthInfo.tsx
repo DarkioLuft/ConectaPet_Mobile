@@ -1,14 +1,13 @@
 // Etapa 2: Descrição livre e controle sanitário (vacinas, castração e microchip).
-
 import { CustomTextInputField } from '@/components/forms/CustomTextInputField';
 import { colors } from '@/constants/colors';
+import { AnyAnimalForm } from '@/types/animal.types';
 import { StyleSheet, Text, View } from 'react-native';
 import { BooleanChoiceGroup } from '../../../components/forms/BooleanChoiceGroup';
-import { CreateAnimalFormData } from '../types/createAnimal.types';
 
 interface Step2Props {
-  data: CreateAnimalFormData;
-  onUpdate: <K extends keyof CreateAnimalFormData>(k: K, v: CreateAnimalFormData[K]) => void;
+  data: AnyAnimalForm;
+  onUpdate: <K extends keyof AnyAnimalForm>(k: K, v: AnyAnimalForm[K]) => void;
 }
 
 export function Step2HealthInfo({ data, onUpdate }: Step2Props) {
@@ -17,7 +16,7 @@ export function Step2HealthInfo({ data, onUpdate }: Step2Props) {
       <Text style={styles.sectionTitle}>Histórico e Saúde</Text>
 
       <CustomTextInputField
-        value={data.description}
+        value={data.description || ''}
         label='Descrição do Animal (opcional)'
         onChangeText={(val) => onUpdate('description', val)}
         numberOfLines={4}
@@ -30,23 +29,29 @@ export function Step2HealthInfo({ data, onUpdate }: Step2Props) {
 
       <BooleanChoiceGroup
         label="Vacinado"
-        value={data.is_vaccinated}
+        value={data.is_vaccinated!}
         onValueChange={(val) => onUpdate('is_vaccinated', val)}
+        key={data.id + `{data.is_vaccinated}`}
+
       />
       <BooleanChoiceGroup
         label="Castrado"
-        value={data.is_neutered}
+        value={data.is_neutered!}
         onValueChange={(val) => onUpdate('is_neutered', val)}
+        key={data.id + `{data.is_neutered}`}
+
       />
       <BooleanChoiceGroup
         label="Desparasitado"
-        value={data.is_dewormed}
+        value={data.is_dewormed!}
         onValueChange={(val) => onUpdate('is_dewormed', val)}
+        key={data.id + `{data.is_dewormed}`}
       />
       <BooleanChoiceGroup
         label="Possui microchip"
-        value={data.has_microchip}
+        value={data.has_microchip!}
         onValueChange={(val) => onUpdate('has_microchip', val)}
+        key={data.id + `{data.has_microchip}`}
       />
     </View>
   );
