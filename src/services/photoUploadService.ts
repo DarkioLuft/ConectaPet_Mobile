@@ -1,5 +1,8 @@
+import { decodeBase64ToBytes } from "@/utils/photoUtils";
 import { profileService } from "./profileService";
 import { supabase } from "./supabase";
+
+type buckets = 'profile-photos' | 'animal-photos'
 
 export const photoUploadService = {
     /**
@@ -7,40 +10,45 @@ export const photoUploadService = {
      * atualizando o perfil em seguida.
      */
     async uploadAvatar(base64Image: string, userId: string): Promise<string> {
-        // 1. Converte base64 para Uint8Array
-        const bytes = convertBase64ToUint8Array(base64Image);
+        // Converte base64 para Uint8Array
+        const bytes = decodeBase64ToBytes(base64Image);
 
         const fileName = `${userId}_avatar.jpg`;
         const filePath = `avatars/${fileName}`;
 
-        // 2. Upload para o Supabase Storage
-        await uploadToStorage(filePath, bytes);
+        // Upload para o Supabase Storage
+        await uploadToStorage('profile-photos', filePath, bytes);
 
-        // 3. Obtém a URL pública da imagem
-        const publicUrl = getPublicUrlFromImage(filePath);
+        // Obtém a URL pública da imagem
+        const publicUrl = getPublicUrlFromImage('profile-photos', filePath);
 
-        // 4. Atualiza o perfil do usuário com a nova URL
+        // Atualiza o perfil do usuário com a nova URL
         await profileService.updateAvatarUrl(userId, publicUrl);
+
+        return publicUrl;
+    },
+
+    async uploadAnimalPhoto(base64Data: string, animalName: string): Promise<string> {
+        const cleanName = animalName.toLowerCase().replace(/[^a-z0-9]/g, '_');
+        const filePath = `${Date.now()}_${cleanName}.jpg`;
+
+        const bytes = decodeBase64ToBytes(base64Data);
+
+        // Upload para o Supabase Storage
+        await uploadToStorage('animal-photos', filePath, bytes);
+
+        // Obtém a URL pública da imagem
+        const publicUrl = getPublicUrlFromImage('animal-photos', filePath);
 
         return publicUrl;
     },
 };
 
-const convertBase64ToUint8Array = (base64Image: string) => {
-    const binaryString = atob(base64Image);
-    const bytes = new Uint8Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-    }
-
-    return bytes
-}
-
-const uploadToStorage = async (filePath: string, bytes: Uint8Array<ArrayBuffer>) => {
+const uploadToStorage = async (bucket: buckets, filePath: string, bytes: Uint8Array<ArrayBufferLike>) => {
     const { error: uploadError } = await supabase.storage
-        .from('profile-photos')
+        .from(bucket)
         .upload(filePath, bytes, {
-            contentType: 'image/jpeg',
+            contentType: 'image/jpg',
             upsert: true,
         });
 
@@ -49,9 +57,9 @@ const uploadToStorage = async (filePath: string, bytes: Uint8Array<ArrayBuffer>)
     }
 }
 
-const getPublicUrlFromImage = (filePath: string) => {
+const getPublicUrlFromImage = (bucket: buckets, filePath: string) => {
     const { data } = supabase.storage
-        .from('profile-photos')
+        .from(bucket)
         .getPublicUrl(filePath);
 
     const publicUrl = data.publicUrl;

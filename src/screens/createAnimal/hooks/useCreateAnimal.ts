@@ -1,4 +1,5 @@
 // Hook com as regras de negócio da interface, validações de etapas, fotos e envio ao Supabase.
+import { photoUploadService } from '@/services/photoUploadService';
 import { PhotoInterface } from '@/utils/photoUtils';
 import { AppToast } from '@/utils/toast';
 import { useState } from 'react';
@@ -144,13 +145,11 @@ export function useCreateAnimal(onSuccess?: () => void) {
   const handleSubmit = async () => {
     try {
       setIsSubmitting(true);
-      let photoUrl: string | undefined = undefined;
+      let photoUrl = null;
 
       // Realiza o upload utilizando os bytes da imagem em base64
       if (photoBase64) {
-        photoUrl = await animalService.uploadAnimalPhotoBase64(photoBase64, formData.name);
-      } else if (formData.photoUri) {
-        photoUrl = await animalService.uploadAnimalPhoto(formData.photoUri, formData.name);
+        photoUrl = await photoUploadService.uploadAnimalPhoto(photoBase64, formData.name);
       }
 
       const parsedWeight = formData.weight_kg
