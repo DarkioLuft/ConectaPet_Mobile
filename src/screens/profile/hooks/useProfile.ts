@@ -72,17 +72,13 @@ export function useProfile() {
       ]);
 
       setHousingTypes(housingRes.data || []);
-      console.log('Housing types fetched:', housingRes.data);
       setIsVolunteer(Boolean(memberRes.data && memberRes.data.length > 0));
-      console.log('Is volunteer:', Boolean(memberRes.data && memberRes.data.length > 0));
 
       if (profileRes.data) {
         setRawPersonalData(profileRes.data);
       }
 
-      console.log('Preferences data fetched:', prefsRes.data);
       if (prefsRes.data) {
-        console.log('Preferences data fetched:', prefsRes.data);
         setRawPreferencesData(prefsRes.data);
       }
 

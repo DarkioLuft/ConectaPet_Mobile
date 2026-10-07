@@ -40,7 +40,6 @@ export function usePreferencesSection({ initialData, userId, onSuccess }: UseAdo
 
     // Atualização manual de outros campos do form
     const updateField = (field: keyof AdopterPreferencesFormData, value: any) => {
-        console.log(`Updating field ${field} with value:`, value);
         setPreferencesData((prev) => ({ ...prev, [field]: value }));
     };
 

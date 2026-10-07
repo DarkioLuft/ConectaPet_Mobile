@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   scrollContent: {
+    flexGrow: 1,
     paddingBottom: 95,
   },
 });

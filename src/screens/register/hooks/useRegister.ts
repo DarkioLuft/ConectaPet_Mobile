@@ -67,14 +67,6 @@ export function useRegister() {
 
                 setLoading(true);
                 try {
-                        console.log('Registering user with data:', {
-                                full_name: nome.trim(),
-                                cpf: clearSpecialCharacters(cpf),
-                                email: email.trim(),
-                                phone: cleanPhone,
-                                birth_date: dateUtils.formatDateFromSlashToDash(date),
-                                password
-                        });
                         await authService.register({
                                 fullName: nome.trim(),
                                 cpf: clearSpecialCharacters(cpf),
