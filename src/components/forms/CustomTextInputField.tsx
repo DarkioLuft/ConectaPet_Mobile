@@ -27,7 +27,7 @@ export function CustomTextInputField({
         };
 
         return (
-                <View>
+                <View style={{ marginTop: 16 }}>
                         {label ? (<Text style={styles.label}>{label}</Text>) : null}
                         <TextInput
                                 style={[
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
                 fontWeight: '700',
                 color: colors.neutral[400],
                 marginBottom: 6,
-                marginTop: 10,
         },
         input: {
                 backgroundColor: colors.white,

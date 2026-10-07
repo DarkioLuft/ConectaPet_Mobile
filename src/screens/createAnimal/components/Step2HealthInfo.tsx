@@ -1,7 +1,8 @@
 // Etapa 2: Descrição livre e controle sanitário (vacinas, castração e microchip).
 
+import { CustomTextInputField } from '@/components/forms/CustomTextInputField';
 import { colors } from '@/constants/colors';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { BooleanChoiceGroup } from '../../../components/forms/BooleanChoiceGroup';
 import { CreateAnimalFormData } from '../types/createAnimal.types';
 
@@ -15,17 +16,17 @@ export function Step2HealthInfo({ data, onUpdate }: Step2Props) {
     <View>
       <Text style={styles.sectionTitle}>Histórico e Saúde</Text>
 
-      <Text style={styles.inputLabel}>Descrição do Animal (opcional)</Text>
-      <TextInput
-        style={styles.textArea}
-        multiline
-        numberOfLines={4}
-        textAlignVertical="top"
+      <CustomTextInputField
         value={data.description}
+        label='Descrição do Animal (opcional)'
         onChangeText={(val) => onUpdate('description', val)}
+        numberOfLines={4}
+        multiline
+        textAlignVertical="top"
+        style={{ height: 100 }}
       />
 
-      <Text style={styles.groupTitle}>Controle Sanitário *</Text>
+      <Text style={styles.sectionHeaderTitle}>1. Controle Sanitário *</Text>
 
       <BooleanChoiceGroup
         label="Vacinado"
@@ -55,31 +56,13 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#111827',
-    marginBottom: 16,
+    color: colors.neutral[800],
   },
-  inputLabel: {
+  sectionHeaderTitle: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 6,
-  },
-  textArea: {
-    height: 100,
-    backgroundColor: colors.white,
-    borderWidth: 1,
-    borderColor: colors.neutral[400],
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 15,
-    color: colors.text,
-    marginBottom: 20,
-  },
-  groupTitle: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: colors.text,
-    marginBottom: 6,
-    marginTop: 4,
+    fontWeight: '800',
+    color: colors.primary[500],
+    marginTop: 25,
+    marginBottom: 8,
   },
 });

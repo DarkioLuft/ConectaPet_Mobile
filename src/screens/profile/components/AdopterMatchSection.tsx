@@ -1,4 +1,5 @@
 import { CustomPrimaryActionButton } from '@/components/buttons/CustomPrimaryActionButton';
+import { BooleanChoiceGroup } from '@/components/forms/BooleanChoiceGroup';
 import { CustomChip } from '@/components/forms/CustomChip';
 import { colors } from '@/constants/colors';
 import { StyleSheet, Text, View } from 'react-native';
@@ -33,31 +34,6 @@ export function AdopterMatchSection({
       onChange('preferredSizes', [...data.preferredSizes, size]);
     }
   };
-
-  const renderYesNo = (
-    label: string,
-    value: boolean | null,
-    onSelect: (val: boolean) => void
-  ) => (
-    <View style={styles.choiceGroup}>
-      <Text style={styles.choiceLabel}>{label}</Text>
-      <View style={styles.btnRow}>
-        <CustomChip
-          label={'Sim'}
-          selected={value == true ? true : false}
-          onPress={() => onSelect(true)}
-          style={{ flex: 1 }}
-        />
-
-        <CustomChip
-          label={'Não'}
-          selected={value == false ? true : false}
-          onPress={() => onSelect(false)}
-          style={{ flex: 1 }}
-        />
-      </View>
-    </View>
-  );
 
   return (
     <View style={styles.container}>
@@ -94,11 +70,33 @@ export function AdopterMatchSection({
 
       {/* 3. Convivência e Família */}
       <Text style={styles.sectionHeaderTitle}>3. Convivência e Família</Text>
-      {renderYesNo('Tem crianças na casa?', data.hasChildren, (v) => onChange('hasChildren', v))}
-      {renderYesNo('Possui outros cães?', data.hasOtherDogs, (v) => onChange('hasOtherDogs', v))}
-      {renderYesNo('Possui outros gatos?', data.hasOtherCats, (v) => onChange('hasOtherCats', v))}
-      {renderYesNo('Será o primeiro pet?', data.firstTimeOwner, (v) => onChange('firstTimeOwner', v))}
-      {renderYesNo('Acolhe pet com necessidades especiais?', data.acceptsSpecialNeeds, (v) => onChange('acceptsSpecialNeeds', v))}
+      <BooleanChoiceGroup
+        label='Tem crianças na casa?'
+        value={data.hasChildren}
+        onValueChange={(v) => onChange('hasChildren', v)}
+      />
+
+      <BooleanChoiceGroup
+        label='Possui outros cães?'
+        value={data.hasOtherDogs}
+        onValueChange={(v) => onChange('hasOtherDogs', v)}
+      />
+
+      <BooleanChoiceGroup
+        label='Possui outros gatos?'
+        value={data.hasOtherCats}
+        onValueChange={(v) => onChange('hasOtherCats', v)}
+      />
+      <BooleanChoiceGroup
+        label='Será o primeiro pet?'
+        value={data.firstTimeOwner}
+        onValueChange={(v) => onChange('firstTimeOwner', v)}
+      />
+      <BooleanChoiceGroup
+        label='Acolhe pet com necessidades especiais?'
+        value={data.acceptsSpecialNeeds}
+        onValueChange={(v) => onChange('acceptsSpecialNeeds', v)}
+      />
 
       {/* 4. Espécies e Portes Aceitas */}
       <Text style={styles.sectionHeaderTitle}>4. Espécies e Portes Aceitas</Text>
@@ -171,9 +169,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
     marginTop: 4,
-  },
-  choiceGroup: {
-    marginBottom: 10,
   },
   choiceLabel: {
     fontSize: 13,

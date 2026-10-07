@@ -1,7 +1,8 @@
 // Etapa 3: Nível de energia, sociabilidade com outros pets/crianças e cuidados especiais.
 
+import { CustomTextInputField } from '@/components/forms/CustomTextInputField';
 import { colors } from '@/constants/colors';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { BooleanChoiceGroup } from '../../../components/forms/BooleanChoiceGroup';
 import { SelectButtonGroup } from '../../../components/forms/SelectButtonGroup';
 import { ENERGY_LABELS } from '../../../constants/enums';
@@ -15,18 +16,19 @@ interface Step3Props {
 export function Step3Preferences({ data, onUpdate }: Step3Props) {
   return (
     <View>
+      <Text style={styles.sectionTitle}>Preferências de Convivência</Text>
+
       <SelectButtonGroup<EnergyEnum>
         label="Nível de Energia *"
         selectedValue={data.energy}
         onSelect={(val) => onUpdate('energy', val)}
-        columns={3}
         options={(Object.keys(ENERGY_LABELS) as EnergyEnum[]).map((key) => ({
           label: ENERGY_LABELS[key],
           value: key,
         }))}
       />
 
-      <Text style={styles.groupTitle}>Sociabilidade e Espaço *</Text>
+      <Text style={styles.sectionHeaderTitle}>1. Sociabilidade e Espaço *</Text>
 
       <BooleanChoiceGroup
         label="Bom com crianças"
@@ -49,7 +51,7 @@ export function Step3Preferences({ data, onUpdate }: Step3Props) {
         onValueChange={(val) => onUpdate('apartment_friendly', val)}
       />
 
-      <Text style={styles.groupTitle}>Cuidados Especiais *</Text>
+      <Text style={styles.sectionHeaderTitle}>2. Cuidados Especiais *</Text>
       <BooleanChoiceGroup
         label="Possui necessidades especiais"
         value={data.special_needs}
@@ -57,47 +59,31 @@ export function Step3Preferences({ data, onUpdate }: Step3Props) {
       />
 
       {data.special_needs && (
-        <View style={styles.specialNeedsContainer}>
-          <Text style={styles.inputLabel}>Descrição das Necessidades Especiais *</Text>
-          <TextInput
-            style={styles.textArea}
-            multiline
-            numberOfLines={3}
-            textAlignVertical="top"
-            value={data.special_needs_desc}
-            onChangeText={(val) => onUpdate('special_needs_desc', val)}
-          />
-        </View>
+        <CustomTextInputField
+          value={data.special_needs_desc}
+          label='Descrição das Necessidades Especiais *'
+          onChangeText={(val) => onUpdate('special_needs_desc', val)}
+          numberOfLines={3}
+          multiline
+          textAlignVertical="top"
+          style={{ height: 80 }}
+        />
       )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  groupTitle: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#111827',
-    marginTop: 12,
-    marginBottom: 6,
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: colors.neutral[800],
   },
-  specialNeedsContainer: {
-    marginTop: 10,
-  },
-  inputLabel: {
+  sectionHeaderTitle: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 6,
-  },
-  textArea: {
-    height: 80,
-    backgroundColor: colors.white,
-    borderWidth: 1,
-    borderColor: colors.neutral[400],
-    borderRadius: 8,
-    padding: 10,
-    fontSize: 15,
-    color: colors.text,
-  },
+    fontWeight: '800',
+    color: colors.primary[500],
+    marginTop: 25,
+    marginBottom: 8,
+  }
 });

@@ -1,7 +1,8 @@
 // Componente de botões em grade para seleção única (espécie, sexo, porte, etc.).
 
 import { colors } from '@/constants/colors';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { CustomChip } from './CustomChip';
 
 export interface SelectOption<T = string> {
   label: string;
@@ -13,7 +14,6 @@ interface SelectButtonGroupProps<T = string> {
   options: SelectOption<T>[];
   selectedValue: T | null;
   onSelect: (value: T) => void;
-  columns?: number;
 }
 
 export function SelectButtonGroup<T = string>({
@@ -21,7 +21,6 @@ export function SelectButtonGroup<T = string>({
   options,
   selectedValue,
   onSelect,
-  columns = 3,
 }: SelectButtonGroupProps<T>) {
   return (
     <View style={styles.container}>
@@ -29,28 +28,14 @@ export function SelectButtonGroup<T = string>({
       <View style={styles.row}>
         {options.map((option) => {
           const isSelected = selectedValue === option.value;
-          const flexBasis = columns === 2 ? '48.5%' : columns === 3 ? '31.5%' : '100%';
 
           return (
-            <TouchableOpacity
-              key={String(option.value)}
+            <CustomChip
+              label={option.label}
+              selected={isSelected}
               onPress={() => onSelect(option.value)}
-              activeOpacity={0.7}
-              style={[
-                styles.button,
-                { width: flexBasis as any },
-                isSelected ? styles.buttonSelected : styles.buttonUnselected,
-              ]}
-            >
-              <Text
-                style={[
-                  styles.buttonText,
-                  isSelected ? styles.textSelected : styles.textUnselected,
-                ]}
-              >
-                {option.label}
-              </Text>
-            </TouchableOpacity>
+              style={{ flex: 1 }}
+            />
           );
         })}
       </View>
@@ -60,45 +45,19 @@ export function SelectButtonGroup<T = string>({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
+    marginTop: 16,
     width: '100%',
   },
   label: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#374151',
+    fontSize: 13,
+    fontWeight: '700',
+    color: colors.neutral[400],
     marginBottom: 8,
   },
   row: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    rowGap: 8,
-  },
-  button: {
-    paddingVertical: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonUnselected: {
-    backgroundColor: colors.white,
-    borderColor: colors.neutral[200],
-  },
-  buttonSelected: {
-    backgroundColor: colors.primary[500],
-    borderColor: colors.primary[500],
-  },
-  buttonText: {
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  textUnselected: {
-    color: '#374151',
-  },
-  textSelected: {
-    color: colors.white,
-    fontWeight: '700',
+    gap: 8,
   },
 });

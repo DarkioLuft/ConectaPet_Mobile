@@ -1,6 +1,8 @@
 // Linha com botões "Sim" e "Não" para seleção de campos booleanos.
 
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { colors } from '@/constants/colors';
+import { StyleSheet, Text, View } from 'react-native';
+import { CustomChip } from './CustomChip';
 
 interface BooleanChoiceGroupProps {
   label: string;
@@ -17,31 +19,19 @@ export function BooleanChoiceGroup({
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.buttonGroup}>
-        <TouchableOpacity
+        <CustomChip
+          label={'Sim'}
+          selected={value == true ? true : false}
           onPress={() => onValueChange(true)}
-          activeOpacity={0.7}
-          style={[
-            styles.button,
-            value === true ? styles.buttonActive : styles.buttonInactive,
-          ]}
-        >
-          <Text style={[styles.buttonText, value === true ? styles.textActive : styles.textInactive]}>
-            Sim
-          </Text>
-        </TouchableOpacity>
+          style={{ flex: 1 }}
+        />
 
-        <TouchableOpacity
+        <CustomChip
+          label={'Não'}
+          selected={value == false ? true : false}
           onPress={() => onValueChange(false)}
-          activeOpacity={0.7}
-          style={[
-            styles.button,
-            value === false ? styles.buttonActive : styles.buttonInactive,
-          ]}
-        >
-          <Text style={[styles.buttonText, value === false ? styles.textActive : styles.textInactive]}>
-            Não
-          </Text>
-        </TouchableOpacity>
+          style={{ flex: 1 }}
+        />
       </View>
     </View>
   );
@@ -49,44 +39,17 @@ export function BooleanChoiceGroup({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 10,
+    marginBottom: 10,
   },
   label: {
-    fontSize: 15,
-    color: '#1f2937',
-    flex: 1,
+    fontSize: 13,
+    fontWeight: '700',
+    color: colors.neutral[400],
+    marginBottom: 6,
   },
   buttonGroup: {
     flexDirection: 'row',
     gap: 8,
-  },
-  button: {
-    width: 62,
-    paddingVertical: 8,
-    borderRadius: 6,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonActive: {
-    backgroundColor: '#16a34a',
-    borderColor: '#16a34a',
-  },
-  buttonInactive: {
-    backgroundColor: '#ffffff',
-    borderColor: '#d1d5db',
-  },
-  buttonText: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  textActive: {
-    color: '#ffffff',
-  },
-  textInactive: {
-    color: '#4b5563',
+    marginTop: 4,
   },
 });

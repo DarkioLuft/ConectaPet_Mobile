@@ -1,7 +1,8 @@
 // Etapa 1: Identificação básica do animal (nome, espécie, sexo, porte, idade e peso).
 
+import { CustomTextInputField } from '@/components/forms/CustomTextInputField';
 import { colors } from '@/constants/colors';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { SelectButtonGroup } from '../../../components/forms/SelectButtonGroup';
 import {
   AGE_GROUP_LABELS,
@@ -27,10 +28,9 @@ export function Step1BasicInfo({ data, onUpdate }: Step1Props) {
     <View>
       <Text style={styles.sectionTitle}>Identificação Básica</Text>
 
-      <Text style={styles.inputLabel}>Nome do Pet *</Text>
-      <TextInput
-        style={styles.textInput}
+      <CustomTextInputField
         value={data.name}
+        label='Nome do Pet *'
         onChangeText={(val) => onUpdate('name', val)}
       />
 
@@ -38,7 +38,6 @@ export function Step1BasicInfo({ data, onUpdate }: Step1Props) {
         label="Espécie *"
         selectedValue={data.species}
         onSelect={(val) => onUpdate('species', val)}
-        columns={3}
         options={(Object.keys(SPECIES_LABELS) as SpeciesEnum[]).map((key) => ({
           label: SPECIES_LABELS[key],
           value: key,
@@ -49,7 +48,6 @@ export function Step1BasicInfo({ data, onUpdate }: Step1Props) {
         label="Sexo *"
         selectedValue={data.sex}
         onSelect={(val) => onUpdate('sex', val)}
-        columns={2}
         options={(Object.keys(SEX_LABELS) as SexEnum[]).map((key) => ({
           label: SEX_LABELS[key],
           value: key,
@@ -60,7 +58,6 @@ export function Step1BasicInfo({ data, onUpdate }: Step1Props) {
         label="Porte do Animal *"
         selectedValue={data.size}
         onSelect={(val) => onUpdate('size', val)}
-        columns={3}
         options={(Object.keys(SIZE_LABELS) as SizeEnum[]).map((key) => ({
           label: SIZE_LABELS[key],
           value: key,
@@ -71,7 +68,6 @@ export function Step1BasicInfo({ data, onUpdate }: Step1Props) {
         label="Faixa Etária *"
         selectedValue={data.age_group}
         onSelect={(val) => onUpdate('age_group', val)}
-        columns={2}
         options={(Object.keys(AGE_GROUP_LABELS) as AgeGroupEnum[]).map((key) => ({
           label: AGE_GROUP_LABELS[key],
           value: key,
@@ -80,38 +76,31 @@ export function Step1BasicInfo({ data, onUpdate }: Step1Props) {
 
       <View style={styles.row}>
         <View style={styles.col}>
-          <Text style={[styles.inputLabel, styles.alignedLabel]}>
-            Idade em anos (opcional)
-          </Text>
-          <TextInput
-            style={styles.textInput}
-            keyboardType="number-pad"
-            maxLength={2} // Limita a 2 dígitos (ex: até 99 anos)
-            placeholder="Ex: 2"
+          <CustomTextInputField
             value={data.age_years}
+            label='Idade em anos (opcional)'
+            placeholder="Ex: 2"
+            maxLength={2} // Limita a 2 dígitos (ex: até 99 anos)
             onChangeText={(val) => onUpdate('age_years', val.replace(/[^0-9]/g, ''))}
+            keyboardType="number-pad"
           />
         </View>
 
         <View style={styles.col}>
-          <Text style={[styles.inputLabel, styles.alignedLabel]}>
-            Peso em kg (opcional)
-          </Text>
-          <TextInput
-            style={styles.textInput}
-            keyboardType="decimal-pad"
-            maxLength={5} // Limita a 5 caracteres (ex: 12.50 ou 100.5)
-            placeholder="Ex: 10.5"
+          <CustomTextInputField
             value={data.weight_kg}
+            label='Peso em kg (opcional)'
+            placeholder="Ex: 10.5"
+            maxLength={5} // Limita a 5 caracteres (ex: 12.50 ou 100.5)
             onChangeText={(val) => onUpdate('weight_kg', val)}
+            keyboardType="decimal-pad"
           />
         </View>
       </View>
 
-      <Text style={styles.inputLabel}>Cor / Pelagem (opcional)</Text>
-      <TextInput
-        style={styles.textInput}
+      <CustomTextInputField
         value={data.color}
+        label='Cor / Pelagem (opcional)'
         onChangeText={(val) => onUpdate('color', val)}
       />
     </View>
@@ -122,29 +111,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#111827',
-    marginBottom: 16,
-  },
-  inputLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 6,
-  },
-  alignedLabel: {
-    minHeight: 38, // Garante que ambos os rótulos ocupem a mesma altura
-    justifyContent: 'flex-end',
-  },
-  textInput: {
-    height: 48,
-    backgroundColor: colors.white,
-    borderWidth: 1,
-    borderColor: colors.neutral[400],
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    fontSize: 15,
-    color: colors.text,
-    marginBottom: 16,
+    color: colors.neutral[800],
   },
   row: {
     flexDirection: 'row',

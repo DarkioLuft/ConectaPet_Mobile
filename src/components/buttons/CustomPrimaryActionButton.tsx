@@ -1,18 +1,19 @@
 import { colors } from "@/constants/colors";
 import { styles } from "@/constants/styles";
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { ActivityIndicator, StyleProp, StyleSheet, Text, TouchableOpacity, ViewStyle } from "react-native";
 
 interface CustomPrimaryActionButtonProps {
         text: string,
         onPress: () => void,
         disabled?: boolean,
         loading?: boolean,
+        style?: StyleProp<ViewStyle>; // Estilos extras
 }
 
-export function CustomPrimaryActionButton({ text, onPress, disabled, loading }: CustomPrimaryActionButtonProps) {
+export function CustomPrimaryActionButton({ text, onPress, disabled, loading, style }: CustomPrimaryActionButtonProps) {
         return (
                 <TouchableOpacity style={[stylesLocal.submitButton, styles.shadow,
-                disabled && stylesLocal.submitButtonDisabled]} onPress={onPress} disabled={disabled}>
+                disabled && stylesLocal.submitButtonDisabled, style]} onPress={onPress} disabled={disabled}>
                         {loading ? (
                                 <ActivityIndicator color={colors.white} />
                         ) : (

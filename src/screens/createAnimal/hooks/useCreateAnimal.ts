@@ -1,8 +1,7 @@
 // Hook com as regras de negócio da interface, validações de etapas, fotos e envio ao Supabase.
-
-import * as ImagePicker from 'expo-image-picker';
+import { PhotoInterface } from '@/utils/photoUtils';
+import { AppToast } from '@/utils/toast';
 import { useState } from 'react';
-import { Alert } from 'react-native';
 import { animalService } from '../../../services/animalService';
 import { CreateAnimalFormData } from '../types/createAnimal.types';
 
@@ -52,30 +51,30 @@ export function useCreateAnimal(onSuccess?: () => void) {
   const nextStep = () => {
     if (currentStep === 1) {
       if (!formData.name.trim()) {
-        Alert.alert('Campo Obrigatório', 'Informe o nome do pet.');
+        AppToast.info('Campo Obrigatório', 'Informe o nome do pet.')
         return;
       }
       if (!formData.species) {
-        Alert.alert('Campo Obrigatório', 'Selecione a espécie do pet.');
+        AppToast.info('Campo Obrigatório', 'Selecione a espécie do pet.');
         return;
       }
       if (!formData.sex) {
-        Alert.alert('Campo Obrigatório', 'Selecione o sexo do pet.');
+        AppToast.info('Campo Obrigatório', 'Selecione o sexo do pet.');
         return;
       }
       if (!formData.size) {
-        Alert.alert('Campo Obrigatório', 'Selecione o porte do animal.');
+        AppToast.info('Campo Obrigatório', 'Selecione o porte do animal.');
         return;
       }
       if (!formData.age_group) {
-        Alert.alert('Campo Obrigatório', 'Selecione a faixa etária.');
+        AppToast.info('Campo Obrigatório', 'Selecione a faixa etária.');
         return;
       }
 
       if (formData.weight_kg) {
         const weight = Number(formData.weight_kg.replace(',', '.'));
         if (isNaN(weight) || weight <= 0 || weight > 300) {
-          Alert.alert('Peso Inválido', 'O peso deve ser maior que 0 e menor que 300 kg.');
+          AppToast.error('Peso Inválido', 'O peso deve ser maior que 0 e menor que 300 kg.');
           return;
         }
       }
@@ -83,7 +82,7 @@ export function useCreateAnimal(onSuccess?: () => void) {
       if (formData.age_years) {
         const age = Number(formData.age_years);
         if (isNaN(age) || age < 0 || age > 35) {
-          Alert.alert('Idade Inválida', 'A idade deve estar entre 0 e 35 anos.');
+          AppToast.error('Idade Inválida', 'A idade deve estar entre 0 e 35 anos.');
           return;
         }
       }
@@ -94,12 +93,12 @@ export function useCreateAnimal(onSuccess?: () => void) {
         formData.is_dewormed === null ||
         formData.has_microchip === null
       ) {
-        Alert.alert('Campos Obrigatórios', 'Responda a todas as opções de controle sanitário.');
+        AppToast.info('Campos Obrigatórios', 'Responda a todas as opções de controle sanitário.');
         return;
       }
     } else if (currentStep === 3) {
       if (!formData.energy) {
-        Alert.alert('Campo Obrigatório', 'Selecione o nível de energia.');
+        AppToast.info('Campo Obrigatório', 'Selecione o nível de energia.');
         return;
       }
       if (
@@ -109,14 +108,14 @@ export function useCreateAnimal(onSuccess?: () => void) {
         formData.apartment_friendly === null ||
         formData.special_needs === null
       ) {
-        Alert.alert(
+        AppToast.info(
           'Campos Obrigatórios',
           'Responda a todas as opções de convivência e cuidados especiais.'
         );
         return;
       }
       if (formData.special_needs && !formData.special_needs_desc.trim()) {
-        Alert.alert('Campo Obrigatório', 'Descreva as necessidades especiais.');
+        AppToast.info('Campo Obrigatório', 'Descreva as necessidades especiais.');
         return;
       }
     }
@@ -132,39 +131,10 @@ export function useCreateAnimal(onSuccess?: () => void) {
     }
   };
 
-  const takePhoto = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Permissão necessária', 'É preciso permissão para usar a câmara.');
-      return;
-    }
-    const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      quality: 0.8,
-      base64: true, // Lê a imagem diretamente no Android
-    });
-    if (!result.canceled && result.assets.length > 0) {
-      updateField('photoUri', result.assets[0].uri);
-      setPhotoBase64(result.assets[0].base64 ?? null);
-    }
-  };
-
-  const pickFromGallery = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Permissão necessária', 'É preciso permissão para aceder à galeria.');
-      return;
-    }
-    const result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      quality: 0.8,
-      base64: true, // Lê a imagem diretamente no Android
-    });
-    if (!result.canceled && result.assets.length > 0) {
-      updateField('photoUri', result.assets[0].uri);
-      setPhotoBase64(result.assets[0].base64 ?? null);
-    }
-  };
+  const setPhoto = (photoData: PhotoInterface) => {
+    updateField('photoUri', photoData.photoUri);
+    setPhotoBase64(photoData.photoBase64);
+  }
 
   const removePhoto = () => {
     updateField('photoUri', null);
@@ -210,17 +180,11 @@ export function useCreateAnimal(onSuccess?: () => void) {
         special_needs_desc: formData.special_needs ? formData.special_needs_desc.trim() : undefined,
       } as any);
 
-      Alert.alert('Sucesso', 'Animal cadastrado com sucesso!', [
-        {
-          text: 'OK',
-          onPress: () => {
-            resetForm();
-            onSuccess?.();
-          },
-        },
-      ]);
+      AppToast.success('Sucesso', 'Animal cadastrado com sucesso!');
+      resetForm();
+      onSuccess?.();
     } catch (err: any) {
-      Alert.alert('Erro ao Salvar', err?.message || 'Falha ao guardar os dados do animal.');
+      AppToast.error('Erro ao Salvar', err?.message || 'Falha ao guardar os dados do animal.');
     } finally {
       setIsSubmitting(false);
     }
@@ -233,10 +197,9 @@ export function useCreateAnimal(onSuccess?: () => void) {
     updateField,
     nextStep,
     prevStep,
-    takePhoto,
-    pickFromGallery,
     removePhoto,
     resetForm,
     handleSubmit,
+    setPhoto
   };
 }

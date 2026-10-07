@@ -1,21 +1,27 @@
-// Etapa 4: Seleção da foto de capa (câmera ou galeria) e resumo final dos dados.
-
+import { ImagePreviewContainer } from '@/components/ui/ImagePreviewContainer';
 import { colors } from '@/constants/colors';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   AGE_GROUP_LABELS,
   ENERGY_LABELS,
   SEX_LABELS,
   SIZE_LABELS,
   SPECIES_LABELS,
-} from '../../../constants/enums';
+} from '@/constants/enums';
+import { PhotoInterface } from '@/utils/photoUtils';
+import {
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 import { CreateAnimalFormData } from '../types/createAnimal.types';
+import { SummaryRow } from './SummaryRow';
 
 interface Step4PhotoUploadProps {
   data: CreateAnimalFormData;
-  onTakePhoto: () => void;
-  onPickGallery: () => void;
+  onTakePhoto: () => Promise<PhotoInterface | undefined>;
+  onPickGallery: () => Promise<PhotoInterface | undefined>;
   onRemovePhoto: () => void;
+  onUpdatePhoto: (photoData: PhotoInterface) => void;
 }
 
 export function Step4PhotoUpload({
@@ -23,188 +29,111 @@ export function Step4PhotoUpload({
   onTakePhoto,
   onPickGallery,
   onRemovePhoto,
+  onUpdatePhoto
 }: Step4PhotoUploadProps) {
   return (
-    <View>
-      <Text style={styles.sectionTitle}>Imagem de Capa</Text>
+    <View style={styles.container}>
+      <Text style={styles.sectionTitle}>Imagem e Confirmação</Text>
 
-      <View style={styles.buttonsRow}>
-        <TouchableOpacity
-          onPress={onTakePhoto}
-          activeOpacity={0.7}
-          style={styles.actionButton}
-        >
-          <Text style={styles.actionButtonText}>Tirar Foto</Text>
-        </TouchableOpacity>
+      {/* Área de Preview da Foto */}
+      <ImagePreviewContainer
+        photoUri={data.photoUri}
+        onTakePhoto={onTakePhoto}
+        onPickGallery={onPickGallery}
+        onRemovePhoto={onRemovePhoto}
+        onUpdatePhoto={onUpdatePhoto}
+      />
 
-        <TouchableOpacity
-          onPress={onPickGallery}
-          activeOpacity={0.7}
-          style={styles.actionButton}
-        >
-          <Text style={styles.actionButtonText}>Escolher da Galeria</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.imagePreviewBox}>
-        {data.photoUri ? (
-          <Image
-            source={{ uri: data.photoUri }}
-            style={styles.image}
-            resizeMode="cover"
-          />
-        ) : (
-          <Text style={styles.emptyText}>Nenhuma imagem anexada</Text>
-        )}
-      </View>
-
-      {data.photoUri && (
-        <TouchableOpacity
-          onPress={onRemovePhoto}
-          activeOpacity={0.7}
-          style={styles.removeButton}
-        >
-          <Text style={styles.removeButtonText}>Remover Imagem</Text>
-        </TouchableOpacity>
-      )}
-
-      {/* Resumo dos Dados */}
+      {/* Card de Resumo dos Dados */}
       <View style={styles.summaryCard}>
-        <Text style={styles.summaryTitle}>Resumo dos Dados</Text>
+        <View style={styles.summaryHeader}>
+          <Text style={styles.summaryTitle}>Resumo do Cadastro</Text>
+        </View>
 
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>Nome: </Text>
-          <Text style={styles.summaryValue}>{data.name || '-'}</Text>
-        </View>
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>Espécie: </Text>
-          <Text style={styles.summaryValue}>
-            {data.species ? SPECIES_LABELS[data.species] : '-'}
-          </Text>
-        </View>
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>Sexo: </Text>
-          <Text style={styles.summaryValue}>
-            {data.sex ? SEX_LABELS[data.sex] : '-'}
-          </Text>
-        </View>
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>Porte: </Text>
-          <Text style={styles.summaryValue}>
-            {data.size ? SIZE_LABELS[data.size] : '-'}
-          </Text>
-        </View>
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>Faixa Etária: </Text>
-          <Text style={styles.summaryValue}>
-            {data.age_group ? AGE_GROUP_LABELS[data.age_group] : '-'}
-          </Text>
-        </View>
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>Energia: </Text>
-          <Text style={styles.summaryValue}>
-            {data.energy ? ENERGY_LABELS[data.energy] : '-'}
-          </Text>
-        </View>
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>Castrado / Vacinado: </Text>
-          <Text style={styles.summaryValue}>
-            {data.is_neutered === null ? '-' : data.is_neutered ? 'Sim' : 'Não'} /{' '}
-            {data.is_vaccinated === null ? '-' : data.is_vaccinated ? 'Sim' : 'Não'}
-          </Text>
-        </View>
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>Apartamento: </Text>
-          <Text style={styles.summaryValue}>
-            {data.apartment_friendly === null ? '-' : data.apartment_friendly ? 'Sim' : 'Não'}
-          </Text>
-        </View>
+        <View style={styles.divider} />
+
+        <SummaryRow label="Nome"
+          value={data.name}
+        />
+        <SummaryRow
+          label="Espécie"
+          value={data.species ? SPECIES_LABELS[data.species] : null}
+        />
+        <SummaryRow
+          label="Sexo"
+          value={data.sex ? SEX_LABELS[data.sex] : null}
+        />
+        <SummaryRow
+          label="Porte"
+          value={data.size ? SIZE_LABELS[data.size] : null}
+        />
+        <SummaryRow
+          label="Faixa Etária"
+          value={data.age_group ? AGE_GROUP_LABELS[data.age_group] : null}
+        />
+        <SummaryRow
+          label="Nível de Energia"
+          value={data.energy ? ENERGY_LABELS[data.energy] : null}
+        />
+
+        <SummaryRow
+          label="Saúde"
+          value={
+            data.is_neutered ? data.is_vaccinated ? 'Castrado - Vacinado' : 'Castrado - Não Vacinado' :
+              data.is_vaccinated ? 'Não Castrado - Vacinado' : 'Não Castrado - Não Vacinado'}
+        />
+
+        <SummaryRow
+          label="Adaptação"
+          value={
+            data.apartment_friendly ? 'Aceita Apartamento' : 'Não Aceita Ap.'
+          }
+        />
       </View>
     </View>
   );
 }
 
+// ==========================================
+// ESTILOS
+// ==========================================
+
 const styles = StyleSheet.create({
+  container: {
+    paddingBottom: 20,
+  },
   sectionTitle: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#111827',
-    marginBottom: 16,
+    color: colors.neutral[800],
   },
-  buttonsRow: {
-    flexDirection: 'row',
-    gap: 12,
-    marginBottom: 16,
-  },
-  actionButton: {
-    flex: 1,
-    paddingVertical: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.neutral[400],
-    backgroundColor: colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  actionButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#374151',
-  },
-  imagePreviewBox: {
-    width: '100%',
-    height: 180,
-    borderWidth: 1,
-    borderColor: colors.neutral[400],
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.white,
-    overflow: 'hidden',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-  emptyText: {
-    fontSize: 14,
-    color: '#9ca3af',
-  },
-  removeButton: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 4,
-  },
-  removeButtonText: {
-    color: colors.semantic.error,
-    fontWeight: '600',
-    fontSize: 14,
-  },
+  // Card de Resumo
   summaryCard: {
-    marginTop: 20,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: colors.neutral[400],
-    borderRadius: 10,
+    marginTop: 24,
+    padding: 18,
+    borderRadius: 16,
     backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.neutral[200],
+    elevation: 3,
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+  },
+  summaryHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   summaryTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: colors.text,
-    marginBottom: 12,
+    fontSize: 17,
+    fontWeight: '800',
+    color: colors.neutral[800],
   },
-  summaryRow: {
-    flexDirection: 'row',
-    marginBottom: 6,
-  },
-  summaryLabel: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: colors.text,
-  },
-  summaryValue: {
-    fontSize: 14,
-    color: colors.text,
+  divider: {
+    height: 1,
+    backgroundColor: colors.neutral[200],
+    marginVertical: 14,
   },
 });

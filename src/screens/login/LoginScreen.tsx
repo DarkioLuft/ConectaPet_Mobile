@@ -66,7 +66,7 @@ export function LoginScreen() {
 
 const stylesLocal = StyleSheet.create({
         content: { flex: 1, justifyContent: 'center', padding: spacing.xl, gap: spacing.md },
-        logo: { fontSize: 48, fontWeight: '900', color: colors.primary, marginBottom: spacing.sm },
+        logo: { fontSize: 48, fontWeight: '900', color: colors.primary[500], marginBottom: spacing.sm },
         switchButton: { marginTop: spacing.lg, alignItems: 'center' },
         switchText: { color: colors.textLight, fontSize: 14 },
 });

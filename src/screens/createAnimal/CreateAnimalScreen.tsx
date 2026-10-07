@@ -1,15 +1,16 @@
 // Tela principal que junta e alterna a exibição das 4 etapas de cadastro.
 
+import { CustomPrimaryActionButton } from '@/components/buttons/CustomPrimaryActionButton';
 import { colors } from '@/constants/colors';
+import { pickFromGallery, takePhoto } from '@/utils/photoUtils';
 import { useNavigation } from '@react-navigation/native';
 import {
-  ActivityIndicator,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { Step1BasicInfo } from './components/Step1BasicInfo';
 import { Step2HealthInfo } from './components/Step2HealthInfo';
@@ -27,10 +28,9 @@ export function CreateAnimalScreen() {
     updateField,
     nextStep,
     prevStep,
-    takePhoto,
-    pickFromGallery,
     removePhoto,
     handleSubmit,
+    setPhoto
   } = useCreateAnimal(() => navigation.goBack());
 
   return (
@@ -57,6 +57,7 @@ export function CreateAnimalScreen() {
             onTakePhoto={takePhoto}
             onPickGallery={pickFromGallery}
             onRemovePhoto={removePhoto}
+            onUpdatePhoto={setPhoto}
           />
         )}
 
@@ -73,23 +74,13 @@ export function CreateAnimalScreen() {
             </TouchableOpacity>
           )}
 
-          <TouchableOpacity
+          <CustomPrimaryActionButton
+            text={currentStep === 4 ? 'Finalizar Cadastro' : 'Próxima Etapa'}
             onPress={currentStep === 4 ? handleSubmit : nextStep}
             disabled={isSubmitting}
-            activeOpacity={0.7}
-            style={[
-              styles.nextButton,
-              currentStep === 1 ? { flex: 1 } : { flex: 1.5 },
-            ]}
-          >
-            {isSubmitting ? (
-              <ActivityIndicator color={colors.white} />
-            ) : (
-              <Text style={styles.nextButtonText}>
-                {currentStep === 4 ? 'Finalizar Cadastro' : 'Próxima Etapa'}
-              </Text>
-            )}
-          </TouchableOpacity>
+            loading={isSubmitting}
+            style={{ flex: 1 }}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -103,18 +94,20 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 20,
-    paddingBottom: 130, // Garante que o final da tela role bem acima da barra de navegação
+    flexGrow: 1
   },
   footerRow: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 24,
     gap: 12,
+    flexGrow: 1
   },
   backButton: {
     flex: 1,
+    marginTop: 50,
     height: 48,
-    borderRadius: 8,
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.white,
@@ -124,18 +117,6 @@ const styles = StyleSheet.create({
   backButtonText: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#374151',
-  },
-  nextButton: {
-    height: 48,
-    borderRadius: 8,
-    backgroundColor: colors.primary[500],
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  nextButtonText: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: colors.white,
+    color: colors.neutral[600],
   },
 });
