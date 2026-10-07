@@ -1,7 +1,7 @@
 import { colors } from '@/constants/colors';
+import { AppToast } from '@/utils/toast';
 import { useNavigation } from '@react-navigation/native';
 import { useMemo } from 'react';
-import { Alert } from 'react-native';
 import { BottomTabType } from '../../../components/navigation/ModernBottomBar';
 import { MaintenanceAction } from '../types/maintenance.types';
 
@@ -25,7 +25,7 @@ export function useMaintenance() {
         iconName: 'create-outline',
         accentColor: colors.semantic.info,
         onPress: () => {
-          Alert.alert('Em desenvolvimento', 'A listagem e edição de pets estará disponível em breve.');
+          AppToast.info('Em desenvolvimento', 'A listagem e edição de pets estará disponível em breve.');
         },
       },
       {
@@ -35,7 +35,7 @@ export function useMaintenance() {
         iconName: 'megaphone-outline',
         accentColor: colors.semantic.warning,
         onPress: () => {
-          Alert.alert('Em desenvolvimento', 'O cadastro de avisos estará disponível em breve.');
+          AppToast.info('Em desenvolvimento', 'O cadastro de avisos estará disponível em breve.');
         },
       },
       {
@@ -45,7 +45,7 @@ export function useMaintenance() {
         iconName: 'bar-chart-outline',
         accentColor: '#8b5cf6',
         onPress: () => {
-          Alert.alert('Em desenvolvimento', 'O módulo de relatórios estará disponível em breve.');
+          AppToast.info('Em desenvolvimento', 'O módulo de relatórios estará disponível em breve.');
         },
       },
     ],

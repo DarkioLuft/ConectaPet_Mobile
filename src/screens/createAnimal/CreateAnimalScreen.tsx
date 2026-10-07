@@ -1,12 +1,15 @@
 // Tela principal que junta e alterna a exibição das 4 etapas de cadastro.
 
 import { CustomPrimaryActionButton } from '@/components/buttons/CustomPrimaryActionButton';
+import { TitleHeader } from '@/components/navigation/TitleHeader';
 import { colors } from '@/constants/colors';
 import { pickFromGallery, takePhoto } from '@/utils/photoUtils';
 import { useNavigation } from '@react-navigation/native';
 import {
+  Platform,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -35,11 +38,16 @@ export function CreateAnimalScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <TitleHeader
+        title={'Cadastro de Animais'}
+        onPressBackButton={() => navigation.goBack()}
+      />
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
+
         <StepProgressIndicator currentStep={currentStep} />
 
         {currentStep === 1 && (
@@ -91,6 +99,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: colors.white,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   scrollContent: {
     padding: 20,

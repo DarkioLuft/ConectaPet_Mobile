@@ -16,7 +16,7 @@ export function MaintenanceHeader() {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: colors.primary[500],
+    backgroundColor: colors.primary[600],
     paddingHorizontal: 20,
     paddingVertical: 14,
     borderBottomLeftRadius: 0,
