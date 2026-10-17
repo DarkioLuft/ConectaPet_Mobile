@@ -175,6 +175,24 @@ export const animalService = {
     }
   },
 
+  async deleteAnimal(animalId: string): Promise<void> {
+    const user = await authService.getAuthenticatedUser();
+    if (!user) throw new Error('Usuário não autenticado.');
+
+    // Remove registros dependentes nas tabelas relacionadas
+    await supabase.from('animal_photos').delete().eq('animal_id', animalId);
+    await supabase.from('animals_preferences').delete().eq('animal_id', animalId);
+
+    const { error } = await supabase
+      .from(ANIMALS_TABLE_NAME)
+      .delete()
+      .eq('id', animalId);
+
+    if (error) {
+      throw new Error(`Erro ao remover animal: ${error.message}`);
+    }
+  },
+
   async getAvailablePets(speciesFilter?: string): Promise<PetListItemDTO[]> {
     let query = supabase
       .from('animals')

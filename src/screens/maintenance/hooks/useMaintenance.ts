@@ -24,9 +24,7 @@ export function useMaintenance() {
         description: 'Gerencie informações, fotos ou exclua pets cadastrados.',
         iconName: 'create-outline',
         accentColor: colors.semantic.info,
-        onPress: () => {
-          AppToast.info('Em desenvolvimento', 'A listagem e edição de pets estará disponível em breve.');
-        },
+        onPress: () => navigation.navigate('ManageAnimals'),
       },
       {
         id: 'create_notice',

@@ -1,4 +1,5 @@
-// Card com resumo e foto do pet para exibição na tela principal e em listagens de pets.
+// Substitua ou ajuste o src/screens/home/components/PetCard.tsx com estas propriedades:
+
 import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
@@ -12,11 +13,20 @@ const CARD_WIDTH = (width - 48) / 2;
 interface PetCardProps {
   pet: HomePetCardData;
   isFavorite?: boolean;
+  showFavoriteButton?: boolean;
   onPressCard?: () => void;
   onToggleFavorite?: () => void;
+  onDeletePress?: () => void;
 }
 
-export function PetCard({ pet, isFavorite = false, onPressCard, onToggleFavorite }: PetCardProps) {
+export function PetCard({
+  pet,
+  isFavorite = false,
+  showFavoriteButton = true,
+  onPressCard,
+  onToggleFavorite,
+  onDeletePress,
+}: PetCardProps) {
   const [imageError, setImageError] = useState(false);
 
   const speciesLabel = SPECIES_LABELS[pet.species] || 'Pet';
@@ -47,13 +57,28 @@ export function PetCard({ pet, isFavorite = false, onPressCard, onToggleFavorite
           <Text style={styles.speciesText}>{speciesLabel}</Text>
         </View>
 
-        <TouchableOpacity activeOpacity={0.8} onPress={onToggleFavorite} style={styles.favoriteButton}>
-          <Ionicons
-            name={isFavorite ? 'heart' : 'heart-outline'}
-            size={16}
-            color={isFavorite ? colors.semantic.error : colors.white}
-          />
-        </TouchableOpacity>
+        {showFavoriteButton && (
+          <TouchableOpacity activeOpacity={0.8} onPress={onToggleFavorite} style={styles.favoriteButton}>
+            <Ionicons
+              name={isFavorite ? 'heart' : 'heart-outline'}
+              size={16}
+              color={isFavorite ? colors.semantic.error : colors.white}
+            />
+          </TouchableOpacity>
+        )}
+
+        {onDeletePress && (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={(e) => {
+              e.stopPropagation?.();
+              onDeletePress();
+            }}
+            style={styles.deleteButton}
+          >
+            <Ionicons name="trash-outline" size={16} color={colors.white} />
+          </TouchableOpacity>
+        )}
       </View>
 
       <View style={styles.content}>
@@ -130,6 +155,18 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  deleteButton: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    backgroundColor: colors.semantic.error,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 3,
   },
   content: {
     padding: 10,

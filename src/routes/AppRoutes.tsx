@@ -2,6 +2,7 @@ import { CreateAnimalScreen } from '@/screens/createAnimal/CreateAnimalScreen';
 import { UpdateAnimalScreen } from '@/screens/createAnimal/UpdateAnimalScreen';
 import { HomeScreen } from '@/screens/home/HomeScreen';
 import { MaintenanceScreen } from '@/screens/maintenance/MaintenanceScreen';
+import { ManageAnimalsScreen } from '@/screens/manageAnimals/ManageAnimalsScreen';
 import { ProfileScreen } from '@/screens/profile/ProfileScreen'; // <-- Importe aqui
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -30,6 +31,7 @@ export function AppRoutes() {
       <Stack.Screen name="Tabs" component={TabRoutes} />
       <Stack.Screen name="CreateAnimal" component={CreateAnimalScreen} />
       <Stack.Screen name="UpdateAnimal" component={UpdateAnimalScreen} />
+      <Stack.Screen name="ManageAnimals" component={ManageAnimalsScreen} />
     </Stack.Navigator>
   );
 }
