@@ -218,6 +218,39 @@ export const animalService = {
     return (data as unknown as PetListItemDTO[]) || [];
   },
 
+  async getAnimalDetailsWithOngAddress(animalId: string) {
+    const { data, error } = await supabase
+      .from('animals')
+      .select(`
+        *,
+        animals_preferences (*),
+        ongs (
+          name,
+          phone,
+          email,
+          whatsapp,
+          instagram,
+          logo_url,
+          addresses (
+            street,
+            number,
+            district,
+            postal_code,
+            location,
+            cities ( name, states ( abbreviation ) )
+          )
+        )
+      `)
+      .eq('id', animalId)
+      .single();
+
+    if (error) {
+      throw new Error(`Erro ao buscar detalhes do animal: ${error.message}`);
+    }
+
+    return data;
+  },
+
   async checkUserIsVolunteer(userId: string): Promise<boolean> {
     const { data, error } = await supabase
       .from('ong_members')

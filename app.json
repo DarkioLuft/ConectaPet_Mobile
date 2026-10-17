@@ -30,18 +30,17 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      [
-        "expo-splash-screen",
-        {
-          "backgroundColor": "#208AEF",
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 76
-        }
-      ],
+      "expo-splash-screen",
       "expo-status-bar",
       "expo-image",
       "expo-web-browser",
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      [
+        "react-native-maps",
+        {
+          "androidApiV2Key": ""
+        }
+      ]
     ],
     "experiments": {
       "reactCompiler": true

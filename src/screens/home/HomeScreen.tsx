@@ -140,7 +140,7 @@ export function HomeScreen() {
         renderItem={({ item }) => (
           <PetCard
             pet={item}
-            onPressCard={() => handleEditAnimal(item.id)}
+            onPressCard={() => navigation.navigate('PetDetails', { animalId: item.id })}
           />
         )}
         ListEmptyComponent={
