@@ -199,7 +199,8 @@ export function PetDetailsScreen() {
                         latitudeDelta: 0.01,
                         longitudeDelta: 0.01,
                     }}
-                    >
+                    onMapReady={() => console.log('✅ [DEBUG] O MapView foi carregado e renderizado com sucesso pelo sistema nativo!')}
+                >
                 <Marker
                     coordinate={{
                         latitude: pet.coordinates?.latitude || -29.396414,

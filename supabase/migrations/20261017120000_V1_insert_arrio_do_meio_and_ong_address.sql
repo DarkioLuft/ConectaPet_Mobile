@@ -32,3 +32,17 @@ SET address_id = (
   LIMIT 1
 )
 WHERE name = 'APAAM';
+
+-- Vincula o usuário à ONG APAAM na tabela ong_members
+INSERT INTO public.ong_members (profiles_id, ongs_id)
+VALUES (
+  'cc97421b-1c04-4f00-8679-4ec39c316f3b',
+  (SELECT id FROM public.ongs WHERE name = 'APAAM' LIMIT 1)
+)
+ON CONFLICT (profiles_id, ongs_id) DO NOTHING;
+
+-- Atualiza todos os animais já cadastrados e que estavam sem ONG
+UPDATE public.animals
+SET ongs_id = (SELECT id FROM public.ongs WHERE name = 'APAAM' LIMIT 1)
+WHERE created_by = 'cc97421b-1c04-4f00-8679-4ec39c316f3b'
+  AND ongs_id IS NULL;
