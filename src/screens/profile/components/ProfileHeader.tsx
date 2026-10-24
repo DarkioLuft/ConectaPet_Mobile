@@ -26,7 +26,11 @@ export function ProfileHeader({
       <View style={styles.userRow}>
         <View style={styles.avatarContainer}>
           {avatarUrl ? (
-            <Image source={{ uri: avatarUrl }} style={styles.avatar} />
+            <Image
+              key={avatarUrl}
+              source={{ uri: avatarUrl }}
+              style={styles.avatar}
+            />
           ) : (
             <View style={styles.avatarPlaceholder}>
               <Ionicons name="person" size={38} color={colors.neutral[400]} />

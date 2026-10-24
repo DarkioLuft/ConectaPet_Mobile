@@ -68,11 +68,26 @@ export const animalService = {
     return data
   },
 
+  async getUserOngId(userId: string): Promise<string | null> {
+    const { data, error } = await supabase
+      .from('ong_members')
+      .select('ongs_id')
+      .eq('profiles_id', userId)
+      .limit(1)
+      .maybeSingle();
+
+    if (error || !data) return null;
+    return data.ongs_id;
+  },
+
   async createAnimal(animal: AnimalAndPreferencesDTO) {
     const user = await authService.getAuthenticatedUser();
     if (!user) throw new Error('Usuário não autenticado.');
 
     try {
+      // Busca automaticamente a ONG à qual o usuário pertence
+      const userOngId = await this.getUserOngId(user.id);
+
       const {
         energy,
         good_with_kids,
@@ -81,13 +96,13 @@ export const animalService = {
         apartment_friendly,
         special_needs,
         special_needs_desc,
-        // Pega o resto e guarda na variável
         ...animalData
       } = animal;
 
       const newAnimal = await this.insert({
         ...animalData,
         created_by: user.id,
+        ongs_id: userOngId, // Vincula automaticamente à ONG do usuário!
         status: 'available'
       });
 
@@ -116,7 +131,7 @@ export const animalService = {
           is_cover: true,
           is_active: true,
           sort_order: 1
-        })
+        });
       }
 
       return newAnimal;
