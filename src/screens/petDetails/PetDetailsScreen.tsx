@@ -1,11 +1,12 @@
+import { TitleHeader } from '@/components/navigation/TitleHeader';
+import { LoadingIndicator } from '@/components/ui/LoadingIndicator';
 import { colors } from '@/constants/colors';
 import { SPECIES_LABELS } from '@/constants/enums';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PetBehaviorCard } from './components/PetBehaviorCard';
-import { PetDetailsHeader } from './components/PetDetailsHeader';
 import { PetInfoCard } from './components/PetInfoCard';
 import { PetOngLocationCard } from './components/PetOngLocationCard';
 import { usePetDetails } from './hooks/usePetDetails';
@@ -17,10 +18,11 @@ export function PetDetailsScreen() {
   if (loading || !pet) {
     return (
       <SafeAreaView style={styles.safeArea} edges={['top']}>
-        <PetDetailsHeader onBack={() => navigation.goBack()} title="Detalhes do Pet" />
-        <View style={styles.centerContainer}>
-          <ActivityIndicator size="large" color={colors.primary[500]} />
-        </View>
+        <TitleHeader
+          title={"Detalhes do Pet"}
+          onPressBackButton={() => navigation.goBack()}
+        />
+        <LoadingIndicator/>
       </SafeAreaView>
     );
   }
@@ -30,7 +32,10 @@ export function PetDetailsScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <PetDetailsHeader onBack={() => navigation.goBack()} title={pet.name} />
+      <TitleHeader
+        title={pet.name}
+        onPressBackButton={() => navigation.goBack()}
+      />
 
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         <View style={styles.imageContainer}>

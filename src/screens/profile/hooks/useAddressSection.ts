@@ -38,6 +38,7 @@ export function useAddressSection({ initialData, userId, onSuccess }: UseAddress
 
     // Função para lidar com a digitação do CEP e fazer o fetch automático
     const handleCepChange = async (text: string) => {
+        console.log("Teste")
         const numericCep = text.replace(/\D/g, '');
         setAddressData((prev) => ({ ...prev, postalCode: text }));
 
@@ -46,6 +47,8 @@ export function useAddressSection({ initialData, userId, onSuccess }: UseAddress
             try {
                 setLoadingCep(true);
                 const data = await addressService.fetchAddressFromCep(numericCep);
+
+                console.log(data)
 
                 // Preenche o formulário automaticamente com os dados da API
                 setAddressData((prev) => ({
