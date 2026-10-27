@@ -1,14 +1,15 @@
 import { colors } from '@/constants/colors';
+import { GenericTabSection } from '@/types/tab.types';
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ProfileTabType } from '../types/profile.types';
+import { ProfileTabType } from '../../screens/profile/types/profile.types';
 
-interface ProfileSectionTabsProps {
-  currentTab: ProfileTabType;
-  onSelectTab: (tab: ProfileTabType) => void;
+interface SectionTabsProps {
+  currentTab: GenericTabSection;
+  onSelectTab: (tab: GenericTabSection) => void;
 }
 
-export function ProfileSectionTabs({ currentTab, onSelectTab }: ProfileSectionTabsProps) {
+export function SectionTabs({ currentTab, onSelectTab }: SectionTabsProps) {
   const tabs: { key: ProfileTabType; label: string; icon: keyof typeof Ionicons.glyphMap }[] = [
     { key: 'personal', label: 'Dados', icon: 'person-outline' },
     { key: 'address', label: 'Endereço', icon: 'location-outline' },
@@ -18,12 +19,12 @@ export function ProfileSectionTabs({ currentTab, onSelectTab }: ProfileSectionTa
   return (
     <View style={styles.container}>
       {tabs.map((tab) => {
-        const isActive = currentTab === tab.key;
+        const isActive = currentTab.key === tab.key;
         return (
           <TouchableOpacity
             key={tab.key}
             activeOpacity={0.8}
-            onPress={() => onSelectTab(tab.key)}
+            onPress={() => onSelectTab(tab)}
             style={[styles.tabButton, isActive && styles.activeTabButton]}
           >
             <Ionicons

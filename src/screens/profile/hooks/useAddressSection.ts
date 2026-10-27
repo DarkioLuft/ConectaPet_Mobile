@@ -95,7 +95,7 @@ export function useAddressSection({ initialData, userId, onSuccess }: UseAddress
 
             // Atualiza os dados globais da tela (barra de progresso)
             onSuccess();
-            AppToast.success('Endereço atualizado com sucesso!');
+            AppToast.success('Sucesso','Endereço atualizado com sucesso!');
         } catch (err: any) {
             handleError(err.message, 'Falha ao salvar endereço.');
         } finally {

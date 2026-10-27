@@ -3,6 +3,7 @@ import { colors } from "./colors";
 import { spacing } from "./spacing";
 
 export const styles = {
+    safeArea: { flex: 1, backgroundColor: colors.white},
     container: { flex: 1, backgroundColor: colors.background },
     content: { flexGrow: 1, paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40 },
     shadow: { shadowColor: colors.primary[500], shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.1, shadowRadius: 12, elevation: 5 },

@@ -12,7 +12,7 @@ interface UsePersonalDataProps {
 
 export function usePersonalSection({ initialData, userId, onSuccess }: UsePersonalDataProps) {
     const [personalData, setPersonalData] = useState<PersonalFormData>({
-        fullName: '', email: '', cpf: '', phone: '', birthDate: '', avatarUrl: null,
+        fullName: '', email: '', cpf: '', phone: '', birthDate: '', avatarUrl: '',
     });
     const [saving, setSaving] = useState(false);
 
@@ -46,17 +46,6 @@ export function usePersonalSection({ initialData, userId, onSuccess }: UsePerson
             setSaving(false);
         }
     };
-
-    const clearInputs = () => {
-        setPersonalData({
-            fullName: '', 
-            email: '', 
-            cpf: '', 
-            phone: '', 
-            birthDate: '', 
-            avatarUrl: null,
-        });
-    }
 
     const handlePickAvatar = async () => {
         // Mesma lógica de Image Picker que você já tem, chamando onSuccess() após o upload

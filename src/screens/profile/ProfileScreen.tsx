@@ -3,11 +3,11 @@ import { colors } from '@/constants/colors';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ModernBottomBar } from '../../components/navigation/ModernBottomBar';
+import { SectionTabs } from '../../components/navigation/SectionTabs';
 import { AddressSection } from './components/AddressSection';
 import { AdopterMatchSection } from './components/AdopterMatchSection';
 import { PersonalDataSection } from './components/PersonalDataSection';
 import { ProfileHeader } from './components/ProfileHeader';
-import { ProfileSectionTabs } from './components/ProfileSectionTabs';
 import { useAddressSection } from './hooks/useAddressSection';
 import { useImagePicker } from './hooks/useImagePicker';
 import { usePersonalSection } from './hooks/usePersonalSection';
@@ -27,8 +27,7 @@ export function ProfileScreen() {
     rawAddress,
     rawPreferences,
     loadProfileData,
-    handleTabSelect,
-    updateAndSetProgress
+    handleTabSelect
   } = useProfile();
 
   // Instanciando os sub-hooks e passando a função de recarregar como callback
@@ -50,7 +49,7 @@ export function ProfileScreen() {
       />
 
       {/* Seletor de Abas em Pílula */}
-      <ProfileSectionTabs currentTab={activeTab} onSelectTab={setActiveTab} />
+      <SectionTabs currentTab={activeTab} onSelectTab={setActiveTab} />
 
       {/* Conteúdo Dinâmico */}
       <ScrollView
@@ -61,7 +60,7 @@ export function ProfileScreen() {
           <LoadingIndicator message="Carregando..." fullScreen={true} />
         ) : (
           <>
-            {activeTab === 'personal' && (
+            {activeTab.key === 'personal' && (
               <PersonalDataSection
                 data={personal.personalData}
                 onChange={(field, value) => personal.updateField(field, value)}
@@ -70,7 +69,7 @@ export function ProfileScreen() {
               />
             )}
 
-            {activeTab === 'address' && (
+            {activeTab.key === 'address' && (
               <AddressSection
                 data={address.addressData}
                 onChange={(field, value) => address.updateField(field, value)}
@@ -80,7 +79,7 @@ export function ProfileScreen() {
               />
             )}
 
-            {activeTab === 'preferences' && (
+            {activeTab.key === 'preferences' && (
               <AdopterMatchSection
                 data={preferences.preferencesData}
                 housingTypes={housingTypes}

@@ -1,4 +1,5 @@
 import { addressService } from '@/services/addressService';
+import { GenericTabSection } from '@/types/tab.types';
 import { handleError } from '@/utils/errorHandler';
 import { AppToast } from '@/utils/toast';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -8,9 +9,14 @@ import {
   AddressFormData,
   AdopterPreferencesFormData,
   HousingTypeOption,
-  PersonalFormData,
-  ProfileTabType
+  PersonalFormData
 } from '../types/profile.types';
+
+const tabs: GenericTabSection[] = [
+  { key: 'personal', label: 'Dados', icon: 'person-outline' },
+{ key: 'address', label: 'Endereço', icon: 'location-outline' },
+{ key: 'preferences', label: 'Match Pet', icon: 'heart-outline' },
+];
 
 // Função pura para calcular o progresso sem depender de closures antigas
 function computeSavedProgress(
@@ -39,7 +45,7 @@ export function useProfile() {
 
   // Estados globais da tela
   const [userId, setUserId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<ProfileTabType>('personal');
+  const [activeTab, setActiveTab] = useState<GenericTabSection>(tabs[0]);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [isVolunteer, setIsVolunteer] = useState(false);
