@@ -2,20 +2,14 @@ import { colors } from '@/constants/colors';
 import { GenericTabSection } from '@/types/tab.types';
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ProfileTabType } from '../../screens/profile/types/profile.types';
 
 interface SectionTabsProps {
+  tabs: GenericTabSection[];
   currentTab: GenericTabSection;
   onSelectTab: (tab: GenericTabSection) => void;
 }
 
-export function SectionTabs({ currentTab, onSelectTab }: SectionTabsProps) {
-  const tabs: { key: ProfileTabType; label: string; icon: keyof typeof Ionicons.glyphMap }[] = [
-    { key: 'personal', label: 'Dados', icon: 'person-outline' },
-    { key: 'address', label: 'Endereço', icon: 'location-outline' },
-    { key: 'preferences', label: 'Match Pet', icon: 'heart-outline' },
-  ];
-
+export function SectionTabs({ tabs, currentTab, onSelectTab }: SectionTabsProps) {
   return (
     <View style={styles.container}>
       {tabs.map((tab) => {

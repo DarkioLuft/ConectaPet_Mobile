@@ -163,6 +163,7 @@ export function useProfile() {
   };
 
   return {
+    tabs,
     userId,
     activeTab,
     setActiveTab,

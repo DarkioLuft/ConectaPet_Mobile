@@ -16,6 +16,7 @@ import { useProfile } from './hooks/useProfile';
 
 export function ProfileScreen() {
   const {
+    tabs,
     userId,
     activeTab,
     setActiveTab,
@@ -49,7 +50,7 @@ export function ProfileScreen() {
       />
 
       {/* Seletor de Abas em Pílula */}
-      <SectionTabs currentTab={activeTab} onSelectTab={setActiveTab} />
+      <SectionTabs tabs={tabs} currentTab={activeTab} onSelectTab={setActiveTab} />
 
       {/* Conteúdo Dinâmico */}
       <ScrollView
