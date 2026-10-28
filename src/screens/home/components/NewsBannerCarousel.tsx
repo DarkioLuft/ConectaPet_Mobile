@@ -1,47 +1,46 @@
-// Banner em carrossel no topo para campanhas e avisos (mock).
+// Carrossel da tela inicial com os anúncios cadastrados, na ordem de cadastro.
 import { colors } from '@/constants/colors';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { BannerItem } from '../types/home.types';
 
 const { width } = Dimensions.get('window');
 const BANNER_WIDTH = width - 36;
 
-export interface BannerItem {
-  id: string;
-  title: string;
-  subtitle: string;
-  imageUrl: string;
+interface NewsBannerCarouselProps {
+  banners?: BannerItem[];
 }
 
-const MOCK_BANNERS: BannerItem[] = [
-  {
-    id: '1',
-    title: 'Mais que\num pet, um\nnovo começo!',
-    subtitle: 'Adote, doe, faça\na diferença.',
-    imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600',
-  },
-  {
-    id: '2',
-    title: 'Feira de Adoção\nAPAAM neste\nSábado!',
-    subtitle: 'Venha encontrar o seu\nmelhor amigo.',
-    imageUrl: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=600',
-  },
-];
-
-export function NewsBannerCarousel() {
+export function NewsBannerCarousel({ banners = [] }: NewsBannerCarouselProps) {
+  const items = banners ?? [];
   const [activeIndex, setActiveIndex] = useState(0);
-  const currentBanner = MOCK_BANNERS[activeIndex];
+
+  useEffect(() => {
+    if (activeIndex >= items.length) {
+      setActiveIndex(0);
+    }
+  }, [activeIndex, items.length]);
+
+  if (items.length === 0) {
+    return null;
+  }
+
+  const currentBanner = items[Math.min(activeIndex, items.length - 1)];
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
         activeOpacity={0.9}
-        onPress={() => setActiveIndex((prev) => (prev + 1) % MOCK_BANNERS.length)}
+        onPress={() => setActiveIndex((prev) => (prev + 1) % items.length)}
         style={styles.bannerCard}
       >
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{currentBanner.title}</Text>
-          <Text style={styles.subtitle}>{currentBanner.subtitle}</Text>
+          <Text style={styles.title} numberOfLines={3}>
+            {currentBanner.title}
+          </Text>
+          <Text style={styles.subtitle} numberOfLines={2}>
+            {currentBanner.subtitle}
+          </Text>
         </View>
 
         <Image
@@ -51,9 +50,9 @@ export function NewsBannerCarousel() {
         />
 
         <View style={styles.dotsContainer}>
-          {MOCK_BANNERS.map((_, idx) => (
+          {items.map((banner, idx) => (
             <View
-              key={idx}
+              key={banner.id}
               style={[styles.dot, activeIndex === idx ? styles.activeDot : styles.inactiveDot]}
             />
           ))}
