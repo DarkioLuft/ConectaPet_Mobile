@@ -1,3 +1,5 @@
+import { AnnouncementFormScreen } from '@/screens/announcements/AnnouncementFormScreen';
+import { ManageAnnouncementsScreen } from '@/screens/announcements/ManageAnnouncementsScreen';
 import { CreateAnimalScreen } from '@/screens/createAnimal/CreateAnimalScreen';
 import { UpdateAnimalScreen } from '@/screens/createAnimal/UpdateAnimalScreen';
 import { HomeScreen } from '@/screens/home/HomeScreen';
@@ -33,6 +35,8 @@ export function AppRoutes() {
       <Stack.Screen name="CreateAnimal" component={CreateAnimalScreen} />
       <Stack.Screen name="UpdateAnimal" component={UpdateAnimalScreen} />
       <Stack.Screen name="ManageAnimals" component={ManageAnimalsScreen} />
+      <Stack.Screen name="ManageAnnouncements" component={ManageAnnouncementsScreen} />
+      <Stack.Screen name="AnnouncementForm" component={AnnouncementFormScreen} />
       <Stack.Screen name="PetDetails" component={PetDetailsScreen} />
     </Stack.Navigator>
   );

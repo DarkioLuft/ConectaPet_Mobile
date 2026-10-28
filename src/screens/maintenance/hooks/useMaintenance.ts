@@ -32,9 +32,7 @@ export function useMaintenance() {
         description: 'Publique avisos e notícias para o carrossel da tela inicial.',
         iconName: 'megaphone-outline',
         accentColor: colors.semantic.warning,
-        onPress: () => {
-          AppToast.info('Em desenvolvimento', 'O cadastro de avisos estará disponível em breve.');
-        },
+        onPress: () => navigation.navigate('ManageAnnouncements'),
       },
       {
         id: 'reports',

@@ -2,7 +2,7 @@ import { decodeBase64ToBytes } from "@/utils/photoUtils";
 import { profileService } from "./profileService";
 import { supabase } from "./supabase";
 
-type buckets = 'profile-photos' | 'animal-photos';
+type buckets = 'profile-photos' | 'animal-photos' | 'announcement-photos';
 
 export const photoUploadService = {
     /**
@@ -39,6 +39,16 @@ export const photoUploadService = {
         const publicUrl = getPublicUrlFromImage('animal-photos', filePath);
 
         return publicUrl;
+    },
+
+    async uploadAnnouncementPhoto(base64Data: string, title: string): Promise<string> {
+        const cleanName = title.toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 40);
+        const filePath = `${Date.now()}_${cleanName || 'anuncio'}.jpg`;
+        const bytes = decodeBase64ToBytes(base64Data);
+
+        await uploadToStorage('announcement-photos', filePath, bytes);
+
+        return getPublicUrlFromImage('announcement-photos', filePath);
     },
 };
 
