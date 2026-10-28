@@ -14,8 +14,8 @@ import {
 
 const tabs: GenericTabSection[] = [
   { key: 'personal', label: 'Dados', icon: 'person-outline' },
-{ key: 'address', label: 'Endereço', icon: 'location-outline' },
-{ key: 'preferences', label: 'Match Pet', icon: 'heart-outline' },
+  { key: 'address', label: 'Endereço', icon: 'location-outline' },
+  { key: 'preferences', label: 'Match Pet', icon: 'heart-outline' },
 ];
 
 // Função pura para calcular o progresso sem depender de closures antigas
@@ -112,6 +112,11 @@ export function useProfile() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
+
+      console.log("Teste")
+      console.log(user)
+
+      console.log(user.id)
       setUserId(user.id);
 
       const [housingRes, profileRes, memberRes, addressRes, prefsRes] = await Promise.all([
@@ -121,6 +126,8 @@ export function useProfile() {
         addressService.fetchAddressByUserId(user.id),
         supabase.from('adopter_preferences').select('*').eq('profiles_id', user.id).maybeSingle()
       ]);
+
+      console.log("teste2")
 
       setHousingTypes(housingRes.data || []);
       setIsVolunteer(Boolean(memberRes.data && memberRes.data.length > 0));

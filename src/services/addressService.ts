@@ -37,9 +37,9 @@ export const addressService = {
             .from('user_complete_address_view')
             .select('*')
             .eq('user_id', userId)
-            .single();
+            .maybeSingle();
 
-        if (error) throw new Error(error.message);
+        if (error) throw error;
 
         return data || null;
     },
