@@ -20,7 +20,7 @@ export const adopterPreferencesService = {
             })
             .eq('profiles_id', userId)
             .select()
-            .single()
+            .maybeSingle()
 
         if (error) throw new Error(`Erro ao salvar preferências: ${error.message}`);
         return data;

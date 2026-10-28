@@ -82,7 +82,7 @@ export const addressService = {
                 .single();
 
             state = stateData;
-            if (stateError) throw new Error(`Erro ao salvar estado: ${stateError?.message}`);
+            if (stateError) throw stateError;
         }
 
         if(!state) throw new Error('Estado não encontrado ou criado.');
@@ -99,7 +99,7 @@ export const addressService = {
                 .single();
 
             city = cityData;
-            if (cityError) throw new Error(`Erro ao salvar cidade: ${cityError?.message}`);
+            if (cityError) throw cityError;
         }
 
         if (!city) throw new Error('Cidade não encontrada ou criada.');
@@ -118,7 +118,7 @@ export const addressService = {
             .select('id')
             .single();
 
-        if (addrError) throw new Error(`Erro ao salvar endereço: ${addrError.message}`);
+        if (addrError) throw addrError;
 
         // Retorna o ID do endereço finalizado para ser vinculado ao perfil do usuário
         return newAddr.id;
