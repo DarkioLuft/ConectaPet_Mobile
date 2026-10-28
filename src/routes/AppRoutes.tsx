@@ -3,8 +3,9 @@ import { UpdateAnimalScreen } from '@/screens/createAnimal/UpdateAnimalScreen';
 import { HomeScreen } from '@/screens/home/HomeScreen';
 import { MaintenanceScreen } from '@/screens/maintenance/MaintenanceScreen';
 import { ManageAnimalsScreen } from '@/screens/manageAnimals/ManageAnimalsScreen';
+import { OngProfileScreen } from '@/screens/ongProfile/OngProfileScreen';
 import { PetDetailsScreen } from '@/screens/petDetails/PetDetailsScreen';
-import { ProfileScreen } from '@/screens/profile/ProfileScreen'; // <-- Importe aqui
+import { ProfileScreen } from '@/screens/profile/ProfileScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -34,6 +35,7 @@ export function AppRoutes() {
       <Stack.Screen name="UpdateAnimal" component={UpdateAnimalScreen} />
       <Stack.Screen name="ManageAnimals" component={ManageAnimalsScreen} />
       <Stack.Screen name="PetDetails" component={PetDetailsScreen} />
+      <Stack.Screen name="OngProfile" component={OngProfileScreen} />
     </Stack.Navigator>
   );
 }

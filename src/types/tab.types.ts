@@ -1,4 +1,4 @@
-import { OngProfileTabType } from "@/screens/ongDetails/types/ong.types";
+import { OngProfileTabType } from "@/screens/ongProfile/types/ong.types";
 import { ProfileTabType } from "@/screens/profile/types/profile.types";
 import { Ionicons } from "@expo/vector-icons";
 

@@ -145,10 +145,6 @@ export const animalService = {
     const user = await authService.getAuthenticatedUser();
     if (!user) throw new Error('Usuário não autenticado.');
 
-    console.log("SERVICE")
-    console.log(animal)
-    console.log("SERVICE")
-
     try {
       // Remove elementos indesejados
       const { photoUri, match_vector, animal_id, ...rest } = animal as any;
@@ -240,6 +236,7 @@ export const animalService = {
         *,
         animals_preferences (*),
         ongs (
+          id,
           name,
           phone,
           email,
@@ -275,5 +272,20 @@ export const animalService = {
 
     if (error || !data) return false;
     return data.length > 0;
+  },
+
+  async getPetsByOngId(ongId: String) {
+    const { data, error } = await supabase
+      .from(ANIMALS_TABLE_NAME)
+      .select(`
+          *
+        `)
+      .eq('ongs_id', ongId)
+
+    if (error) {
+      throw new Error(`Erro ao buscar animais: ${error.message}`);
+    }
+
+    return data;
   },
 };

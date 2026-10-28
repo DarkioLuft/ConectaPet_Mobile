@@ -1,1 +1,0 @@
-export type OngProfileTabType = 'Sobre' | 'Pets' | 'Doações';

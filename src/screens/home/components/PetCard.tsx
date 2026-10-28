@@ -89,12 +89,15 @@ export function PetCard({
           {specs}
         </Text>
 
-        <View style={styles.originRow}>
-          <Ionicons name="location-sharp" size={13} color={colors.primary[500]} />
-          <Text style={styles.originText} numberOfLines={1}>
-            {pet.ongName}
-          </Text>
-        </View>
+        {pet.ongName && (
+          <View style={styles.originRow}>
+            <Ionicons name="location-sharp" size={13} color={colors.primary[500]} />
+            <Text style={styles.originText} numberOfLines={1}>
+              {pet.ongName}
+            </Text>
+          </View>
+        )}
+
       </View>
     </TouchableOpacity>
   );

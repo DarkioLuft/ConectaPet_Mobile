@@ -1,3 +1,4 @@
+import { LocationCard } from '@/components/cards/LocationCard';
 import { TitleHeader } from '@/components/navigation/TitleHeader';
 import { LoadingIndicator } from '@/components/ui/LoadingIndicator';
 import { colors } from '@/constants/colors';
@@ -8,12 +9,13 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PetBehaviorCard } from './components/PetBehaviorCard';
 import { PetInfoCard } from './components/PetInfoCard';
-import { PetOngLocationCard } from './components/PetOngLocationCard';
 import { usePetDetails } from './hooks/usePetDetails';
 
 export function PetDetailsScreen() {
   const navigation = useNavigation<any>();
-  const { pet, loading } = usePetDetails();
+  const { pet, onCardClick, loading } = usePetDetails();
+
+  console.log(pet)
 
   if (loading || !pet) {
     return (
@@ -22,7 +24,7 @@ export function PetDetailsScreen() {
           title={"Detalhes do Pet"}
           onPressBackButton={() => navigation.goBack()}
         />
-        <LoadingIndicator/>
+        <LoadingIndicator />
       </SafeAreaView>
     );
   }
@@ -54,7 +56,17 @@ export function PetDetailsScreen() {
         <View style={styles.contentWrapper}>
           <PetInfoCard pet={pet} />
           <PetBehaviorCard prefs={prefs} />
-          <PetOngLocationCard ong={pet.ongs} coordinates={pet.coordinates} />
+          <LocationCard
+            sectionTitle="Localização da ONG"
+            title={pet?.ongs?.name}
+            addressData={pet?.ongs?.addresses}
+            fallbackCoordinates={pet?.coordinates}
+
+            // Customizações
+            iconName="business"
+            actionText="Mais detalhes da ONG"
+            onActionPress={() => onCardClick(pet?.ongs?.id)}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
