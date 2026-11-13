@@ -2,13 +2,15 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { animalService } from '../../../services/animalService';
+import { announcementService } from '../../../services/announcementService';
 import { supabase } from '../../../services/supabase';
-import { CategoryFilter, HomePetCardData } from '../types/home.types';
+import { BannerItem, CategoryFilter, HomePetCardData } from '../types/home.types';
 
 export function useHome() {
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [pets, setPets] = useState<HomePetCardData[]>([]);
+  const [banners, setBanners] = useState<BannerItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -60,23 +62,42 @@ export function useHome() {
     }
   }, [selectedCategory]);
 
+  const loadAnnouncements = useCallback(async () => {
+    try {
+      const data = await announcementService.listByRegistrationOrder();
+      setBanners(
+        data.map((item) => ({
+          id: item.id,
+          title: item.title,
+          subtitle: item.subtitle,
+          imageUrl: item.image_url,
+        }))
+      );
+    } catch (err) {
+      console.error('Falha ao carregar anúncios:', err);
+    }
+  }, []);
+
   useEffect(() => {
     loadPets();
+    loadAnnouncements();
     checkVolunteerStatus();
-  }, [loadPets, checkVolunteerStatus]);
+  }, [loadPets, loadAnnouncements, checkVolunteerStatus]);
 
   useFocusEffect(
     useCallback(() => {
       loadPets();
+      loadAnnouncements();
       checkVolunteerStatus();
-    }, [loadPets, checkVolunteerStatus])
+    }, [loadPets, loadAnnouncements, checkVolunteerStatus])
   );
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     loadPets();
+    loadAnnouncements();
     checkVolunteerStatus();
-  }, [loadPets, checkVolunteerStatus]);
+  }, [loadPets, loadAnnouncements, checkVolunteerStatus]);
 
   const filteredPets = useMemo(() => {
     if (!searchQuery.trim()) return pets;
@@ -90,6 +111,7 @@ export function useHome() {
 
   return {
     pets: filteredPets,
+    banners,
     loading,
     refreshing,
     searchQuery,

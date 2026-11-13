@@ -34,6 +34,7 @@ export function HomeScreen() {
 
   const {
     pets,
+    banners,
     loading,
     refreshing,
     searchQuery,
@@ -87,8 +88,8 @@ export function HomeScreen() {
         }
         ListHeaderComponent={
           <>
-            <View style={{ marginTop: 32 }}>
-              <NewsBannerCarousel />
+            <View style={{ marginTop: (banners?.length ?? 0) > 0 ? 32 : 16 }}>
+              <NewsBannerCarousel banners={banners ?? []} />
             </View>
 
             <View style={styles.searchRow}>

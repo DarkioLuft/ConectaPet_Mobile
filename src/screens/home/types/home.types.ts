@@ -1,4 +1,4 @@
-// Contratos de dados da tela inicial, cards de animais e notícias mockadas.
+// Contratos de dados da tela inicial, cards de animais e anúncios do carrossel.
 export type CategoryFilter = 'all' | 'dog' | 'cat' | 'other';
 
 export interface HomePetCardData {
