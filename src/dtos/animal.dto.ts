@@ -95,6 +95,7 @@ export interface PetListItemDTO {
     ongs: {
         name: string;
     } | null;
+    animals_preferences?: AnimalPreferencesDTO | AnimalPreferencesDTO[] | null;
 }
 
 export interface AnimalPhotoDTO {

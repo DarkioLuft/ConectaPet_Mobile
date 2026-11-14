@@ -216,7 +216,16 @@ export const animalService = {
         age_group,
         is_vaccinated,
         cover_photo_url,
-        ongs ( name )
+        ongs ( name ),
+        animals_preferences (
+          energy,
+          good_with_kids,
+          good_with_dogs,
+          good_with_cats,
+          apartment_friendly,
+          special_needs,
+          match_vector
+        )
       `)
       .order('created_at', { ascending: false });
 

@@ -67,6 +67,13 @@ export function PetCard({
           </TouchableOpacity>
         )}
 
+        {pet.matchScore != null && (
+          <View style={styles.matchBadge}>
+            <Ionicons name="sparkles" size={10} color={colors.white} />
+            <Text style={styles.matchBadgeText}>{pet.matchScore}% Match</Text>
+          </View>
+        )}
+
         {onDeletePress && (
           <TouchableOpacity
             activeOpacity={0.8}
@@ -195,5 +202,22 @@ const styles = StyleSheet.create({
     color: colors.primary[500],
     fontWeight: '600',
     flex: 1,
+  },
+  matchBadge: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    backgroundColor: 'rgba(22, 163, 74, 0.92)',
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderRadius: 8,
+  },
+  matchBadgeText: {
+    color: colors.white,
+    fontSize: 10,
+    fontWeight: '800',
   },
 });

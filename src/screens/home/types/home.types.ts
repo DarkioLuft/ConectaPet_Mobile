@@ -1,4 +1,3 @@
-// Contratos de dados da tela inicial, cards de animais e anúncios do carrossel.
 export type CategoryFilter = 'all' | 'dog' | 'cat' | 'other';
 
 export interface HomePetCardData {
@@ -11,6 +10,7 @@ export interface HomePetCardData {
   isVaccinated: boolean;
   coverPhotoUrl: string | null;
   ongName: string;
+  matchScore?: number | null;
 }
 
 export interface BannerItem {
