@@ -4,31 +4,28 @@ import { AboutCard } from './AboutCard';
 import { ContactsCard } from './ContactsCard';
 
 export function OngAboutSection({ data }: any) {
-  console.log(data)
   if (!data) return null;
 
   return (
     <View style={styles.container}>
-      <AboutCard about={data?.description} />
+      <AboutCard about={data.about} />
 
-      <LocationCard
-        sectionTitle="Localização da ONG"
-        title={data?.name}
-        addressData={data?.address}
-        fallbackCoordinates={data?.coordinates}
-
-        // Customizações
-        iconName="business"
-        actionText="Mais detalhes da ONG"
-        // onActionPress={() => onCardClick(pet?.ongs?.id)}
-      />
-      
       <ContactsCard
-        instagram={data?.instagram}
-        email={data?.email}
-        website={data?.website}
-        whatsapp={data?.whatsapp}
+        instagram={data.instagram}
+        whatsapp={data.whatsapp || data.phone}
+        email={data.email}
+        website={data.website}
       />
+
+      {data.address && (
+        <LocationCard
+          sectionTitle="Onde Estamos"
+          title={data.name}
+          addressData={data.address}
+          fallbackCoordinates={data.location?.coordinates}
+          iconName="business"
+        />
+      )}
     </View>
   );
 }
@@ -36,7 +33,6 @@ export function OngAboutSection({ data }: any) {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    paddingBottom: 40,
-    gap: 24,
+    gap: 22,
   },
 });

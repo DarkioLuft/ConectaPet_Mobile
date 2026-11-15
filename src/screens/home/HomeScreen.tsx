@@ -1,5 +1,6 @@
 // Tela inicial integrando header, banner carrossel, filtros, lista de pets e barra de navegação.
-import { Ionicons } from '@expo/vector-icons';
+import { SearchBar } from '@/components/forms/SearchBar';
+import { colors } from '@/constants/colors';
 import { useNavigation } from '@react-navigation/native';
 import {
   ActivityIndicator,
@@ -7,7 +8,6 @@ import {
   RefreshControl,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View
 } from 'react-native';
@@ -51,7 +51,7 @@ export function HomeScreen() {
         columnWrapperStyle={styles.columnWrapper}
         contentContainerStyle={styles.listContent}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#16a34a']} />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.primary[500]]} />
         }
         ListHeaderComponent={
           <>
@@ -59,20 +59,12 @@ export function HomeScreen() {
               <NewsBannerCarousel banners={banners ?? []} />
             </View>
 
-            <View style={styles.searchRow}>
-              <View style={styles.searchBox}>
-                <Ionicons name="search-outline" size={18} color="#9ca3af" />
-                <TextInput
-                  placeholder="Buscar por nome ou ONG..."
-                  placeholderTextColor="#9ca3af"
-                  value={searchQuery}
-                  onChangeText={setSearchQuery}
-                  style={styles.searchInput}
-                />
-              </View>
-              <TouchableOpacity style={styles.filterButton}>
-                <Ionicons name="options-outline" size={20} color="#374151" />
-              </TouchableOpacity>
+            <View style={{ marginBottom: 16, paddingHorizontal: 18 }}>
+              <SearchBar
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                placeholder='Buscar por nome ou ONG...'
+              />
             </View>
 
             <View style={styles.categoriesRow}>
@@ -117,7 +109,7 @@ export function HomeScreen() {
               <Text style={styles.emptyText}>Nenhum animal encontrado.</Text>
             </View>
           ) : (
-            <ActivityIndicator color="#16a34a" style={{ marginTop: 28 }} />
+            <ActivityIndicator color={colors.primary[500]} style={{ marginTop: 28 }} />
           )
         }
       />
@@ -128,7 +120,7 @@ export function HomeScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
   },
   listContent: {
     paddingBottom: 95,
@@ -136,37 +128,6 @@ const styles = StyleSheet.create({
   columnWrapper: {
     justifyContent: 'space-between',
     paddingHorizontal: 18,
-  },
-  searchRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 18,
-    marginBottom: 14,
-    gap: 10,
-  },
-  searchBox: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f3f4f6',
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    height: 44,
-    gap: 8,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 14,
-    color: '#1f2937',
-  },
-  filterButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   categoriesRow: {
     flexDirection: 'row',
@@ -178,18 +139,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 7,
     borderRadius: 20,
-    backgroundColor: '#f3f4f6',
+    backgroundColor: colors.neutral[100],
   },
   categoryChipActive: {
-    backgroundColor: '#16a34a',
+    backgroundColor: colors.primary[500],
   },
   categoryChipText: {
     fontSize: 13,
     fontWeight: '500',
-    color: '#4b5563',
+    color: colors.neutral[600],
   },
   categoryChipTextActive: {
-    color: '#ffffff',
+    color: colors.white,
     fontWeight: '700',
   },
   sectionHeader: {
@@ -202,19 +163,19 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 17,
     fontWeight: '800',
-    color: '#111827',
+    color: colors.neutral[800],
   },
   seeAllText: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#16a34a',
+    color: colors.primary[500],
   },
   emptyContainer: {
     alignItems: 'center',
     paddingVertical: 32,
   },
   emptyText: {
-    color: '#9ca3af',
+    color: colors.neutral[400],
     fontSize: 14,
   },
 });

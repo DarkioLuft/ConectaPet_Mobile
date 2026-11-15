@@ -1,24 +1,49 @@
+import { generatePixPayload } from '@/utils/pixUtils';
 import { AppToast } from '@/utils/toast';
-import { useEffect, useState } from 'react';
-// import * as Clipboard from 'expo-clipboard';
+import * as Clipboard from 'expo-clipboard';
+import { useCallback, useMemo } from 'react';
+import { Share } from 'react-native';
 
-export function useOngDonateSection({ initialData }: { initialData: any }) {
-  const [donateData, setDonateData] = useState<any>(null);
+export function useOngDonateSection(ongData: any) {
+  const pixPayload = useMemo(() => {
+    if (!ongData?.pixKey) return null;
 
-  useEffect(() => {
-    if (initialData) {
-      setDonateData({
-        pixKey: initialData.pixKey,
-        needs: initialData.needs,
+    return generatePixPayload({
+      pixKey: ongData.pixKey,
+      merchantName: ongData.name,
+      merchantCity: ongData.address?.city?.name || 'BRASIL',
+    });
+  }, [ongData]);
+
+  // Copia o código PIX Copia e Cola e abre o compartilhamento para selecionar o app do banco
+  const handlePayWithBankApp = useCallback(async () => {
+    if (!pixPayload) return;
+
+    await Clipboard.setStringAsync(pixPayload);
+    AppToast.success(
+      'PIX Copia e Cola copiado!',
+      'Abra o app do seu banco ou selecione-o abaixo para concluir.'
+    );
+
+    try {
+      await Share.share({
+        message: pixPayload,
+        title: `Doação PIX - ${ongData.name}`,
       });
+    } catch {
+      // Se o usuário fechar o sheet, o código já está copiado no clipboard
     }
-  }, [initialData]);
+  }, [pixPayload, ongData]);
 
-  const handleCopyPix = async () => {
-    if (!donateData?.pixKey) return;
-    // await Clipboard.setStringAsync(donateData.pixKey);
-    AppToast.success('PIX Copiado!', 'Chave copiada para a área de transferência.');
+  const handleCopyRawKey = useCallback(async () => {
+    if (!ongData?.pixKey) return;
+    await Clipboard.setStringAsync(ongData.pixKey);
+    AppToast.success('Chave copiada!', `${ongData.pixKeyType}: ${ongData.pixKey}`);
+  }, [ongData]);
+
+  return {
+    pixPayload,
+    handlePayWithBankApp,
+    handleCopyRawKey,
   };
-
-  return { donateData, handleCopyPix };
 }
