@@ -1,91 +1,84 @@
 // Barra inferior de navegação com alternância de ações por nível de permissão.
 import { colors } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export type BottomTabType = 'home' | 'pets' | 'donations_or_manage' | 'profile';
-
-interface ModernBottomBarProps {
-  currentTab: BottomTabType;
-  onSelectTab: (tab: BottomTabType) => void;
+interface ModernBottomBarProps extends BottomTabBarProps {
   isVolunteerOrAbove?: boolean;
 }
 
-export function ModernBottomBar({
-  currentTab,
-  onSelectTab,
-  isVolunteerOrAbove = false,
-}: ModernBottomBarProps) {
-  const thirdTabLabel = isVolunteerOrAbove ? 'Manutenção' : 'Doações';
-  const thirdTabIcon = isVolunteerOrAbove ? 'construct' : 'heart';
-  const thirdTabIconOutline = isVolunteerOrAbove ? 'construct-outline' : 'heart-outline';
+export function ModernBottomBar({ state, descriptors, navigation, isVolunteerOrAbove }: ModernBottomBarProps) {
+  // Mapeamento de ícones e labels por nome da rota
+  const getTabConfig = (routeName: string, isFocused: boolean) => {
+    switch (routeName) {
+      case 'Home':
+        return {
+          label: 'Início',
+          icon: isFocused ? 'home' : 'home-outline',
+        };
+      case 'Pets':
+        return {
+          label: 'Pets',
+          icon: isFocused ? 'paw' : 'paw-outline',
+        };
+      case 'DonationsOrManage':
+        return {
+          label: isVolunteerOrAbove ? 'Manutenção' : 'Doações',
+          icon: isVolunteerOrAbove
+            ? isFocused ? 'construct' : 'construct-outline'
+            : isFocused ? 'heart' : 'heart-outline',
+        };
+      case 'Profile':
+        return {
+          label: 'Perfil',
+          icon: isFocused ? 'person' : 'person-outline',
+        };
+      default:
+        return { label: routeName, icon: 'ellipse-outline' };
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => onSelectTab('home')}
-        style={styles.tabItem}
-      >
-        <Ionicons
-          name={currentTab === 'home' ? 'home' : 'home-outline'}
-          size={23}
-          color={currentTab === 'home' ? colors.primary[500] : colors.neutral[400]}
-        />
-        <Text style={[styles.tabLabel, currentTab === 'home' && styles.tabLabelActive]}>
-          Início
-        </Text>
-      </TouchableOpacity>
+      {state.routes.map((route, index) => {
+        const { options } = descriptors[route.key];
+        const isFocused = state.index === index;
+        const { label, icon } = getTabConfig(route.name, isFocused);
 
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => onSelectTab('pets')}
-        style={styles.tabItem}
-      >
-        <Ionicons
-          name={currentTab === 'pets' ? 'paw' : 'paw-outline'}
-          size={23}
-          color={currentTab === 'pets' ? colors.primary[500] : colors.neutral[400]}
-        />
-        <Text style={[styles.tabLabel, currentTab === 'pets' && styles.tabLabelActive]}>
-          Pets
-        </Text>
-      </TouchableOpacity>
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
 
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => onSelectTab('donations_or_manage')}
-        style={styles.tabItem}
-      >
-        <Ionicons
-          name={currentTab === 'donations_or_manage' ? thirdTabIcon : thirdTabIconOutline}
-          size={23}
-          color={currentTab === 'donations_or_manage' ? colors.primary[500] : colors.neutral[400]}
-        />
-        <Text
-          style={[
-            styles.tabLabel,
-            currentTab === 'donations_or_manage' && styles.tabLabelActive,
-          ]}
-        >
-          {thirdTabLabel}
-        </Text>
-      </TouchableOpacity>
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name, route.params);
+          }
+        };
 
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => onSelectTab('profile')}
-        style={styles.tabItem}
-      >
-        <Ionicons
-          name={currentTab === 'profile' ? 'person' : 'person-outline'}
-          size={23}
-          color={currentTab === 'profile' ? colors.primary[500] : colors.neutral[400]}
-        />
-        <Text style={[styles.tabLabel, currentTab === 'profile' && styles.tabLabelActive]}>
-          Perfil
-        </Text>
-      </TouchableOpacity>
+        return (
+          <TouchableOpacity
+            key={route.key}
+            accessibilityRole="button"
+            accessibilityState={isFocused ? { selected: true } : {}}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            activeOpacity={0.7}
+            onPress={onPress}
+            style={styles.tabItem}
+          >
+            <Ionicons
+              name={icon as keyof typeof Ionicons.glyphMap}
+              size={23}
+              color={isFocused ? colors.primary[500] : colors.neutral[400]}
+            />
+            <Text style={[styles.tabLabel, isFocused && styles.tabLabelActive]}>
+              {label}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 }

@@ -1,7 +1,6 @@
 import { addressService } from '@/services/addressService';
 import { GenericTabSection } from '@/types/tab.types';
 import { handleError } from '@/utils/errorHandler';
-import { AppToast } from '@/utils/toast';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '../../../services/supabase';
@@ -113,7 +112,7 @@ export function useProfile() {
 
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
-      
+
       setUserId(user.id);
 
       const [housingRes, profileRes, memberRes, addressRes, prefsRes] = await Promise.all([
@@ -152,18 +151,6 @@ export function useProfile() {
     }, [loadProfileData])
   );
 
-  const handleTabSelect = (tab: string) => {
-    if (tab === 'home') {
-      navigation.navigate('Home');
-    } else if (tab === 'donations_or_manage') {
-      if (isVolunteer) {
-        navigation.navigate('Maintenance');
-      } else {
-        AppToast.info('Doações em breve!');
-      }
-    }
-  };
-
   return {
     tabs,
     userId,
@@ -177,7 +164,6 @@ export function useProfile() {
     rawAddress,
     rawPreferences,
     loadProfileData,
-    handleTabSelect,
     updateAndSetProgress
   };
 }

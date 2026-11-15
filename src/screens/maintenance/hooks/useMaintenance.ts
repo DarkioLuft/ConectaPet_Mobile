@@ -2,7 +2,6 @@ import { colors } from '@/constants/colors';
 import { AppToast } from '@/utils/toast';
 import { useNavigation } from '@react-navigation/native';
 import { useMemo } from 'react';
-import { BottomTabType } from '../../../components/navigation/ModernBottomBar';
 import { MaintenanceAction } from '../types/maintenance.types';
 
 export function useMaintenance() {
@@ -48,16 +47,7 @@ export function useMaintenance() {
     [navigation]
   );
 
-  const handleTabSelect = (tab: BottomTabType) => {
-  if (tab === 'home') {
-    navigation.navigate('Home');
-  } else if (tab === 'profile') {
-    navigation.navigate('Profile'); // <-- Permite abrir o perfil a partir da manutenção
-  }
-};
-
   return {
-    actions,
-    handleTabSelect,
+    actions
   };
 }

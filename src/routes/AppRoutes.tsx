@@ -1,3 +1,5 @@
+import { ModernBottomBar } from '@/components/navigation/ModernBottomBar';
+import { useAuth } from '@/contexts/AuthContext';
 import { AnnouncementFormScreen } from '@/screens/announcements/AnnouncementFormScreen';
 import { ManageAnnouncementsScreen } from '@/screens/announcements/ManageAnnouncementsScreen';
 import { CreateAnimalScreen } from '@/screens/createAnimal/CreateAnimalScreen';
@@ -15,15 +17,29 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function TabRoutes() {
+  const { user } = useAuth();
+  const isVolunteerOrAbove = user?.role === 'volunteer' || user?.role === 'admin';
+  // const isVolunteerOrAbove = true;
+
   return (
     <Tab.Navigator
+    // 👇 Centraliza a TabBar para todas as rotas abaixo
+      tabBar={(props) => <ModernBottomBar {...props} isVolunteerOrAbove={isVolunteerOrAbove} />}
       screenOptions={{
         headerShown: false,
         tabBarStyle: { display: 'none' },
       }}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Maintenance" component={MaintenanceScreen} />
+      
+      <Tab.Screen name="Pets" component={ManageAnimalsScreen} />
+
+      {/* A 3ª aba alterna dinamicamente a tela renderizada conforme a permissão */}
+      <Tab.Screen
+        name="DonationsOrManage"
+        component={isVolunteerOrAbove ? MaintenanceScreen : HomeScreen /* Substitua por DonationsScreen */}
+      />
+
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

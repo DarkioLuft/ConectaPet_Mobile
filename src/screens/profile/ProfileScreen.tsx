@@ -2,7 +2,6 @@ import { LoadingIndicator } from '@/components/ui/LoadingIndicator';
 import { colors } from '@/constants/colors';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ModernBottomBar } from '../../components/navigation/ModernBottomBar';
 import { SectionTabs } from '../../components/navigation/SectionTabs';
 import { AddressSection } from './components/AddressSection';
 import { AdopterMatchSection } from './components/AdopterMatchSection';
@@ -27,8 +26,7 @@ export function ProfileScreen() {
     rawPersonal,
     rawAddress,
     rawPreferences,
-    loadProfileData,
-    handleTabSelect
+    loadProfileData
   } = useProfile();
 
   // Instanciando os sub-hooks e passando a função de recarregar como callback
@@ -92,13 +90,6 @@ export function ProfileScreen() {
           </>
         )}
       </ScrollView>
-
-      {/* Barra de Navegação Inferior Ativa no Perfil */}
-      <ModernBottomBar
-        currentTab="profile"
-        onSelectTab={handleTabSelect}
-        isVolunteerOrAbove={isVolunteer}
-      />
     </SafeAreaView>
   );
 }

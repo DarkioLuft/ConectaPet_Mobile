@@ -1,20 +1,17 @@
 // Tela inicial integrando header, banner carrossel, filtros, lista de pets e barra de navegação.
 import { Ionicons } from '@expo/vector-icons';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useCallback, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
   ActivityIndicator,
-  Alert,
   FlatList,
   RefreshControl,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { BottomTabType, ModernBottomBar } from '../../components/navigation/ModernBottomBar';
 import { HomeHeader } from './components/HomeHeader';
 import { NewsBannerCarousel } from './components/NewsBannerCarousel';
 import { PetCard } from './components/PetCard';
@@ -23,14 +20,6 @@ import { CategoryFilter } from './types/home.types';
 
 export function HomeScreen() {
   const navigation = useNavigation<any>();
-  const [activeTab, setActiveTab] = useState<BottomTabType>('home');
-
-  // Garante que sempre que a HomeScreen ganhar foco, a aba ativa seja "home"
-  useFocusEffect(
-    useCallback(() => {
-      setActiveTab('home');
-    }, [])
-  );
 
   const {
     pets,
@@ -41,26 +30,8 @@ export function HomeScreen() {
     setSearchQuery,
     selectedCategory,
     setSelectedCategory,
-    isVolunteer,
     onRefresh,
   } = useHome();
-
-  const handleTabSelect = (tab: BottomTabType) => {
-    if (tab === 'donations_or_manage') {
-      if (isVolunteer) {
-        navigation.navigate('Maintenance'); // <-- Redireciona para o painel de manutenção
-      } else {
-        Alert.alert(
-          'Doações',
-          'A funcionalidade de doações e chave PIX para ajudar os animais estará disponível em breve!'
-        );
-      }
-    } else if (tab === 'profile') {
-      navigation.navigate('Profile'); // <-- Redireciona para a tela de Perfil
-    } else {
-      setActiveTab(tab);
-    }
-  };
 
   const categories: { label: string; value: CategoryFilter }[] = [
     { label: 'Todos', value: 'all' },
@@ -68,10 +39,6 @@ export function HomeScreen() {
     { label: 'Gatos', value: 'cat' },
     { label: 'Outros', value: 'other' },
   ];
-
-  const handleEditAnimal = (animalId: string) => {
-    navigation.navigate('UpdateAnimal', { animalId });
-  };
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -153,13 +120,6 @@ export function HomeScreen() {
             <ActivityIndicator color="#16a34a" style={{ marginTop: 28 }} />
           )
         }
-      />
-
-      {/* Barra de navegação inferior */}
-      <ModernBottomBar
-        currentTab={activeTab}
-        onSelectTab={handleTabSelect}
-        isVolunteerOrAbove={isVolunteer}
       />
     </SafeAreaView>
   );
