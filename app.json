@@ -44,6 +44,12 @@
     ],
     "experiments": {
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c74baee1-375b-4389-98f7-4aa340da320e"
+      }
+    },
+    "owner": "arthwhs-team"
   }
 }

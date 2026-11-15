@@ -29,6 +29,18 @@ export const profileService = {
         if (updateError) {
             throw new Error(`Erro ao atualizar perfil: ${updateError.message}`);
         }
+    },
+
+    async getUserIsVolunteer(userId: string) {
+        const { data, error } = await supabase
+            .from('ong_members')
+            .select('id')
+            .eq('profiles_id', userId)
+            .limit(1);
+
+        if (error) throw error;
+
+        return !!data && data.length > 0;
     }
 };
 
