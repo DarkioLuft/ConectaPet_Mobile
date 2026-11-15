@@ -24,7 +24,7 @@ export function ModernBottomBar({ state, descriptors, navigation, isVolunteerOrA
         };
       case 'DonationsOrManage':
         return {
-          label: isVolunteerOrAbove ? 'Manutenção' : 'Doações',
+          label: isVolunteerOrAbove ? 'Manutenção' : 'ONGs',
           icon: isVolunteerOrAbove
             ? isFocused ? 'construct' : 'construct-outline'
             : isFocused ? 'heart' : 'heart-outline',
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingBottom: Platform.OS === 'ios' ? 18 : 6,
     elevation: 10,
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: -3 },
     shadowOpacity: 0.07,
     shadowRadius: 6,

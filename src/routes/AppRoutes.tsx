@@ -7,6 +7,7 @@ import { UpdateAnimalScreen } from '@/screens/createAnimal/UpdateAnimalScreen';
 import { HomeScreen } from '@/screens/home/HomeScreen';
 import { MaintenanceScreen } from '@/screens/maintenance/MaintenanceScreen';
 import { ManageAnimalsScreen } from '@/screens/manageAnimals/ManageAnimalsScreen';
+import { OngsListScreen } from '@/screens/ongList/ongListScreen';
 import { OngProfileScreen } from '@/screens/ongProfile/OngProfileScreen';
 import { PetDetailsScreen } from '@/screens/petDetails/PetDetailsScreen';
 import { ProfileScreen } from '@/screens/profile/ProfileScreen';
@@ -37,7 +38,7 @@ function TabRoutes() {
       {/* A 3ª aba alterna dinamicamente a tela renderizada conforme a permissão */}
       <Tab.Screen
         name="DonationsOrManage"
-        component={isVolunteerOrAbove ? MaintenanceScreen : HomeScreen /* Substitua por DonationsScreen */}
+        component={isVolunteerOrAbove ? MaintenanceScreen : OngsListScreen }
       />
 
       <Tab.Screen name="Profile" component={ProfileScreen} />

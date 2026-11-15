@@ -28,8 +28,34 @@ export const ongService = {
             .single()
 
         if (error) throw new Error(`Erro ao obter dados da ONG: ${error.message}`)
-        console.log(data)
 
         return data
+    },
+
+    async getActiveOngs() {
+        const { data, error } = await supabase
+        .from('ongs')
+        .select(`
+          id,
+          name,
+          description,
+          logo_url,
+          is_verified,
+          addresses (
+            street,
+            number,
+            district,
+            location,
+            cities (
+              name,
+              states ( abbreviation )
+            )
+          )
+        `)
+        .eq('is_active', true);
+
+      if (error) throw error;
+
+      return data || [];
     }
 }
