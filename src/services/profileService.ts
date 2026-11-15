@@ -40,6 +40,7 @@ async function convertToProfileDto(user: any): Promise<ProfileDto> {
         fullName: user.full_name,
         cpf: user.cpf,
         phone: user.phone,
+        instagram: user.instagram,
         avatarUrl: user.avatar_url || null,
         birthDate: user.birth_date,
         createdAt: user.created_at,

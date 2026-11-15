@@ -25,11 +25,12 @@ function computeSavedProgress(
   prefs: AdopterPreferencesFormData | null
 ): number {
   let score = 0;
-  const totalFields = 9;
+  const totalFields = 10;
 
   if (profile?.fullName?.trim()) score++;
   if (profile?.cpf?.trim()) score++;
   if (profile?.phone?.trim()) score++;
+  if (profile?.instagram?.trim()) score++;
   if (profile?.birthDate?.trim()) score++;
   if (address?.postalCode?.trim() && address?.street?.trim()) score++;
   if (prefs?.housingTypeId != null) score++;
@@ -70,6 +71,7 @@ export function useProfile() {
     email: profile?.email || '',
     cpf: profile?.cpf || '',
     phone: profile?.phone || '',
+    instagram: profile?.instagram || '',
     birthDate: profile?.birth_date || '',
     avatarUrl: profile?.avatar_url || '',
   });
@@ -111,12 +113,7 @@ export function useProfile() {
 
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
-
-
-      console.log("Teste")
-      console.log(user)
-
-      console.log(user.id)
+      
       setUserId(user.id);
 
       const [housingRes, profileRes, memberRes, addressRes, prefsRes] = await Promise.all([
@@ -126,8 +123,6 @@ export function useProfile() {
         addressService.fetchAddressByUserId(user.id),
         supabase.from('adopter_preferences').select('*').eq('profiles_id', user.id).maybeSingle()
       ]);
-
-      console.log("teste2")
 
       setHousingTypes(housingRes.data || []);
       setIsVolunteer(Boolean(memberRes.data && memberRes.data.length > 0));

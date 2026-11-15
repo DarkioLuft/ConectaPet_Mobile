@@ -52,13 +52,29 @@ export function PersonalDataSection({ data, onChange, onSave, saving }: Personal
         </View>
       </View>
 
-      <CustomTextInputField
-        value={data.birthDate}
-        onChangeText={(val) => onChange('birthDate', val)}
-        placeholder="Ex: 2000-05-15"
-        label="Data de Nascimento (AAAA-MM-DD)"
-        editable={!saving}
-      />
+      <View style={styles.row}>
+        <View style={styles.flex1}>
+          <CustomTextInputField
+            value={data.birthDate}
+            onChangeText={(val) => onChange('birthDate', val)}
+            placeholder="(AAAA-MM-DD)"
+            label="Data de Nascimento"
+            editable={!saving}
+          />
+        </View>
+
+        <View style={styles.flex1}>
+          <CustomTextInputField
+            value={data.instagram}
+            onChangeText={(val) => onChange('instagram', val)}
+            placeholder="Ex: @usuario"
+            label="Instagram"
+            editable={!saving}
+          />
+        </View>
+      </View>
+
+
 
       <CustomPrimaryActionButton
         text={'Salvar Dados Pessoais'}

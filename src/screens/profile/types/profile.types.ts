@@ -9,6 +9,7 @@ export interface PersonalFormData {
   email: string;
   cpf: string;
   phone: string;
+  instagram: string;
   birthDate: string;
   avatarUrl: string;
 }

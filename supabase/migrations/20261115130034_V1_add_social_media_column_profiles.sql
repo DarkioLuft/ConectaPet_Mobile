@@ -1,0 +1,2 @@
+ALTER TABLE profiles
+ADD COLUMN instagram TEXT NOT NULL DEFAULT ''

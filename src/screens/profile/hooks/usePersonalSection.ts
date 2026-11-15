@@ -12,7 +12,7 @@ interface UsePersonalDataProps {
 
 export function usePersonalSection({ initialData, userId, onSuccess }: UsePersonalDataProps) {
     const [personalData, setPersonalData] = useState<PersonalFormData>({
-        fullName: '', email: '', cpf: '', phone: '', birthDate: '', avatarUrl: '',
+        fullName: '', email: '', cpf: '', phone: '', instagram: '', birthDate: '', avatarUrl: '',
     });
     const [saving, setSaving] = useState(false);
 
@@ -31,6 +31,7 @@ export function usePersonalSection({ initialData, userId, onSuccess }: UsePerson
                     full_name: personalData.fullName.trim(),
                     cpf: personalData.cpf.trim(),
                     phone: personalData.phone.trim(),
+                    instagram: personalData.instagram.trim(),
                     birth_date: personalData.birthDate || null,
                     updated_at: new Date().toISOString(),
                 })
